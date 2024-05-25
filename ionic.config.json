@@ -1,0 +1,7 @@
+{
+  "name": "DexTick",
+  "integrations": {
+    "capacitor": {}
+  },
+  "type": "angular"
+}
