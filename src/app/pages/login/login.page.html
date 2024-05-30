@@ -1,0 +1,53 @@
+
+<ion-content class="contLogin">
+  <form (submit)="signIn()">
+
+
+  <ion-img src="assets/img/dex-tree.png"  class="responsive-img"></ion-img>
+  <h2 class="welcome tracking-in-contract">Bienvenido!!</h2>
+    <br>
+  <ion-input class="input"
+    [(ngModel)]="user.email"
+    name="email"
+  type="email"
+  fill="transaprent"
+  label="Correo"
+  labelPlacement="floating"
+  helperText="Enter a valid email"
+  errorText="Invalid email"
+  ngModel
+  email></ion-input>
+<br>
+  <ion-input  class="input"
+  [(ngModel)]="user.password"
+  name="password"
+  type="password"
+  fill="transaprent"
+  id="custom-input"
+  label="Password"
+  labelPlacement="floating"
+  helperText="Ingresa una contraseña de al menos 8 caracteres"
+  [counter]="true"></ion-input>
+<br>
+
+<ion-button type="submit" class="custom-button">Iniciar sesión</ion-button>
+
+</form>
+  <!-- <ion-button class="custom-button" expand="block">Sing in</ion-button> -->
+    <ion-item-divider style="--background:transparent"></ion-item-divider>
+
+
+    <ion-label class="link">Aún no tienes una cuenta? <br>
+      <a routerLink="/register" routerLinkActive="router-link-active"  class="link">Crea una cuenta</a></ion-label>
+
+    </ion-content>
+
+
+
+<div class="custom-shape-divider-bottom-1717007206">
+  <svg data-name="Layer 1" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1200 120" preserveAspectRatio="none">
+    <path d="M985.66,92.83C906.67,72,823.78,31,743.84,14.19c-82.26-17.34-168.06-16.33-250.45.39-57.84,11.73-114,31.07-172,41.86A600.21,600.21,0,0,1,0,27.35V120H1200V95.8C1132.19,118.92,1055.71,111.31,985.66,92.83Z" class="shape-fill"></path>
+  </svg>
+</div>
+
+

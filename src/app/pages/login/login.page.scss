@@ -1,0 +1,147 @@
+.contLogin{
+--padding-start: 30px;
+--padding-end: 30px;
+--padding-top: 150px;
+--padding-bottom:0px;
+display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 100%;
+}
+.custom-button {
+  --background: #25cad2;
+  --background-hover: #529ea1;
+  --background-focused: #529ea1;
+  --background-activated: #529ea1;
+   font: size 20px;
+   align-items: center;
+   justify-content: center;
+   display: flex;
+  --color: white;
+}
+
+@import url("https://fonts.googleapis.com/css2?family=Reddit+Sans:ital,wght@0,200..900;1,200..900&display=swap");
+
+.welcome{animation:tracking-in-expand-forward-bottom 0.4s linear both} @keyframes tracking-in-expand-forward-bottom{0%{letter-spacing:-.2em;transform:translateZ(-700px) translateY(100px);opacity:0}40%{opacity:.6}100%{transform:translateZ(0) translateY(0);opacity:1}}
+.welcome {
+  font-family: "Reddit Sans", sans-serif;
+  font-weight: 700;
+  font-size: 22px;
+  text-align: center;
+  font-family: 'Roboto', sans-serif;
+  font-size: 35px;
+  color: #385cc7;
+
+}
+
+.link {
+  display: block;
+  text-align: center;
+  margin-top: 20px;
+  font-size: 16px;
+}
+
+.link a {
+  cursor: pointer;
+  color: #007bff;
+  text-decoration: none;
+}
+
+.link a:hover {
+  text-decoration: underline;
+}
+
+.contLogin {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+
+}
+
+.container {
+  width: 100%;
+  max-width: 70%;
+  margin: 20px;
+  padding: 20px;
+}
+
+.responsive-img {
+  width: 100%;
+  max-width: 100%;
+  height: auto;
+  margin: 0 auto 0px auto;
+  display: block;
+}
+
+.form-container {
+  width: 100%;
+}
+
+ion-item {
+  --padding-start: 0;
+}
+
+.custom-button {
+  width: 100%;
+}
+
+.link {
+  text-align: center;
+  display: block;
+  margin: 20px;
+}
+
+@media (min-width: 768px) {
+  form {
+    max-width: 80%;
+    margin: 0 auto;
+  }
+
+  .responsive-img {
+    max-width: 450px;
+  }
+
+
+
+  .form-container ion-item {
+    width: 70%;
+    margin: 0 auto;
+  }
+}
+
+
+
+
+//abajo
+
+.custom-shape-divider-bottom-1717007206 {
+  position: absolute;
+  bottom: 0;
+  left: 0;
+  width: 100%;
+  overflow: hidden;
+  line-height: 0;
+}
+
+.custom-shape-divider-bottom-1717007206 svg {
+  position: relative;
+  display: block;
+  width: calc(140% + 1.3px);
+  height: 226px;
+}
+
+.custom-shape-divider-bottom-1717007206 .shape-fill {
+  fill: #183793;
+}
+
+/** For mobile devices **/
+@media (max-width: 767px) {
+  .custom-shape-divider-bottom-1717007206 svg {
+      width: calc(167% + 1.3px);
+      height: 120px;
+  }
+}
+
+
+
+
