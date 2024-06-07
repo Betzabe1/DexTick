@@ -1,0 +1,17 @@
+<div class="report-problem">
+  <h2>Explícanos más sobre el problema</h2>
+  <textarea placeholder="Describa el problema aquí..." [(ngModel)]="problemDescription"></textarea>
+
+  <label for="image-upload" class="image-upload-label">Cargar imagen</label>
+  <input type="file" id="image-upload" (change)="onFileSelected($event)" accept="image/*">
+
+  <div *ngIf="imagePreview" class="image-preview-container">
+    <img [src]="imagePreview" alt="Vista previa de la imagen" class="image-preview">
+  </div>
+</div>
+<br>
+<div class="final">
+
+<button class="gradient-button" (click)="showAlert()">Enviar</button>
+</div>
+<br>

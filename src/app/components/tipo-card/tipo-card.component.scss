@@ -1,0 +1,45 @@
+.cards {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+  margin: 0 auto;
+}
+
+.card {
+  width: 80%;
+  height: auto;
+  max-width: 400px;
+  background: linear-gradient(135deg, #98ffff 0%, #f3f3f3 100%);
+  padding: 1rem 2rem;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  position: relative;
+  border-radius: 2.5rem;
+  margin-bottom: 1.5rem;
+  margin: 0;
+}
+
+.card-content {
+  text-align: center;
+}
+
+.title {
+  font-weight: 700;
+  font-size: 1.1rem;
+  margin-bottom: 0.2rem;
+  color: #1d1d1d;
+}
+
+@media screen and (min-width: 992px) {
+  .cards {
+    justify-content: center; /* Centra los cards horizontalmente */
+    gap: 2rem; /* Espacio entre los cards en pantallas grandes */
+  }
+  .card {
+    width: 45%; /* Tamaño más pequeño en pantallas grandes */
+    max-width: 500px; /* Ancho máximo */
+    height: auto;
+    margin: 1rem; /* Espacio alrededor de cada card */
+  }
+}

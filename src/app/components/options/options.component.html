@@ -1,0 +1,15 @@
+
+<ion-content class="service-options-content">
+  <h3>¿Qué problema tienes?</h3>
+
+  <ion-list>
+    <ion-item *ngFor="let option of options" class="option-item">
+      <ion-thumbnail slot="start">
+        <ion-img [src]="option.img"></ion-img>
+      </ion-thumbnail>
+      <ion-label>{{ option.nombre }}</ion-label>
+      <ion-checkbox slot="end"></ion-checkbox>
+    </ion-item>
+  </ion-list>
+  <app-otro-problem></app-otro-problem>
+</ion-content>

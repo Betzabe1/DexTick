@@ -1,39 +1,85 @@
-import { Component } from '@angular/core';
+import { Component, OnInit } from '@angular/core';
 import { UserService } from '../../services/user.service';
+import { Category } from 'src/app/models/category.model';
+import { Tipo } from 'src/app/models/tipo.model';
+import { TipoService } from 'src/app/services/tipo.service';
 import { Router } from '@angular/router';
-import { AlertController } from '@ionic/angular';
 
 @Component({
   selector: 'app-home-user',
   templateUrl: './home-user.page.html',
   styleUrls: ['./home-user.page.scss'],
 })
-export class HomeUserPage {
+export class HomeUserPage implements OnInit {
+  firstName: string = '';
+  categorias: Category[] = [];
+  tipos: Tipo[] = [];
+  selectedTipoId: number=-1;
+  selectedCategory: number | null = 1;
+  tipoServicioSeleccionado: number | null = null;
 
   constructor(
+    private router:Router,
     private userService: UserService,
-    private router: Router,
-    private alertController: AlertController
-  ) { }
+    private tipoService: TipoService,
+  )
+    { }
 
-  async logout() {
-    try {
-      await this.userService.signOut();
-      await this.presentAlert('Sesión cerrada', 'Has cerrado sesión correctamente.');
-      this.router.navigate(['/login']);
-    } catch (error) {
-      console.error('Error signing out:', error);
-      await this.presentAlert('Error', 'Hubo un problema al cerrar la sesión. Por favor, inténtalo de nuevo.');
-    }
+  ngOnInit() {
+    this.loadUser();
+    this.getCategorias();
+    this.selectCategory(this.selectedCategory);
   }
 
-  async presentAlert(header: string, message: string) {
-    const alert = await this.alertController.create({
-      header,
-      message,
-      buttons: ['OK']
-    });
 
-    await alert.present();
+navigateToServiceOptions(tipoId: number) {
+   this.router.navigate(['/service-options', tipoId]);
+ }
+
+  onTipoSelected(tipoId: number) {
+    this.tipoServicioSeleccionado = tipoId;
+  }
+
+  loadUser() {
+    this.userService.getUser().subscribe(
+      (res: any) => {
+        const fullName = res.name;
+        this.firstName = fullName.split(' ')[0];
+      },
+      (err: any) => {
+        console.log(err);
+      }
+    );
+  }
+
+  getCategorias() {
+    this.categorias = [
+      {
+        id: 1,
+        label: 'Básico',
+        image: 'assets/img/basico.png',
+        active: false
+      },
+      {
+        id: 2,
+        label: 'Desarrollo',
+        image: 'assets/img/desarrollo.png',
+        active: false
+      },
+      {
+        id: 3,
+        label: 'Infraestructura',
+        image: 'assets/img/infra.png',
+        active: false
+      }
+    ];
+  }
+
+  selectCategory(categoryId: number | null) {
+    if (categoryId !== null) {
+      this.selectedCategory = categoryId;
+      this.tipos = this.tipoService.getTiposByCategory(categoryId);
+      this.categorias.forEach(category => category.active = category.id === categoryId);
+    }
   }
 }

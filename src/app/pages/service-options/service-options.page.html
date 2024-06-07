@@ -1,0 +1,26 @@
+<ion-header>
+  <ion-toolbar class="custom-toolbar">
+
+    <ion-buttons slot="start">
+      <ion-back-button
+        defaultHref="/"
+        text="Regresar"
+        color="light"
+        mode="ios">
+      </ion-back-button>
+    </ion-buttons>
+
+    <ion-title class="custom-title ion-text-center">Servicios</ion-title>
+
+    <ion-buttons slot="end">
+      <ion-avatar class="custom-avatar">
+        <ion-img src="/assets/img/user.png"></ion-img>
+      </ion-avatar>
+    </ion-buttons>
+  </ion-toolbar>
+</ion-header>
+
+
+<ion-content>
+  <app-options [tipoId]="tipoId"></app-options>
+</ion-content>

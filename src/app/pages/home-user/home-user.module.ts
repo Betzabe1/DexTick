@@ -7,13 +7,23 @@ import { IonicModule } from '@ionic/angular';
 import { HomeUserPageRoutingModule } from './home-user-routing.module';
 
 import { HomeUserPage } from './home-user.page';
+import { ComponentsModule } from 'src/app/components/components.module';
+import { RouterModule } from '@angular/router';
 
 @NgModule({
   imports: [
     CommonModule,
     FormsModule,
     IonicModule,
-    HomeUserPageRoutingModule
+    HomeUserPageRoutingModule,
+    ComponentsModule,
+    RouterModule.forChild([
+      {
+      path: '',
+      component: HomeUserPage
+      }
+    ]),
+
   ],
   declarations: [HomeUserPage]
 })

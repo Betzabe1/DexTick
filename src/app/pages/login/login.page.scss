@@ -113,7 +113,6 @@ ion-item {
 
 
 //abajo
-
 .custom-shape-divider-bottom-1717007206 {
   position: absolute;
   bottom: 0;
@@ -127,21 +126,20 @@ ion-item {
   position: relative;
   display: block;
   width: calc(140% + 1.3px);
-  height: 226px;
+  height: 150px; /* Altura predeterminada para dispositivos más grandes */
 }
 
 .custom-shape-divider-bottom-1717007206 .shape-fill {
   fill: #183793;
 }
 
-/** For mobile devices **/
-@media (max-width: 767px) {
+/** For tablets and desktops **/
+@media (min-width: 768px) {
+  .custom-shape-divider-bottom-1717007206 {
+    display: none; /* Oculta la forma en pantallas grandes */
+  }
   .custom-shape-divider-bottom-1717007206 svg {
-      width: calc(167% + 1.3px);
-      height: 120px;
+    width: calc(167% + 1.3px);
+    height: 100px; /* Altura ajustada para tablets y escritorios */
   }
 }
-
-
-
-

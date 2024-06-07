@@ -1,0 +1,6 @@
+{
+  "appId": "com.dextree.dextick",
+  "appName": "DexTick",
+  "webDir": "www",
+  "bundledWebRuntime": false
+}

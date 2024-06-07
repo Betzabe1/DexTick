@@ -1,0 +1,126 @@
+ion-content {
+  --background: #ffff;
+  --keyboard-offset: 0px;
+  --offset-bottom: 0px;
+  --offset-top: 0px;
+  --padding-bottom: 0px;
+  --padding-start: 20px; /* Margen izquierdo */
+  --padding-end: 20px; /* Margen derecho */
+  --padding-top: 10px;
+}
+.custom-toolbar {
+  --background: linear-gradient(to right, #007bff, #25cad2);
+  --color: white;
+  --ion-color-primary-contrast: white;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.custom-toolbar ion-title {
+  font-family: 'Roboto', sans-serif;
+  font-weight: bold;
+  color: white;
+  font-size: 1.5rem;
+}
+
+.custom-avatar {
+  border: 2px solid white;
+  padding: 2px;
+  border-radius: 50%;
+  width: 40px;
+  height: 40px;
+}
+
+.custom-avatar ion-img {
+  border-radius: 50%;
+  width: 100%;
+  height: 100%;
+}
+
+
+
+@import url('https://fonts.googleapis.com/css2?family=Poppins:ital,wght@0,100;0,200;0,300;0,400;0,500;0,600;0,700;0,800;0,900;1,100;1,200;1,300;1,400;1,500;1,600;1,700;1,800;1,900&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Noto+Sans:ital,wght@0,100..900;1,100..900&family=Poppins:ital,wght@0,100;0,200;0,300;0,400;0,500;0,600;0,700;0,800;0,900;1,100;1,200;1,300;1,400;1,500;1,600;1,700;1,800;1,900&display=swap');
+
+ion-title {
+  font-family: "Poppins", sans-serif;
+  font-size: 28px;
+  font-weight: 600;
+  color: #060707;
+}
+
+.descripcion {
+  border: 3px solid #385cc7;
+  padding: 5px;
+  border-radius: 12px;
+}
+
+.bienvenidaH3 {
+  font-family: "Poppins", sans-serif;
+  font-size: 22px;
+  font-weight: 600;
+  color: #9d9ca5;
+}
+
+.descH2 {
+  font-family: "Poppins", sans-serif;
+  font-size: 20px;
+  font-weight: 700;
+  color: #05a8b7;
+}
+
+.descP {
+  font-family: "Poppins", sans-serif;
+  font-size: 18px;
+  font-weight: 300;
+}
+
+.solicitud {
+  font-family: 'Lucida Sans', 'Lucida Sans Regular', 'Lucida Grande', 'Lucida Sans Unicode', Geneva, Verdana, sans-serif;
+  font-size: 20px;
+  font-weight: 500;
+  color: #463a9a;
+}
+
+.categoria {
+  font-family: "Noto Sans", sans-serif;
+  font-optical-sizing: auto;
+  font-weight: 700;
+  color: #25cad2;
+  font-size: 26px;
+}
+
+.avatar {
+  margin-bottom: 12px;
+}
+
+// .img-av {
+//   width: 90%;
+//   height: 90%;
+// }
+ion-image{
+  width: 50%;
+  height: 50%;
+}
+
+.categorias {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  grid-gap: 1rem;
+}
+.list-header
+.list-header {
+  font-weight: 700;
+  color: #515151;
+  margin-bottom: 12px;
+  margin-top: 12px;
+}
+
+.food-list {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  grid-gap: 8px;
+  margin-top: 0;
+  margin-bottom: 10px;
+}

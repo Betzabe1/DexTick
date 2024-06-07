@@ -1,0 +1,41 @@
+<ion-header>
+  <ion-toolbar class="custom-toolbar">
+    <ion-title class="custom-title" slot="start">Home Admin</ion-title>
+    <ion-buttons slot="end">
+      <ion-avatar class="custom-avatar">
+        <ion-img src="/assets/img/user.png"></ion-img>
+      </ion-avatar>
+    </ion-buttons>
+  </ion-toolbar>
+</ion-header>
+
+<ion-content [fullscreen]="true" class="inicio">
+  <h3 class="bienvenidaH3">Gracias por unirte a Dex-Tree</h3>
+  <div class="descripcion">
+    <ion-row>
+      <ion-col size="7">
+        <h2 class="descH2">Bienvenido!</h2>
+        <p class="descP">Somos tu departamento de TI flexible y confiable.</p>
+      </ion-col>
+      <ion-col size="5" class="ion-text-end">
+        <img class="servImg" src="assets/img/soluc.png" alt="">
+      </ion-col>
+    </ion-row>
+  </div>
+  <h3 class="solicitud">Solicita tu servicio</h3>
+  <app-search></app-search>
+  <div class="categorias">
+    <app-category-item *ngFor="let item of categorias"
+      [item]="item"
+      (categorySelected)="selectCategory($event)">
+    </app-category-item>
+  </div>
+  <h1 class="list-header">Servicios</h1>
+  <div class="food-list">
+    <app-tipo-card *ngFor="let tipo of tipos" [item]="tipo" (tipoSelected)="navigateToServiceOptions(tipo.id)"></app-tipo-card>
+  </div>
+  <!-- <app-options *ngIf="selectedTipoId !== null" [tipoId]="selectedTipoId"></app-options> -->
+  <!-- <app-log-out></app-log-out> -->
+
+
+</ion-content>

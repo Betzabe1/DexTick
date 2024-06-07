@@ -22,6 +22,7 @@ export class LoginPage implements OnInit {
 
   ngOnInit() {}
 
+
   async presentAlert(header: string, message: string) {
     const alert = await this.alertController.create({
       header,
@@ -33,7 +34,6 @@ export class LoginPage implements OnInit {
   }
 
   async signIn() {
-    // Limpiar los campos de entrada
     this.user.email = this.user.email.trim();
     this.user.password = this.user.password.trim();
 
@@ -44,17 +44,19 @@ export class LoginPage implements OnInit {
 
     try {
       const response = await this.userService.signIn(this.user.email, this.user.password).toPromise();
-      if (response && response.token) {
-        // Guardar el token en el almacenamiento local
-        localStorage.setItem('token', response.token);
-        // Redirigir al usuario después de una autenticación exitosa
-        this.router.navigate(['/home-agente']);
+      console.log('Respuesta del servidor:', response);
+      if (response && response.accessToken && response.refreshToken) {
+        localStorage.setItem('accessToken', response.accessToken);
+        localStorage.setItem('refreshToken', response.refreshToken);
+        this.router.navigate(['/home-user']);
       } else {
         await this.presentAlert('Error de inicio de sesión', 'Ha ocurrido un error inesperado.');
       }
     } catch (err: any) {
       console.log('Error:', err);
-      await this.presentAlert('Error de inicio de sesión', err.error || 'Ha ocurrido un error inesperado.');
+      const errorMessage = err && err.error ? err.error : 'Ha ocurrido un error inesperado.';
+      await this.presentAlert('Error de inicio de sesión', errorMessage);
     }
   }
 }
+

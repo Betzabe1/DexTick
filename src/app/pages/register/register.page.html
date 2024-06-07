@@ -1,35 +1,10 @@
-<app-header
-  style="text-align: center;
-  --padding-start: 30px;
-  --padding-end: 30px;
-  --padding-top: 150px;">
-</app-header>
+<ion-header>
+  <ion-toolbar>
+    <app-header></app-header>
 
-<ion-content [fullscreen]="true" class="contentR">
-  <br>
-  <form  (ngSubmit)="signUp()">
-    <h2 class="welcome tracking-in-contract">Registro</h2>
-    <br>
-    <div class="input-wrapper">
-      <input  type="text" name="name" placeholder="Nombre" [(ngModel)]="user.name" required>
-      <ion-icon class="input-icon" name="person-circle-outline"></ion-icon>
-    </div>
+  </ion-toolbar>
+</ion-header>
 
-    <div class="input-wrapper">
-      <input type="email" name="email" placeholder="Correo" [(ngModel)]="user.email" required>
-      <ion-icon class="input-icon" name="at-outline"></ion-icon>
-    </div>
-
-    <div class="input-wrapper">
-      <input  type="text" name="telefono" placeholder="Teléfono" [(ngModel)]="user.telefono" required>
-      <ion-icon class="input-icon" name="call-outline"></ion-icon>
-    </div>
-
-    <div class="input-wrapper">
-      <input type="password" name="password" placeholder="Contraseña" [(ngModel)]="user.password" required>
-      <ion-icon class="input-icon" name="lock-closed-outline"></ion-icon>
-    </div>
-
-    <input class="btn" type="submit" name="register" value="Registrar">
-  </form>
+<ion-content>
+<app-form-registro></app-form-registro>
 </ion-content>
