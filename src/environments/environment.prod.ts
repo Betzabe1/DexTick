@@ -4,13 +4,15 @@
 
 export const environment = {
   production: true,
-  firebaseConfig: {
-    apiKey: "AIzaSyAX_SUHPyKO2dV4zb-Hsj7cddX2KISE34k",
-    authDomain: "dextick-d7ca9.firebaseapp.com",
-    projectId: "dextick-d7ca9",
-    storageBucket: "dextick-d7ca9.appspot.com",
-    messagingSenderId: "1070767859861",
-    appId: "1:1070767859861:web:d2b2ed3771787d6b55139c"
+  firebaseConfig :{
+    apiKey: "AIzaSyDAdtju67g0A7OdZdcEBScPnppZR9CDbY8",
+    authDomain: "dextick-77000.firebaseapp.com",
+    databaseURL: "https://dextick-77000-default-rtdb.firebaseio.com",
+    projectId: "dextick-77000",
+    storageBucket: "dextick-77000.appspot.com",
+    messagingSenderId: "908983189594",
+    appId: "1:908983189594:web:d4f2267d1618111db45863",
+    measurementId: "G-H4X91V79Y2"
   }
 };
 

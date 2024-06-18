@@ -1,31 +1,31 @@
 
 <ion-content [fullscreen]="true" class="contentR ion-padding">
   <br>
-  <form  (ngSubmit)="signUp()">
+  <form >
     <h2 class="welcome tracking-in-contract">Registro</h2>
     <br>
     <div class="input-wrapper">
-      <input  type="text" name="name" placeholder="Nombre" [(ngModel)]="user.name" required>
+      <input  type="text" name="name" placeholder="Nombre"  required>
       <ion-icon class="input-icon" name="person-circle-outline"></ion-icon>
     </div>
 
     <div class="input-wrapper">
-      <input type="text" name="empresa" placeholder="Nombre de la empresa" [(ngModel)]="user.empresa" required>
+      <input type="text" name="empresa" placeholder="Nombre de la empresa"  required>
       <ion-icon class="input-icon" name="briefcase-outline"></ion-icon>
     </div>
 
     <div class="input-wrapper">
-      <input type="email" name="email" placeholder="Correo" [(ngModel)]="user.email" required>
+      <input type="email" name="email" placeholder="Correo"  required>
       <ion-icon class="input-icon" name="at-outline"></ion-icon>
     </div>
 
     <div class="input-wrapper">
-      <input  type="text" name="telefono" placeholder="Teléfono" [(ngModel)]="user.telefono" required>
+      <input  type="text" name="telefono" placeholder="Teléfono"  required>
       <ion-icon class="input-icon" name="call-outline"></ion-icon>
     </div>
 
     <div class="input-wrapper">
-      <input type="password" name="password" placeholder="Contraseña" [(ngModel)]="user.password" required>
+      <input type="password" name="password" placeholder="Contraseña" required>
       <ion-icon class="input-icon" name="lock-closed-outline"></ion-icon>
     </div>
 

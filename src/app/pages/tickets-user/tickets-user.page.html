@@ -9,24 +9,4 @@
     </ion-buttons>
   </ion-toolbar>
 </ion-header>
-<ion-content [fullscreen]="true" class="inicio">
-  <h3 class="bienvenidaH3">Gracias por unirte a Dex-Tree</h3>
-  <h3 class="solicitud">Solicita tu servicio</h3>
-  <app-search></app-search>
-
-   <!-- Categorias -->
-   <div class="categorias">
-    <app-category-item *ngFor="let item of categorias"
-    [item]="item"
-    (categorySelected)="selectCategory($event)">
-  </app-category-item>
-   </div>
-      <!-- Servicios -->
-      <h1 class="list-header">Servicios</h1>
-      <div class="food-list" >
-      <app-tipo-card *ngFor="let tipo of tipos" [item]="tipo"></app-tipo-card>
-    </div>
-
-<!-- menu -->
-</ion-content>
 

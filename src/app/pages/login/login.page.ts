@@ -1,7 +1,9 @@
-import { Component, OnInit } from '@angular/core';
-import { UserService } from '../../services/user.service';
-import { Router } from '@angular/router';
-import { AlertController } from '@ionic/angular';
+import { Component, Input, OnInit, inject } from '@angular/core';
+import { FormControl, FormGroup, Validators } from '@angular/forms';
+import { error } from 'jquery';
+import { User } from 'src/app/models/user.model';
+import { UserService } from 'src/app/services/user.service';
+import { UtilService } from 'src/app/services/util.service';
 
 @Component({
   selector: 'app-login',
@@ -9,54 +11,56 @@ import { AlertController } from '@ionic/angular';
   styleUrls: ['./login.page.scss'],
 })
 export class LoginPage implements OnInit {
-  user = {
-    email: '',
-    password: ''
-  };
 
-  constructor(
-    private userService: UserService,
-    private router: Router,
-    private alertController: AlertController
-  ) {}
+  @Input() control!:FormControl;
+  @Input() type!:string;
+  isPassword:boolean=true;
+  hide:boolean=true;
 
-  ngOnInit() {}
+  form = new FormGroup({
+    email: new FormControl('',[Validators.required, Validators.email]),
+    password: new FormControl('', [Validators.required])
+  })
 
+firebaseSvc=inject(UserService);
+utilSvc=inject(UtilService);
 
-  async presentAlert(header: string, message: string) {
-    const alert = await this.alertController.create({
-      header,
-      message,
-      buttons: ['OK']
-    });
-
-    await alert.present();
+  ngOnInit() {
+    this.type = 'password';
   }
 
-  async signIn() {
-    this.user.email = this.user.email.trim();
-    this.user.password = this.user.password.trim();
 
-    if (!this.user.email || !this.user.password) {
-      await this.presentAlert('Error de inicio de sesión', 'Por favor, ingrese su correo electrónico y contraseña.');
-      return;
+  showOrHidePassword(){
+    this.hide = !this.hide;
+    this.type = this.hide ? 'password' : 'text';
+  }
+
+
+  async submit(){
+    if(this.form.valid){
+
+      const loading=await this.utilSvc.loading();
+      await loading.present();
+
+      this.firebaseSvc.signIn(this.form.value as User).then(res => {
+        console.log(res);
+
+      }).catch(error =>{
+        console.log(error);
+
+        this.utilSvc.presentToast({
+          message:error.message,
+          duration:2500,
+          color:'primary',
+          position:'middle',
+          icon:'alert-circle-outline'
+
+        })
+      }).finally(() => {
+        loading.dismiss();
+      })
     }
 
-    try {
-      const response = await this.userService.signIn(this.user.email, this.user.password).toPromise();
-      console.log('Respuesta del servidor:', response);
-      if (response && response.accessToken && response.refreshToken) {
-        localStorage.setItem('accessToken', response.accessToken);
-        localStorage.setItem('refreshToken', response.refreshToken);
-        this.router.navigate(['/home-user']);
-      } else {
-        await this.presentAlert('Error de inicio de sesión', 'Ha ocurrido un error inesperado.');
-      }
-    } catch (err: any) {
-      console.log('Error:', err);
-      const errorMessage = err && err.error ? err.error : 'Ha ocurrido un error inesperado.';
-      await this.presentAlert('Error de inicio de sesión', errorMessage);
-    }
   }
 }
 

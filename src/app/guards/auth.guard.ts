@@ -7,21 +7,7 @@ import { UserService } from '../services/user.service';
 @Injectable({
   providedIn: 'root'
 })
-export class AuthGuard implements CanActivate {
+export class AuthGuard {
 
-  constructor(
-    private userService: UserService,
-    private router: Router
-  ) {}
 
-  canActivate(): Observable<boolean> {
-    const isLoggedIn = this.userService.isLoggedIn();
-    return of(isLoggedIn).pipe(
-      tap(loggedIn => {
-        if (!loggedIn) {
-          this.router.navigate(['/login']);
-        }
-      })
-    );
-  }
 }

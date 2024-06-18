@@ -9,38 +9,6 @@ import { UserService } from 'src/app/services/user.service';
   styleUrls: ['./tabs.page.scss'],
 })
 export class TabsPage {
-  constructor(
-    private userService: UserService,
-    private router: Router,
-    private alertController: AlertController
-  ) { }
+  constructor() { }
 
-  async presentLogoutAlert() {
-    const alert = await this.alertController.create({
-      header: 'Confirmar cierre de sesión',
-      message: '¿Está seguro de que desea cerrar sesión?',
-      buttons: [
-        {
-          text: 'Cancelar',
-          role: 'cancel',
-          cssClass: 'secondary',
-          handler: () => {
-            console.log('Cierre de sesión cancelado');
-          }
-        }, {
-          text: 'Sí',
-          handler: () => {
-            this.logout();
-          }
-        }
-      ]
-    });
-
-    await alert.present();
-  }
-
-  logout(): void {
-    this.userService.signOut();
-    this.router.navigate(['/login']); // Redirigir al usuario a la página de inicio de sesión
-  }
 }

@@ -5,7 +5,7 @@ import { AuthGuard } from './guards/auth.guard'; // Importa el AuthGuard
 const routes: Routes = [
   {
     path: '',
-    redirectTo: 'tabs',
+    redirectTo: 'login',
     pathMatch: 'full'
   },
 

@@ -20,13 +20,11 @@ export class HomeAgentPage implements OnInit {
 
   constructor(
     private router:Router,
-    private userService: UserService,
     private tipoService: TipoService,
   )
     { }
 
   ngOnInit() {
-    this.loadUser();
     this.getCategorias();
     this.selectCategory(this.selectedCategory);
   }
@@ -40,17 +38,7 @@ navigateToServiceOptions(tipoId: number) {
     this.tipoServicioSeleccionado = tipoId;
   }
 
-  loadUser() {
-    this.userService.getUser().subscribe(
-      (res: any) => {
-        const fullName = res.name;
-        this.firstName = fullName.split(' ')[0];
-      },
-      (err: any) => {
-        console.log(err);
-      }
-    );
-  }
+
 
   getCategorias() {
     this.categorias = [
