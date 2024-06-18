@@ -21,7 +21,7 @@ form{
   justify-content: center;
   text-align: center;
   width: 100%;
-  max-width: 500px;
+  max-width: 600px;
   margin: 0 auto;
 }
 form h2{
@@ -43,7 +43,7 @@ input{
   border: 0;
   box-shadow: 0 0 20px rgba(141, 176, 216, 0.3);
   outline: none;
-font-size: 16px;
+font-size: 13px;
 }
 input:not(:placeholder-shown) {
   background-color: #fff;
@@ -53,7 +53,7 @@ body.dark input {
   color: #ffffff;
 }
 input::placeholder{
- font-size: 16px;
+ font-size: 13px;
  color: #454561;
 
 }
@@ -104,11 +104,11 @@ input:active {
   }
   form{
     padding: 20px;
-    width: 88%;
+    width: 100%;
   }
   .input-wrapper{
     position: relative;
-    width: 88%;
+    width: 100%;
     margin-bottom: 35px
   }
   input{

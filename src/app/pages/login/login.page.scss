@@ -6,14 +6,14 @@
 display: flex;
     justify-content: center;
     align-items: center;
-    height: 100%;
-}
+    height: 100vh;
+  }
 .custom-button {
   --background: #25cad2;
   --background-hover: #529ea1;
   --background-focused: #529ea1;
   --background-activated: #529ea1;
-   font: size 20px;
+   font-size: size 20px;
    align-items: center;
    justify-content: center;
    display: flex;
