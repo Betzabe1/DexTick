@@ -11,6 +11,7 @@ import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { PrioridadComponent } from './prioridad/prioridad.component';
 import { OtroProblemComponent } from './otro-problem/otro-problem.component';
 import { OptionsComponent } from './options/options.component';
+import { PerfilesComponent } from './perfiles/perfiles.component';
 
 
 
@@ -23,7 +24,8 @@ import { OptionsComponent } from './options/options.component';
     FormRegistroComponent,
     PrioridadComponent,
     OtroProblemComponent,
-    OptionsComponent
+    OptionsComponent,
+    PerfilesComponent
   ],
   exports:[
     HeaderComponent,
@@ -34,7 +36,8 @@ import { OptionsComponent } from './options/options.component';
     FormRegistroComponent,
     PrioridadComponent,
     OtroProblemComponent,
-    OptionsComponent
+    OptionsComponent,
+    PerfilesComponent
 
   ],
   imports: [

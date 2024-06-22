@@ -8,6 +8,13 @@ display: flex;
     align-items: center;
     height: 100vh;
   }
+
+  .p{
+    font-size: 13px;
+    cursor: pointer;
+    font-family: 'Roboto', sans-serif;
+
+  }
 .custom-button {
   --background: #25cad2;
   --background-hover: #529ea1;
@@ -24,12 +31,10 @@ display: flex;
 
 .welcome{animation:tracking-in-expand-forward-bottom 0.4s linear both} @keyframes tracking-in-expand-forward-bottom{0%{letter-spacing:-.2em;transform:translateZ(-700px) translateY(100px);opacity:0}40%{opacity:.6}100%{transform:translateZ(0) translateY(0);opacity:1}}
 .welcome {
-  font-family: "Reddit Sans", sans-serif;
   font-weight: 700;
-  font-size: 22px;
+  font-size: 30px;
   text-align: center;
   font-family: 'Roboto', sans-serif;
-  font-size: 35px;
   color: #385cc7;
 
 }

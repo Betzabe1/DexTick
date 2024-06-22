@@ -33,8 +33,8 @@ export class ForgotPasswordPage implements OnInit {
           position: 'middle',
           icon: 'mail-outline'
         });
-        
-        this.utilSvc.routerLink('/login'); // Asegúrate de que '/login' sea la ruta correcta
+
+        this.utilSvc.routerLink('/login'); 
         this.form.reset();
       } catch (error) {
         console.error(error.message);

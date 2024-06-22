@@ -12,15 +12,15 @@ body
 }
 form{
  background: #fff;
-  box-shadow: 0 0 10px rgba(3, 14, 69, 0.2);
-  padding: 50px 35px;
+ box-shadow: 0 0 20px rgba(111, 172, 242, 0.3);
+ padding: 50px 35px;
   border-radius: 15px;
   display: flex;
   flex-direction: column;
   align-items: center;
   justify-content: center;
   text-align: center;
-  width: 100%;
+  width: 90%;
   max-width: 600px;
   margin: 0 auto;
 }
@@ -41,9 +41,9 @@ input{
   width: 100%;
   border-radius: 25px;
   border: 0;
-  box-shadow: 0 0 20px rgba(141, 176, 216, 0.3);
+  box-shadow: 0 0 15px rgba(111, 172, 242, 0.3);
   outline: none;
-font-size: 13px;
+font-size: 14px;
 }
 input:not(:placeholder-shown) {
   background-color: #fff;

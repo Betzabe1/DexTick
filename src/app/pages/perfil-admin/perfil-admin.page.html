@@ -3,32 +3,7 @@
    <app-header></app-header>
  </ion-toolbar>
 </ion-header>
+
 <ion-content [fullscreen]="true" class="contentR ion-padding">
-  <br>
-  <form >
-    <ion-img class="perfil" src="assets/img/usuario.png"></ion-img>
-    <h2 class="welcome tracking-in-contract">Administrador</h2>
-    <br>
-    <div class="input-wrapper">
-      <input  type="text" name="name" placeholder="Nombre"  required>
-      <ion-icon class="input-icon" name="person-circle-outline"></ion-icon>
-    </div>
-
-    <div class="input-wrapper">
-      <input type="email" name="email" placeholder="Correo" required>
-      <ion-icon class="input-icon" name="at-outline"></ion-icon>
-    </div>
-
-    <div class="input-wrapper">
-      <input  type="text" name="telefono" placeholder="Teléfono" required>
-      <ion-icon class="input-icon" name="call-outline"></ion-icon>
-    </div>
-
-    <div class="input-wrapper">
-      <input type="password" name="password" placeholder="Contraseña"  required>
-      <ion-icon class="input-icon" name="lock-closed-outline"></ion-icon>
-    </div>
-
-    <input class="btn" type="submit" name="register" value="Editar">
-  </form>
+<app-perfiles></app-perfiles>
 </ion-content>
