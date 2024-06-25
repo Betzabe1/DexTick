@@ -2,8 +2,16 @@
 <ion-content [fullscreen]="true" class="contentR ion-padding">
   <br>
   <form [formGroup]="form" (ngSubmit)="submit()" (keypress.enter)="submit()">
+    <ion-avatar>
+      <img *ngIf="imageDataUrl" [src]="imageDataUrl"/>
+      <ion-icon *ngIf="!imageDataUrl" class="empty-icon" name="person-circle-outline"></ion-icon>
+    </ion-avatar>
+    <ion-button class="photo-btn" (click)="takeImage()" mode="ios" size="small" shape="round">
+      <ion-icon name="camera-outline"></ion-icon>
+    </ion-button>
+     <br>
     <h2 class="welcome tracking-in-contract">Registro</h2>
-    <br>
+
 
 
     <div class="validators" *ngIf="form.controls.name.errors && form.controls.name.touched">

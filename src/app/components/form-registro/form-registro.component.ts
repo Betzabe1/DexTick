@@ -14,14 +14,26 @@ export class FormRegistroComponent {
     uid: new FormControl(''),
     email: new FormControl('', [Validators.required, Validators.email]),
     empresa: new FormControl(''),
-    tel: new FormControl('', [Validators.required,Validators.pattern('^[0-9]{10}$')]),
+    tel: new FormControl('', [Validators.required, Validators.pattern('^[0-9]{10}$')]),
     password: new FormControl('', [Validators.minLength(6)]),
     name: new FormControl('', [Validators.required, Validators.minLength(3)]),
     role: new FormControl('client'),
+    image: new FormControl('')
   });
 
   firebaseSvc = inject(UserService);
   utilSvc = inject(UtilService);
+  imageDataUrl: string | null = null;
+
+  async takeImage() {
+    try {
+      const result = await this.utilSvc.takePicture('Imagen de Perfil');
+      this.imageDataUrl = result.dataUrl;
+      this.form.controls['image'].setValue(this.imageDataUrl);
+    } catch (error) {
+      console.error('Error taking picture:', error);
+    }
+  }
 
   async submit() {
     if (this.form.valid) {
@@ -32,13 +44,19 @@ export class FormRegistroComponent {
         await this.firebaseSvc.updateUser(this.form.value.name);
 
         let uid = res.user.uid;
-        this.form.controls.uid.setValue(uid);
+        this.form.controls['uid'].setValue(uid);
 
-        this.setUserInfo(uid);
+        // Subir image
+        if (this.imageDataUrl) {
+          const imagePath = `users/${uid}/perfil`;
+          const imageUrl = await this.firebaseSvc.uploadImage(imagePath, this.imageDataUrl);
+          this.form.controls['image'].setValue(imageUrl);
+        }
+
+        await this.setUserInfo(uid);
 
       }).catch(error => {
         console.log(error);
-
         this.utilSvc.presentToast({
           message: error.message,
           duration: 2500,
@@ -49,7 +67,7 @@ export class FormRegistroComponent {
       }).finally(() => {
         loading.dismiss();
       });
-    }else {
+    } else {
       this.markAllAsTouched();
       this.utilSvc.presentToast({
         message: 'Por favor, complete los campos correctamente.',
@@ -84,10 +102,8 @@ export class FormRegistroComponent {
           icon: 'person-circle-outline'
         });
 
-
       }).catch(error => {
         console.log(error);
-
         this.utilSvc.presentToast({
           message: error.message,
           duration: 2500,
@@ -95,12 +111,12 @@ export class FormRegistroComponent {
           position: 'middle',
           icon: 'alert-circle-outline'
         });
-
       }).finally(() => {
         loading.dismiss();
       });
     }
   }
+
   markAllAsTouched() {
     this.form.markAllAsTouched();
   }

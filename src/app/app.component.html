@@ -1,3 +1,83 @@
 <ion-app>
-  <ion-router-outlet></ion-router-outlet>
+  <ion-menu menuId="main-menu" contentId="main">
+    <ion-content>
+      <div class="menu-header-bg"></div>
+      <div class="header-content">
+        <img src="../assets/img/user.png" alt="">
+        <h2>{{user()?.name}}</h2>
+      </div>
+
+
+      <ion-list>
+        <ion-item class="active">
+       Clientes
+        </ion-item>
+      </ion-list>
+
+      <ion-list lines="none" class="menu-items">
+        <ion-menu-toggle>
+         <ion-item routerLink="/register-client" class="active">
+          <ion-icon name="person-add"></ion-icon>
+          <ion-label>Agregar cliente</ion-label>
+        </ion-item>
+      </ion-menu-toggle>
+
+      <ion-menu-toggle>
+        <ion-item routerLink="/crud-users" class="active">
+          <ion-icon name="people-outline"></ion-icon>
+          <ion-label>Clientes activos </ion-label>
+        </ion-item>
+      </ion-menu-toggle>
+
+      </ion-list>
+
+
+      <ion-list >
+        <ion-item class="active">
+       Agentes
+        </ion-item>
+      </ion-list>
+
+      <ion-list lines="none" class="menu-items">
+        <ion-menu-toggle>
+         <ion-item routerLink="/register-agents" class="active">
+          <ion-icon name="person-add"></ion-icon>
+          <ion-label>Agregar agentes</ion-label>
+        </ion-item>
+        </ion-menu-toggle>
+
+        <ion-menu-toggle>
+        <ion-item routerLink="/crud-agent" class="active">
+          <ion-icon name="people-outline"></ion-icon>
+          <ion-label>Agentes activos </ion-label>
+        </ion-item>
+        </ion-menu-toggle>
+      </ion-list>
+
+
+      <ion-list>
+        <ion-item class="active">
+       Administradores
+        </ion-item>
+      </ion-list>
+
+      <ion-list lines="none" class="menu-items">
+        <ion-menu-toggle>
+         <ion-item routerLink="/register-admin"  class="active">
+          <ion-icon name="person-add"></ion-icon>
+          <ion-label>Agregar administrador</ion-label>
+        </ion-item>
+        </ion-menu-toggle>
+
+        <ion-menu-toggle>
+        <ion-item routerLink="/crud-admin" class="active">
+          <ion-icon name="people-outline"></ion-icon>
+          <ion-label>Agentes activos </ion-label>
+        </ion-item>
+        </ion-menu-toggle>
+      </ion-list>
+
+    </ion-content>
+  </ion-menu>
+  <ion-router-outlet id="main"></ion-router-outlet>
 </ion-app>

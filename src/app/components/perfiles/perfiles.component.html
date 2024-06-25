@@ -1,6 +1,6 @@
 
   <br>
-  <form [formGroup]="form" (ngSubmit)="submit()" (keypress.enter)="submit()">
+  <form [formGroup]="form" (ngSubmit)="comfirmSubmit()" (keypress.enter)="comfirmSubmit()">
     <ion-avatar>
       <img *ngIf="user()?.image" [src]="user()?.image"/>
       <ion-icon *ngIf="!user()?.image" class="empty-icon" name="person-circle-outline"></ion-icon>
@@ -58,7 +58,7 @@
       <ion-icon class="input-icon" name="lock-closed-outline"></ion-icon>
     </div>
 
-      <input class="btn" type="submit" name="register" value="Editar">
+      <input class="btn"  type="submit" name="register" value="Editar">
 
 
  </form>

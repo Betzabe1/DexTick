@@ -16,9 +16,14 @@ const routes: Routes = [
         path: 'tickets-user',
         loadChildren: () => import('../tickets-user/tickets-user.module').then(m => m.TicketsUserPageModule)
       },
+
       {
         path: 'perfil-admin',
         loadChildren: () => import('../perfil-admin/perfil-admin.module').then( m => m.PerfilAdminPageModule)
+      },
+      {
+        path: 'usuarios',
+        loadChildren: () => import('../usuarios/usuarios.module').then( m => m.UsuariosPageModule)
       },
       {
         path: '',

@@ -69,7 +69,42 @@ const routes: Routes = [
   {
     path: 'perfil-admin',
     loadChildren: () => import('./pages/perfil-admin/perfil-admin.module').then( m => m.PerfilAdminPageModule)
+  },
+  {
+    path: 'crud-users',
+    loadChildren: () => import('./pages/crud-users/crud-users.module').then( m => m.CrudUsersPageModule)
+  },
+  {
+    path: 'editar-user/:id',
+    loadChildren: () => import('./pages/editar-user/editar-user.module').then( m => m.EditarUserPageModule)
+  },
+  {
+    path: 'crud-agent',
+    loadChildren: () => import('./pages/crud-agent/crud-agent.module').then( m => m.CrudAgentPageModule)
+  },
+  {
+    path: 'crud-admin',
+    loadChildren: () => import('./pages/crud-admin/crud-admin.module').then( m => m.CrudAdminPageModule)
+  },
+  {
+    path: 'usuarios',
+    loadChildren: () => import('./pages/usuarios/usuarios.module').then( m => m.UsuariosPageModule)
+  },
+
+  {
+    path: 'register-agents',
+    loadChildren: () => import('./pages/register-agents/register-agents.module').then( m => m.RegisterAgentsPageModule)
+  },
+  {
+    path: 'register-admin',
+    loadChildren: () => import('./pages/register-admin/register-admin.module').then( m => m.RegisterAdminPageModule)
+  },  {
+    path: 'register-client',
+    loadChildren: () => import('./pages/register-client/register-client.module').then( m => m.RegisterClientPageModule)
   }
+
+
+
 
 ];
 

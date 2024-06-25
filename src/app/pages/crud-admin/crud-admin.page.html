@@ -1,0 +1,56 @@
+<ion-header>
+  <ion-toolbar class="custom-toolbar">
+    <ion-title>Administradores</ion-title>
+    <ion-buttons slot="start">
+      <ion-menu-button menu="main-menu"></ion-menu-button>
+    </ion-buttons>
+    <ion-buttons slot="end">
+      <ion-avatar class="custom-avatar">
+        <ion-img src="/assets/img/user.png"></ion-img>
+      </ion-avatar>
+    </ion-buttons>
+  </ion-toolbar>
+</ion-header>
+
+<ion-content>
+<div class="container mt-5">
+  <div class="card">
+    <div class="card-body">
+      <span class="h2">Listado de Administradores</span>
+      <h5 class="mt-15" *ngIf="usuarios.length === 0">No hay datos para mostrar</h5>
+      <table *ngIf="usuarios.length>0" class="table table-striped mt-4">
+        <thead>
+          <tr>
+            <!-- <th>Id</th> -->
+            <th>Nombre</th>
+            <th>Empresa</th>
+            <th>Correo</th>
+            <th>Teléfono</th>
+            <th>Rol</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr *ngFor="let usuario of usuarios">
+            <!-- <td>{{usuario.id}}</td> -->
+            <td>{{usuario.name}}</td>
+            <td>{{usuario.empresa}}</td>
+            <td>{{usuario.email}}</td>
+            <td>{{usuario.tel}}</td>
+            <td>{{usuario.role}}</td>
+            <td>
+              <ion-icon class="text-info mr-2" name="create-outline" title="Editar" [routerLink]="['/editar-user', usuario.id]"></ion-icon>              <!-- <i class="fas fa-edit fa-lg text-info mr-2"></i> -->
+              <ion-icon (click)="confirmEliminarUsuario(usuario.id)" class="text-danger " name="trash-outline" title="Eliminar"></ion-icon>
+              <!-- <button type="submit" (click)="eliminarUsuario(usuario.id)">del</button> -->
+              <!-- <i (click)="eliminarUsuario(usuario.id)" class="fas fa-trash-alt fa-lg text-danger"></i> -->
+            </td>
+          </tr>
+
+
+
+
+        </tbody>
+      </table>
+    </div>
+  </div>
+</div>
+</ion-content>

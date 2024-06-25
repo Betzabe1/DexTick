@@ -23,9 +23,18 @@ export class UtilService {
       promptLabelPhoto:'Selecciona una imagen',
       promptLabelPicture:'Toma una foto '
     });
-
-
   };
+
+  async takesPicture(title: string): Promise<{ dataUrl: string }> {
+    const image = await Camera.getPhoto({
+      quality: 90,
+      allowEditing: false,
+      resultType: CameraResultType.DataUrl,
+      source: CameraSource.Prompt
+    });
+
+    return { dataUrl: image.dataUrl };
+  }
 
   //======Loading========
   loading(){
@@ -52,6 +61,7 @@ export class UtilService {
     getFormLocalStorage(key:string){
       return JSON.parse(localStorage.getItem(key));
     }
+
 
 
 }

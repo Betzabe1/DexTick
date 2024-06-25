@@ -7,6 +7,7 @@ import {getFirestore,setDoc, doc, getDoc, addDoc, collection,collectionData, que
 import { UtilService } from './util.service';
 import {AngularFireStorage} from '@angular/fire/compat/storage';
 import {getStorage, uploadString,ref, getDownloadURL} from'firebase/storage'
+import { Observable } from 'rxjs';
 
 @Injectable({
   providedIn: 'root'
@@ -30,8 +31,8 @@ return signInWithEmailAndPassword(getAuth(), user.email, user.password)
 }
 
 //Crear
-signUp(user:User){
-  return createUserWithEmailAndPassword(getAuth(), user.email, user.password)
+signUp(user: User) {
+  return this.auth.createUserWithEmailAndPassword(user.email, user.password);
 }
 
 //Actualizar
@@ -98,6 +99,22 @@ getColletionData (path:string, collectionQuery?:any){
   return collectionData(query(ref,collectionQuery))
 }
 
+//obtener usuarios
+getUsers():Observable<any>{
+  return this.firestore.collection('users').snapshotChanges();
+}
+
+
+getUserById(id: string): Observable<User> {
+  return this.firestore.collection('users').doc<User>(id).valueChanges();
+}
+
+
+//eliminar usuarios
+eliminarUsuario(id:string):Promise<any>{
+  return this.firestore.collection('users').doc(id).delete();
+
+}
 
 //almaxcensmienti
 //subir imagen
@@ -105,6 +122,17 @@ async uploadImage(path:string, data_url:string){
   return uploadString(ref(getStorage(),path),data_url,'data_url').then(()=>{
     return getDownloadURL(ref(getStorage(),path ))
   })
+}
+
+
+async uploadinImage(path: string, dataUrl: string): Promise<string> {
+  const ref = this.storage.ref(path);
+  await ref.putString(dataUrl, 'data_url');
+  return await ref.getDownloadURL().toPromise();
+}
+
+updatDocument(path: string, data: any) {
+  return this.firestore.doc(path).update(data);
 }
 
   //obtener ruta de la imagen

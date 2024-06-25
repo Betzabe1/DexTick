@@ -1,8 +1,15 @@
-<ion-header [translucent]="true">
-  <ion-toolbar>
-   <app-header></app-header>
- </ion-toolbar>
+<ion-header>
+  <ion-toolbar class="custom-toolbar">
+    <ion-title>Perfil</ion-title>
+
+    <ion-buttons slot="end">
+      <ion-avatar class="custom-avatar">
+        <ion-img src="/assets/img/user.png"></ion-img>
+      </ion-avatar>
+    </ion-buttons>
+  </ion-toolbar>
 </ion-header>
+
 
 <ion-content [fullscreen]="true" class="contentR ion-padding">
 <app-perfiles></app-perfiles>

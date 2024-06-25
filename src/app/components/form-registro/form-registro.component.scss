@@ -1,3 +1,26 @@
+ion-avatar{
+  width: 160px;
+  height: 160px;
+  margin: 0 auto;
+  box-shadow: 0 0 10px rgba(41, 65, 184, 0.2);
+
+//  border: 3px solid #5054cc;
+}
+
+.empty-icon{
+  font-size: 160px;
+  opacity: 30%;
+
+}
+
+.photo-btn{
+  position: relative;
+  bottom: 25px;
+}
+
+
+
+
 body
 {
  background-color: #fff;

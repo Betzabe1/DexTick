@@ -25,7 +25,7 @@ import { PerfilesComponent } from './perfiles/perfiles.component';
     PrioridadComponent,
     OtroProblemComponent,
     OptionsComponent,
-    PerfilesComponent
+    PerfilesComponent,
   ],
   exports:[
     HeaderComponent,
@@ -37,7 +37,7 @@ import { PerfilesComponent } from './perfiles/perfiles.component';
     PrioridadComponent,
     OtroProblemComponent,
     OptionsComponent,
-    PerfilesComponent
+    PerfilesComponent,
 
   ],
   imports: [
