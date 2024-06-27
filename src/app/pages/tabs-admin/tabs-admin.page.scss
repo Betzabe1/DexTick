@@ -1,0 +1,16 @@
+@media (max-width: 600px){
+ .custom-tab-bar {
+    cursor: pointer;
+    --ion-tab-bar-height: 56px; /* Ajusta la altura de la barra de pestañas */
+  }
+
+  .custom-tab-bar ion-tab-button {
+    flex: 1; /* Hace que cada botón de pestaña ocupe el mismo espacio */
+    max-width: calc(100% / 6); /* Ajusta el ancho máximo de cada pestaña */
+    font-size: 10px; /* Ajusta el tamaño de la fuente */
+  }
+
+  .custom-tab-bar ion-icon {
+    font-size: 18px; /* Ajusta el tamaño del ícono */
+  }
+}

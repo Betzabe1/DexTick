@@ -1,6 +1,9 @@
 import { Component, OnInit, inject } from '@angular/core';
 import { AlertController } from '@ionic/angular';
 import { UserService } from 'src/app/services/user.service';
+import { Router } from '@angular/router';
+import { User } from 'src/app/models/user.model';
+import { UtilService } from 'src/app/services/util.service';
 @Component({
   selector: 'app-crud-admin',
   templateUrl: './crud-admin.page.html',
@@ -9,9 +12,15 @@ import { UserService } from 'src/app/services/user.service';
 export class CrudAdminPage implements OnInit {
   usuarios: any[] = [];
   alertController = inject(AlertController);
+  utilSvc=inject(UtilService)
 
-  constructor(private usersService: UserService) { }
+  constructor(private usersService: UserService, private router: Router) { }
 
+
+  user(): User {
+    return this.utilSvc.getFormLocalStorage('user');
+  }
+ 
   ngOnInit() {
     this.getUsers(); // Llamar a getUsers en ngOnInit
   }

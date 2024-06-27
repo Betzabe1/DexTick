@@ -1,6 +1,8 @@
 import { Component, OnInit, inject } from '@angular/core';
 import { AlertController } from '@ionic/angular';
+import { User } from 'src/app/models/user.model';
 import { UserService } from 'src/app/services/user.service';
+import { UtilService } from 'src/app/services/util.service';
 @Component({
   selector: 'app-crud-agent',
   templateUrl: './crud-agent.page.html',
@@ -9,8 +11,12 @@ import { UserService } from 'src/app/services/user.service';
 export class CrudAgentPage implements OnInit {
   usuarios: any[] = [];
   alertController = inject(AlertController);
+  utilSvc = inject(UtilService);
 
   constructor(private usersService: UserService) { }
+  user(): User {
+    return this.utilSvc.getFormLocalStorage('user');
+  }
 
   ngOnInit() {
     this.getUsers(); // Llamar a getUsers en ngOnInit

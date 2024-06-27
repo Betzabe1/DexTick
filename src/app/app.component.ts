@@ -1,5 +1,6 @@
 import { Component, Input, OnInit, inject } from '@angular/core';
 import { FormControl, FormGroup, Validators } from '@angular/forms';
+import { Router } from '@angular/router';
 import { AlertController } from '@ionic/angular';
 import { User } from 'src/app/models/user.model';
 import { UserService } from 'src/app/services/user.service';
@@ -28,5 +29,8 @@ export class AppComponent {
   user(): User {
     return this.utilSvc.getFormLocalStorage('user');
   }
-  constructor() {}
+  constructor(private router:Router) {}
+  redirectToPage() {
+    this.router.navigate(['tabs-admin/usuarios']);
+  }
 }

@@ -18,10 +18,7 @@
   email></ion-input>
 <br>
 
-<div class="validators" *ngIf="form.controls.email.errors && form.controls.email.touched">
- <div *ngIf="form.controls.email.errors?.['required']">El correo es requerido</div>
- <div *ngIf="form.controls.email.errors?.['email']">El correco no es valido</div>
-</div>
+
 
   <ion-input  class="input"
   formControlName="password"

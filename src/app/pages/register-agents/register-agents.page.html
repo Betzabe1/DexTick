@@ -1,6 +1,6 @@
 <ion-header>
   <ion-toolbar class="custom-toolbar">
-    <ion-title>Registro Agentes</ion-title>
+    <ion-title>Registro clientes</ion-title>
     <ion-buttons slot="start">
       <ion-menu-button menu="main-menu"></ion-menu-button>
     </ion-buttons>
@@ -11,6 +11,7 @@
     </ion-buttons>
   </ion-toolbar>
 </ion-header>
+
 
 <ion-content [fullscreen]="true" class="contentR ion-padding">
   <br>
@@ -24,12 +25,11 @@
     </ion-button>
     <h2 class="welcome tracking-in-contract">Registro</h2>
 
-    <br>
-
+<br>
 
     <div class="validators" *ngIf="form.controls.name.errors && form.controls.name.touched">
-      <div *ngIf="form.controls.name.errors?.['required']">El nombre es requerido</div>
-      <div *ngIf="form.controls.name.errors?.['minlength']">El nombre debe tener al menos 3 caracteres</div>
+      <small *ngIf="form.controls.name.errors?.['required']">El nombre es requerido</small>
+      <small *ngIf="form.controls.name.errors?.['minlength']">El nombre debe tener al menos 3 caracteres</small>
      </div>
 
     <div class="input-wrapper">
@@ -47,18 +47,18 @@
 
 
     <div class="validators" *ngIf="form.controls.email.errors && form.controls.email.touched">
-      <div *ngIf="form.controls.email.errors?.['required']">El correo es requerido</div>
-      <div *ngIf="form.controls.email.errors?.['email']">El correco no es valido</div>
+      <small class="emerg" *ngIf="form.controls.email.errors?.['required']">El correo es requerido</small>
+      <small  class="emerg"  *ngIf="form.controls.email.errors?.['email']">El correco no es valido</small>
      </div>
 
     <div class="input-wrapper">
-      <input type="email" name="email" placeholder="Correo"  required formControlName="email">
+      <input  class="emerg" type="email" name="email" placeholder="Correo"  required formControlName="email">
       <ion-icon class="input-icon" name="at-outline"></ion-icon>
     </div>
 
 
     <div *ngIf="form.get('tel')?.invalid && form.get('tel')?.touched">
-      <small *ngIf="form.get('tel')?.errors?.['required']">El teléfono es obligatorio.</small>
+      <small  class="emerg" *ngIf="form.get('tel')?.errors?.['required']">El teléfono es obligatorio.</small>
       <small *ngIf="form.get('tel')?.errors?.['pattern']">El teléfono debe tener  10 dígitos.</small>
     </div>
 
@@ -71,7 +71,7 @@
 
 
     <div class="validators" *ngIf="form.controls.password.errors && form.controls.password.touched">
-      <div *ngIf="form.controls.password.errors?.['required']">La contraseña es requerida</div>
+      <small *ngIf="form.controls.password.errors?.['required']">La contraseña es requerida</small>
      </div>
 
     <div class="input-wrapper">

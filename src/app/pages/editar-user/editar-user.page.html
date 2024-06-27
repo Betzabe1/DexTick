@@ -31,8 +31,8 @@
   <br>
 
   <div class="validators" *ngIf="form.controls.name.errors && form.controls.name.touched">
-    <div *ngIf="form.controls.name.errors?.['required']">El nombre es requerido</div>
-    <div *ngIf="form.controls.name.errors?.['minlength']">El nombre debe tener al menos 3 caracteres</div>
+    <small *ngIf="form.controls.name.errors?.['required']">El nombre es requerido</small>
+    <small *ngIf="form.controls.name.errors?.['minlength']">El nombre debe tener al menos 3 caracteres</small>
    </div>
 
   <div class="input-wrapper">

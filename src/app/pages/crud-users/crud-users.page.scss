@@ -3,12 +3,17 @@ i{
   cursor: pointer;
 }
 ion-icon {
-  font-size: 24px; 
+  font-size: 24px;
   font-weight: 700;
     cursor: pointer;
 
 }
-
+.h2{
+  color: #0b1181;
+}
+.nu{
+  color: #26c0e6;
+}
 .custom-toolbar {
   --background: linear-gradient(to right, #007bff, #25cad2);
   --color: white;

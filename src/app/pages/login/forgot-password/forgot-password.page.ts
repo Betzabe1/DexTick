@@ -8,7 +8,7 @@ import { UtilService } from 'src/app/services/util.service';
   templateUrl: './forgot-password.page.html',
   styleUrls: ['./forgot-password.page.scss'],
 })
-export class ForgotPasswordPage implements OnInit {
+export class ForgotPasswordPage  {
 
   form = new FormGroup({
     email: new FormControl('', [Validators.required, Validators.email]),
@@ -17,15 +17,14 @@ export class ForgotPasswordPage implements OnInit {
   firebaseSvc = inject(UserService);
   utilSvc = inject(UtilService);
 
-  ngOnInit() {}
 
   async submit() {
     if (this.form.valid) {
       const loading = await this.utilSvc.loading();
       await loading.present();
 
-      try {
-        await this.firebaseSvc.sendRecoveryEmail(this.form.value.email);
+     this.firebaseSvc.sendRecoveryEmail(this.form.value.email).then(res=>{
+
         this.utilSvc.presentToast({
           message: 'Correo enviado con éxito',
           duration: 1500,
@@ -34,20 +33,21 @@ export class ForgotPasswordPage implements OnInit {
           icon: 'mail-outline'
         });
 
-        this.utilSvc.routerLink('/login'); 
+        this.utilSvc.routerLink('/login');
         this.form.reset();
-      } catch (error) {
-        console.error(error.message);
+      }).catch (error=> {
+        console.error(error);
+
         this.utilSvc.presentToast({
           message: error.message,
           duration: 2500,
           color: 'danger',
           position: 'middle',
           icon: 'alert-circle-outline'
-        });
-      } finally {
+        })
+      }).finally(()=> {
         loading.dismiss();
-      }
+      })
     }
   }
 }

@@ -44,12 +44,8 @@ updateUser(displayName:string){
 
 
   // Enviar correo de recuperación
-async sendRecoveryEmail(email: string): Promise<void> {
-    try {
-      await sendPasswordResetEmail(getAuth(), email);
-    } catch (error) {
-      throw new Error(this.mapErrorMessage(error.code));
-    }
+ sendRecoveryEmail(email: string){
+   return sendPasswordResetEmail(getAuth(), email)
   }
 
 
@@ -94,11 +90,10 @@ addDocument(path:string, data:any){
 }
 
 //Obtener  documento de una coleccion
-getColletionData (path:string, collectionQuery?:any){
-  const ref=collection(getFirestore(),path)
-  return collectionData(query(ref,collectionQuery))
+getCollectionData(path: string, collectionQuery?: any) {
+  const q = query(collection(getFirestore(), path), collectionQuery);
+  return collectionData(q);
 }
-
 //obtener usuarios
 getUsers():Observable<any>{
   return this.firestore.collection('users').snapshotChanges();

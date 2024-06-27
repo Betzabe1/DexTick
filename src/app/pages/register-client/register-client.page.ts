@@ -3,12 +3,13 @@ import { FormControl, FormGroup, Validators } from '@angular/forms';
 import { User } from 'src/app/models/user.model';
 import { UserService } from 'src/app/services/user.service';
 import { UtilService } from 'src/app/services/util.service';
+
 @Component({
   selector: 'app-register-client',
   templateUrl: './register-client.page.html',
   styleUrls: ['./register-client.page.scss'],
 })
-export class RegisterClientPage   {
+export class RegisterClientPage {
   form = new FormGroup({
     uid: new FormControl(''),
     email: new FormControl('', [Validators.required, Validators.email]),
@@ -16,7 +17,7 @@ export class RegisterClientPage   {
     tel: new FormControl('', [Validators.required, Validators.pattern('^[0-9]{10}$')]),
     password: new FormControl('', [Validators.minLength(6)]),
     name: new FormControl('', [Validators.required, Validators.minLength(3)]),
-    role: new FormControl('admin'),
+    role: new FormControl('client'),
     image: new FormControl('')
   });
 
@@ -90,7 +91,11 @@ export class RegisterClientPage   {
 
       this.firebaseSvc.setDocument(path, userInfo).then(async res => {
         this.utilSvc.saveInLocalStorage('user', userInfo);
+        this.utilSvc.routerLink('register-client');
+
+        // Restablecer el formulario y la imagen
         this.form.reset();
+        this.imageDataUrl = null;
 
         this.utilSvc.presentToast({
           message: 'Registro Exitoso!!',

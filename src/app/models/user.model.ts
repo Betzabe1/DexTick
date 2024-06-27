@@ -5,6 +5,6 @@ export interface User{
   email:string,
   tel:string,
   password:string,
-  role:'client' | 'agent' | 'admin',
+  role: 'client' | 'agent' | 'admin';
   image:string
 }

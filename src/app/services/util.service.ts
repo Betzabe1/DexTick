@@ -62,6 +62,12 @@ export class UtilService {
       return JSON.parse(localStorage.getItem(key));
     }
 
+    getFromLocalStorage(key: string) {
+      const data = localStorage.getItem(key);
+      return data ? JSON.parse(data) : null;
+
+    }
+
 
 
 }

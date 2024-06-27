@@ -1,37 +1,26 @@
-import { Injectable, inject } from '@angular/core';
-import { ActivatedRouteSnapshot, CanActivate, Router, RouterStateSnapshot, UrlTree } from '@angular/router';
+import { Injectable } from '@angular/core';
+import { CanActivate, ActivatedRouteSnapshot, RouterStateSnapshot, UrlTree, Router } from '@angular/router';
 import { Observable } from 'rxjs';
-import { UserService } from '../services/user.service';
-import { UtilService } from '../services/util.service';
+import { UtilService } from 'src/app/services/util.service';
 
 @Injectable({
   providedIn: 'root'
 })
 export class AuthGuard implements CanActivate {
-
-  firebaseSvc = inject(UserService);
-  utilSvc = inject(UtilService);
-  router = inject(Router);
+  constructor(private utilSvc: UtilService, private router: Router) {}
 
   canActivate(
     route: ActivatedRouteSnapshot,
-    state: RouterStateSnapshot): Observable<boolean | UrlTree> | Promise<boolean | UrlTree> | boolean | UrlTree {
+    state: RouterStateSnapshot): boolean | UrlTree {
+    const expectedRole = route.data['expectedRole'];
+    const user = this.utilSvc.getFromLocalStorage('user');
 
-    return new Promise((resolve) => {
-      this.firebaseSvc.getAuth().onAuthStateChanged((auth) => {
-        if (auth) {
-          const user = localStorage.getItem('user');
-          if (user) {
-            resolve(true);
-          } else {
-            // Usuario autenticado pero no encontrado en localStorage
-            resolve(this.router.createUrlTree(['/login']));
-          }
-        } else {
-          // No autenticado
-          resolve(this.router.createUrlTree(['/login']));
-        }
-      });
-    });
+    if (user && user.role === expectedRole) {
+      return true;
+    } else {
+      // Redirigir al usuario a una página de acceso denegado o a la página de inicio
+      this.router.navigate(['/login']);
+      return false;
+    }
   }
 }

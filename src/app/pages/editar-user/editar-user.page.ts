@@ -32,6 +32,9 @@ export class EditarUserPage implements OnInit {
   constructor(
     private location: Location,
   ) {}
+  users(): User {
+    return this.utilSvc.getFormLocalStorage('user');
+  }
 
   ngOnInit() {
     this.loadUserData();
@@ -107,6 +110,8 @@ export class EditarUserPage implements OnInit {
   user(): User {
     return this.utilSvc.getFormLocalStorage('selectedUser');
   }
+
+
 
   async comfirmSubmit(){
     const alert=await this.alertController.create({

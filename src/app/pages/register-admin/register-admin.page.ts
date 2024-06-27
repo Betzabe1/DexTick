@@ -16,7 +16,7 @@ export class RegisterAdminPage  {
     tel: new FormControl('', [Validators.required, Validators.pattern('^[0-9]{10}$')]),
     password: new FormControl('', [Validators.minLength(6)]),
     name: new FormControl('', [Validators.required, Validators.minLength(3)]),
-    role: new FormControl('admin'),
+    role: new FormControl('client'),
     image: new FormControl('')
   });
 
@@ -90,7 +90,11 @@ export class RegisterAdminPage  {
 
       this.firebaseSvc.setDocument(path, userInfo).then(async res => {
         this.utilSvc.saveInLocalStorage('user', userInfo);
+        this.utilSvc.routerLink('register-admin');
+
+        // Restablecer el formulario y la imagen
         this.form.reset();
+        this.imageDataUrl = null;
 
         this.utilSvc.presentToast({
           message: 'Registro Exitoso!!',
