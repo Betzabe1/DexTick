@@ -1,51 +1,52 @@
-// auth.service.ts
-import { Injectable } from '@angular/core';
 import { AngularFireAuth } from '@angular/fire/compat/auth';
-import {AngularFirestore} from '@angular/fire/compat/firestore';
+import { Injectable, inject } from '@angular/core';
 import { Router } from '@angular/router';
-import { User } from '../models/user.model';
+import { UserService } from './user.service';
+
 @Injectable({
   providedIn: 'root'
 })
 export class AuthService {
-  constructor(private afAuth: AngularFireAuth, private firestore: AngularFirestore, private router: Router) {}
+  auth = inject(AngularFireAuth);
 
-  async login(email: string, password: string) {
-    const result = await this.afAuth.signInWithEmailAndPassword(email, password);
-    this.redirectUser(result.user.uid);
+  constructor(private userService: UserService) {}
+
+  getCurrentUserRole(): Promise<string> {
+    return this.auth.currentUser.then(user => {
+      if (user) {
+        return this.userService.getDocument(`users/${user.uid}`).then(doc => doc.role);
+      }
+      return null;
+    });
   }
 
-  async register(email: string, password: string, role: 'client' | 'agent' | 'admin') {
-    try {
-      const result = await this.afAuth.createUserWithEmailAndPassword(email, password);
-      await this.firestore.collection('users').doc(result.user.uid).set({
-        uid: result.user.uid,
-        email: result.user.email,
-        role: role // Asegúrate de almacenar correctamente el rol en Firestore
-      });
-      this.redirectUser(result.user.uid); // Redirige al usuario después de registrar correctamente
-    } catch (error) {
-      console.error('Error al registrar usuario:', error);
-      throw error; // Puedes manejar el error como prefieras en tu aplicación
-    }
-  }
 
-  private async redirectUser(uid: string) {
-    const userRef = this.firestore.collection('users').doc(uid);
-    const userDoc = await userRef.get().toPromise();
-    const userData = userDoc.data() as User; // Usa la interfaz User para tipar userData
 
-    if (userData.role === 'admin') {
-      this.router.navigate(['/tabs-admin/home-admin']);
-    } else if (userData.role === 'agent') {
-      this.router.navigate(['/tabs-agent/home-agent']);
-    } else {
-      this.router.navigate(['/tabs/home-user']);
-    }
-  }
+  // listenToAuthState() {
+  //   this.afAuth.onAuthStateChanged(user => {
+  //     if (user) {
+  //       // Usuario está autenticado
+  //       console.log('User is logged in:', user);
+  //     } else {
+  //       // Usuario no está autenticado
+  //       console.log('User is not logged in.');
+  //     }
+  //   });
+  // }
 
-  logout() {
-    this.afAuth.signOut();
-    this.router.navigate(['/login']);
-  }
+  // async login(email: string, password: string) {
+  //   try {
+  //     await this.afAuth.signInWithEmailAndPassword(email, password);
+  //   } catch (error) {
+  //     console.error('Error logging in:', error);
+  //   }
+  // }
+
+  // async logout() {
+  //   try {
+  //     await this.afAuth.signOut();
+  //   } catch (error) {
+  //     console.error('Error logging out:', error);
+  //   }
+  // }
 }

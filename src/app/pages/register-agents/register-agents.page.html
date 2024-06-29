@@ -1,6 +1,6 @@
 <ion-header>
   <ion-toolbar class="custom-toolbar">
-    <ion-title>Registro clientes</ion-title>
+    <ion-title>Registro Agentes</ion-title>
     <ion-buttons slot="start">
       <ion-menu-button menu="main-menu"></ion-menu-button>
     </ion-buttons>
@@ -66,9 +66,6 @@
       <input  type="text" name="telefono" placeholder="Teléfono(10 dígitos)"  required formControlName="tel">
       <ion-icon class="input-icon" name="call-outline"></ion-icon>
     </div>
-
-
-
 
     <div class="validators" *ngIf="form.controls.password.errors && form.controls.password.touched">
       <small *ngIf="form.controls.password.errors?.['required']">La contraseña es requerida</small>

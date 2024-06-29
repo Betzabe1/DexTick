@@ -1,4 +1,5 @@
 import { Component, Input, OnInit, inject } from '@angular/core';
+import { AngularFireAuth } from '@angular/fire/compat/auth';
 import { FormControl, FormGroup, Validators } from '@angular/forms';
 import { Router } from '@angular/router';
 import { AlertController } from '@ionic/angular';
@@ -26,9 +27,14 @@ export class UsuariosPage implements OnInit {
   users(): User {
     return this.utilSvc.getFormLocalStorage('user');
   }
-  constructor(private utilSvc: UtilService,  router:Router) {}
+  constructor(private afAuth: AngularFireAuth, private utilSvc: UtilService,  router:Router) {}
 
   ngOnInit() {
+    this.afAuth.setPersistence('local')  // Esto asegura que la sesión persista incluso después de cerrar y abrir el navegador.
+      .catch(error => {
+        console.error('Error setting persistence:', error);
+      });
+  
     this.loadUser();
   }
 

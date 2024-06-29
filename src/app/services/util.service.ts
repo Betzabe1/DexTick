@@ -61,11 +61,18 @@ export class UtilService {
     getFormLocalStorage(key:string){
       return JSON.parse(localStorage.getItem(key));
     }
-
-    getFromLocalStorage(key: string) {
+    getFromLocalStorage(key: string): any {
       const data = localStorage.getItem(key);
-      return data ? JSON.parse(data) : null;
+      try {
+        return JSON.parse(data);
+      } catch (error) {
+        console.error('Error parsing JSON from localStorage:', error);
+        return null;
+      }
+    }
 
+    removeFromLocalStorage(key: string): void {
+      localStorage.removeItem(key);
     }
 
 

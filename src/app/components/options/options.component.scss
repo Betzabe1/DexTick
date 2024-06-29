@@ -1,13 +1,15 @@
-.service-options-content {
-  h3
+.prob
 {
   color: rgb(73, 13, 130);
   font-weight: 500;
+  font-size: 20px;
 }
+.service-options-content {
+
 
   ion-list {
     background-color: #fcfbfe;
-    margin: 16px;
+    margin: 5px;
     border-radius: 10px;
     box-shadow: 0 10px 10px rgba(17, 79, 238, 0.1);
 
@@ -28,7 +30,7 @@
 
       ion-label {
         font-size: 13px;
-        font-weight: 500;
+        font-weight: 600;
         color: #333;
       }
 

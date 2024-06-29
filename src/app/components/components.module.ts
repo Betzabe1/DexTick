@@ -12,6 +12,7 @@ import { PrioridadComponent } from './prioridad/prioridad.component';
 import { OtroProblemComponent } from './otro-problem/otro-problem.component';
 import { OptionsComponent } from './options/options.component';
 import { PerfilesComponent } from './perfiles/perfiles.component';
+import { EditarUsariosComponent } from './editar-usarios/editar-usarios.component';
 
 
 
@@ -26,6 +27,7 @@ import { PerfilesComponent } from './perfiles/perfiles.component';
     OtroProblemComponent,
     OptionsComponent,
     PerfilesComponent,
+    EditarUsariosComponent
   ],
   exports:[
     HeaderComponent,
@@ -38,6 +40,7 @@ import { PerfilesComponent } from './perfiles/perfiles.component';
     OtroProblemComponent,
     OptionsComponent,
     PerfilesComponent,
+    EditarUsariosComponent
 
   ],
   imports: [

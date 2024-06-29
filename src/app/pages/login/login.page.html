@@ -39,9 +39,7 @@
 
 <p class="ion-text-end p" routerLink="forgot-password">¿Olvidaste tu contraseña?</p>
 
-<div class="validators" *ngIf="form.controls.password.errors && form.controls.password.touched">
-  <div *ngIf="form.controls.password.errors?.['required']">La contraseña es requerida</div>
- </div>
+
 
 <ion-button type="submit" class="custom-button" [disabled]="form.invalid">Iniciar sesión</ion-button>
 

@@ -1,16 +1,18 @@
 import { Component, OnInit, inject } from '@angular/core';
 import { FormControl, FormGroup, Validators } from '@angular/forms';
-import { AlertController } from '@ionic/angular';
-import { User } from 'src/app/models/user.model';
+import { ActivatedRoute } from '@angular/router';
 import { UserService } from 'src/app/services/user.service';
 import { UtilService } from 'src/app/services/util.service';
-
+import { User } from 'src/app/models/user.model';
+import { Location } from '@angular/common';
+import { AlertController } from '@ionic/angular';
 @Component({
-  selector: 'app-perfiles',
-  templateUrl: './perfiles.component.html',
-  styleUrls: ['./perfiles.component.scss'],
+  selector: 'app-editar-usarios',
+  templateUrl: './editar-usarios.component.html',
+  styleUrls: ['./editar-usarios.component.scss'],
 })
-export class PerfilesComponent implements OnInit {
+export class EditarUsariosComponent  implements OnInit {
+
   form = new FormGroup({
     uid: new FormControl(''),
     email: new FormControl({ value: '', disabled: true }, [Validators.required, Validators.email]),
@@ -18,50 +20,47 @@ export class PerfilesComponent implements OnInit {
     tel: new FormControl('', [Validators.required, Validators.pattern('^[0-9]{10}$')]),
     password: new FormControl('', [Validators.minLength(6)]),
     name: new FormControl('', [Validators.required, Validators.minLength(3)]),
-    role: new FormControl('client'),
-    image: new FormControl('') // Agregar el campo image al formulario
+    role: new FormControl('', [Validators.required]),
+    image: new FormControl('')
   });
 
   firebaseSvc = inject(UserService);
   utilSvc = inject(UtilService);
+  route = inject(ActivatedRoute);
   alertController = inject(AlertController);
+
+
+  constructor(
+    private location: Location,
+  ) {}
+  users(): User {
+    return this.utilSvc.getFormLocalStorage('user');
+  }
 
   ngOnInit() {
     this.loadUserData();
   }
-
-  async loadUserData() {
-    const user = this.user();
-    if (user) {
-      this.form.patchValue({
-        uid: user.uid,
-        email: user.email,
-        empresa: user.empresa,
-        tel: user.tel,
-        name: user.name,
-        role: user.role,
-        image: user.image // Cargar la imagen actual del usuario en el formulario
-      });
-    }
-  }
-
-  user(): User {
-    return this.utilSvc.getFormLocalStorage('user');
-  }
-
   async takeImage() {
-    let user = this.user();
-    let path = `users/${user.uid}`;
+    const userId = this.form.controls.uid.value;
+    const path = `users/${userId}`;
+    let loading;
 
-    const dataUrl = (await this.utilSvc.takePicture('Imagen de Perfil')).dataUrl;
+    try {
+      const dataUrl = (await this.utilSvc.takePicture('Imagen de Perfil')).dataUrl;
 
-    const loading = await this.utilSvc.loading();
-    await loading.present();
+      loading = await this.utilSvc.loading();
+      await loading.present();
 
-    let imagePath = `${user.uid}/perfil`;
-    user.image = await this.firebaseSvc.uploadImage(imagePath, dataUrl);
+      const imagePath = `${userId}/perfil`;
+      const userImage = await this.firebaseSvc.uploadImage(imagePath, dataUrl);
 
-    this.firebaseSvc.updateDocument(path, { image: user.image }).then(async res => {
+      await this.firebaseSvc.updateDocument(path, { image: userImage });
+
+      // Actualizar el usuario en el formulario
+      this.form.patchValue({ image: userImage });
+
+      // Actualizar el usuario en localStorage
+      const user = { ...this.form.value, image: userImage } as User;
       this.utilSvc.saveInLocalStorage('user', user);
 
       this.utilSvc.presentToast({
@@ -70,7 +69,8 @@ export class PerfilesComponent implements OnInit {
         color: 'success',
         icon: 'checkmark-circle-outline'
       });
-    }).catch(error => {
+
+    } catch (error) {
       console.log(error);
 
       this.utilSvc.presentToast({
@@ -80,13 +80,42 @@ export class PerfilesComponent implements OnInit {
         position: 'middle',
         icon: 'alert-circle-outline'
       });
-    }).finally(() => {
-      loading.dismiss();
-    });
+    } finally {
+      if (loading) {
+        loading.dismiss();
+      }
+    }
   }
 
-  async comfirmSubmit() {
-    const alert = await this.alertController.create({
+
+  async loadUserData() {
+    const userId = this.route.snapshot.paramMap.get('id');
+    if (userId) {
+      this.firebaseSvc.getUserById(userId).subscribe((user: User) => {
+        this.form.patchValue({
+          uid: user.uid,
+          email: user.email,
+          empresa: user.empresa,
+          tel: user.tel,
+          name: user.name,
+          role: user.role,
+          image: user.image
+        });
+
+        // Actualizar el usuario en localStorage
+        this.utilSvc.saveInLocalStorage('selectedUser', user);
+      });
+    }
+  }
+
+  user(): User {
+    return this.utilSvc.getFormLocalStorage('selectedUser');
+  }
+
+
+
+  async comfirmSubmit(){
+    const alert=await this.alertController.create({
       header: 'Confirmar actualización',
       message: '¿Estás seguro de que deseas actualizar el usuario?',
       buttons: [
@@ -112,10 +141,7 @@ export class PerfilesComponent implements OnInit {
       const loading = await this.utilSvc.loading();
       await loading.present();
 
-      const userInfo = {
-        ...this.form.value,
-        // No se debe modificar el campo 'image' aquí para no sobrescribirlo incorrectamente
-      };
+      const userInfo = this.form.value as User;
       const path = `users/${userInfo.uid}`;
 
       // Actualizar contraseña en Firebase Authentication si se ha cambiado
@@ -129,7 +155,7 @@ export class PerfilesComponent implements OnInit {
       // Actualizar información del usuario en Firestore
       this.firebaseSvc.updateDocument(path, userInfo).then(async res => {
         // Actualizar información local
-        this.utilSvc.saveInLocalStorage('user', userInfo);
+        this.utilSvc.saveInLocalStorage('selectedUser', userInfo);
 
         this.utilSvc.presentToast({
           message: 'Perfil actualizado',
@@ -138,6 +164,8 @@ export class PerfilesComponent implements OnInit {
           position: 'middle',
           icon: 'checkmark-circle-outline'
         });
+        this.location.back();
+
       }).catch(error => {
         console.log(error);
 

@@ -1,12 +1,12 @@
 import { Injectable, inject } from '@angular/core';
 import { AngularFireAuth } from '@angular/fire/compat/auth';
-import {getAuth, signInWithEmailAndPassword, createUserWithEmailAndPassword, updateProfile, sendPasswordResetEmail } from'firebase/auth';
+import { getAuth, signInWithEmailAndPassword, createUserWithEmailAndPassword, updateProfile, sendPasswordResetEmail } from 'firebase/auth';
 import { User } from '../models/user.model';
-import {AngularFirestore} from '@angular/fire/compat/firestore';
-import {getFirestore,setDoc, doc, getDoc, addDoc, collection,collectionData, query, updateDoc } from '@angular/fire/firestore'
+import { AngularFirestore } from '@angular/fire/compat/firestore';
+import { getFirestore, setDoc, doc, getDoc, addDoc, collection, collectionData, query, updateDoc } from '@angular/fire/firestore';
 import { UtilService } from './util.service';
-import {AngularFireStorage} from '@angular/fire/compat/storage';
-import {getStorage, uploadString,ref, getDownloadURL} from'firebase/storage'
+import { AngularFireStorage } from '@angular/fire/compat/storage';
+import { getStorage, uploadString, ref, getDownloadURL } from 'firebase/storage';
 import { Observable } from 'rxjs';
 
 @Injectable({
@@ -33,6 +33,27 @@ return signInWithEmailAndPassword(getAuth(), user.email, user.password)
 //Crear
 signUp(user: User) {
   return this.auth.createUserWithEmailAndPassword(user.email, user.password);
+}
+
+
+  // Crear usuario como administrador
+  async signUpA(user: User, role: string): Promise<any> {
+    try {
+      // Crear usuario sin cambiar el contexto de autenticación actual
+      const credential = await createUserWithEmailAndPassword(getAuth(), user.email, user.password);
+      await this.assignRole(credential.user.uid, role); // Asignar rol al usuario recién creado
+      return credential;
+    } catch (error) {
+      throw error;
+    }
+  }
+ // Asignar rol al usuario en Firestore
+ private async assignRole(userId: string, role: string): Promise<void> {
+  try {
+    await this.firestore.collection('users').doc(userId).set({ role });
+  } catch (error) {
+    console.error('Error asignando rol:', error);
+  }
 }
 
 //Actualizar
@@ -79,8 +100,11 @@ updateDocument(path:string, data:any){
   }
 
 //Obtener documento
-async getDocument(path:string){
-  return (await getDoc(doc(getFirestore(), path))).data();
+
+async getDocument(docPath: string): Promise<any> {
+  const docRef = this.firestore.doc(docPath).ref;
+  const docSnap = await docRef.get();
+  return docSnap.exists ? docSnap.data() : null;
 }
 
 
@@ -134,7 +158,12 @@ updatDocument(path: string, data: any) {
   getFilePath(url:string){
      return ref(getStorage(), url).fullPath
   }
-
+  getCurrentUser(): Promise<any> {
+    return this.auth.currentUser;
+  }
+  setUserSession(user: any): Promise<void> {
+    return this.auth.updateCurrentUser(user);
+  }
 
   async updatePassword(newPassword: string) {
     const user = await this.auth.currentUser;

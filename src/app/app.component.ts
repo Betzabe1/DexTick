@@ -1,4 +1,5 @@
 import { Component, Input, OnInit, inject } from '@angular/core';
+import { AngularFireAuth } from '@angular/fire/compat/auth';
 import { FormControl, FormGroup, Validators } from '@angular/forms';
 import { Router } from '@angular/router';
 import { AlertController } from '@ionic/angular';
@@ -11,7 +12,7 @@ import { UtilService } from 'src/app/services/util.service';
   templateUrl: 'app.component.html',
   styleUrls: ['app.component.scss'],
 })
-export class AppComponent {
+export class AppComponent implements OnInit {
   form = new FormGroup({
     uid: new FormControl(''),
     email: new FormControl({ value: '', disabled: true }, [Validators.required, Validators.email]),
@@ -29,7 +30,15 @@ export class AppComponent {
   user(): User {
     return this.utilSvc.getFormLocalStorage('user');
   }
-  constructor(private router:Router) {}
+
+  ngOnInit() {
+    this.afAuth.setPersistence('local')
+      .catch(error => {
+        console.error('Error setting persistence:', error);
+      });
+  }
+
+  constructor(private router:Router, private afAuth: AngularFireAuth) {}
   redirectToPage() {
     this.router.navigate(['tabs-admin/usuarios']);
   }

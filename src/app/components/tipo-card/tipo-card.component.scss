@@ -26,8 +26,8 @@
 
 .title {
   font-weight: 700;
-  font-size: 1.1rem;
-  margin-bottom: 0.2rem;
+  font-size: 18px;
+  margin-bottom: 16px;
   color: #1d1d1d;
 }
 
@@ -41,5 +41,53 @@
     max-width: 500px; /* Ancho máximo */
     height: auto;
     margin: 1rem; /* Espacio alrededor de cada card */
+  }
+}
+
+/* Estilos para tablets (pantallas de entre 600px y 900px) */
+@media (max-width: 900px) {
+  body {
+      font-size: 14px;
+      padding: 15px;
+  }
+}
+
+/* Estilos para móviles (pantallas de menos de 600px) */
+@media (max-width: 600px) {
+  .cards {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: center;
+    margin: 0 auto;
+  }
+
+  .card {
+    width: 130px;
+    height: 130px;
+    height: auto;
+    background: linear-gradient(135deg, #98ffff 0%, #f3f3f3 100%);
+    padding: 1rem 2rem;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    position: relative;
+    border-radius: 2.5rem;
+    margin-bottom: 1.5rem;
+    margin: 0;
+    overflow: hidden;
+    text-overflow: ellipsis;
+  }
+
+  .card-content {
+    overflow: hidden;
+    text-overflow: ellipsis;
+    text-align: center;
+  }
+
+  .title {
+    font-weight: 700;
+    font-size: 13px;
+    margin-bottom: 0.2rem;
+    color: #1d1d1d;
   }
 }

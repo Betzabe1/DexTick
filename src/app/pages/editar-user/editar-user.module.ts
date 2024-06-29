@@ -14,7 +14,8 @@ import { EditarUserPage } from './editar-user.page';
     FormsModule,
     IonicModule,
     EditarUserPageRoutingModule,
-    ReactiveFormsModule
+    ReactiveFormsModule,
+    
   ],
   declarations: [EditarUserPage]
 })

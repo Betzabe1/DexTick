@@ -43,7 +43,7 @@ ion-icon {
   font-family: 'Roboto', sans-serif;
   font-weight: bold;
   color: white;
-  font-size: 1.5rem;
+  font-size: 20px;
 }
 
 .custom-avatar {
@@ -91,7 +91,7 @@ form{
 }
 form h2{
   font-weight: 700;
-  font-size: 35px;
+  font-size: 28px;
   color: #385cc7;
   margin: 0;
 }
@@ -183,6 +183,35 @@ input:active {
   .input-icon{
     height: 20px;
     width: 20px;
+  }
+  ion-avatar{
+    width: 135px;
+    height: 135px;
+    margin: 0 auto;
+    box-shadow: 0 0 10px rgba(41, 65, 184, 0.2);
+
+  //  border: 3px solid #5054cc;
+  }
+  .empty-icon{
+    font-size: 135px;
+    opacity: 30%;
+
+  }
+
+  .photo-btn{
+    position: relative;
+    bottom: 25px;
+  }
+
+
+  i{
+    cursor: pointer;
+  }
+  ion-icon {
+    font-size: 24px;
+    font-weight: 700;
+      cursor: pointer;
+
   }
 
 }

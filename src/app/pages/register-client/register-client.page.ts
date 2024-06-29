@@ -1,4 +1,4 @@
-import { Component, Input, OnInit, inject } from '@angular/core';
+import { Component, inject } from '@angular/core';
 import { FormControl, FormGroup, Validators } from '@angular/forms';
 import { User } from 'src/app/models/user.model';
 import { UserService } from 'src/app/services/user.service';
@@ -9,7 +9,7 @@ import { UtilService } from 'src/app/services/util.service';
   templateUrl: './register-client.page.html',
   styleUrls: ['./register-client.page.scss'],
 })
-export class RegisterClientPage {
+export class RegisterClientPage  {
   form = new FormGroup({
     uid: new FormControl(''),
     email: new FormControl('', [Validators.required, Validators.email]),
@@ -17,13 +17,15 @@ export class RegisterClientPage {
     tel: new FormControl('', [Validators.required, Validators.pattern('^[0-9]{10}$')]),
     password: new FormControl('', [Validators.minLength(6)]),
     name: new FormControl('', [Validators.required, Validators.minLength(3)]),
-    role: new FormControl('client'),
+    role: new FormControl('client'), // Aquí se establece el rol como 'client'
     image: new FormControl('')
   });
 
   firebaseSvc = inject(UserService);
   utilSvc = inject(UtilService);
   imageDataUrl: string | null = null;
+
+  constructor() {}
 
   async takeImage() {
     try {
@@ -40,35 +42,60 @@ export class RegisterClientPage {
       const loading = await this.utilSvc.loading();
       await loading.present();
 
-      this.firebaseSvc.signUp(this.form.value as User).then(async res => {
-        await this.firebaseSvc.updateUser(this.form.value.name);
+      // Obtener los valores del formulario
+      const userData = this.form.value as User;
 
-        let uid = res.user.uid;
-        this.form.controls['uid'].setValue(uid);
+      // Registrar el nuevo usuario y asignar rol
+      this.firebaseSvc.signUpA(userData, userData.role)
+        .then(async (res) => {
+          await this.firebaseSvc.updateUser(userData.name);
 
-        // Subir image
-        if (this.imageDataUrl) {
-          const imagePath = `users/${uid}/perfil`;
-          const imageUrl = await this.firebaseSvc.uploadImage(imagePath, this.imageDataUrl);
-          this.form.controls['image'].setValue(imageUrl);
-        }
+          const uid = res.user.uid;
+          this.form.controls['uid'].setValue(uid);
 
-        await this.setUserInfo(uid);
+          // Subir imagen si está disponible
+          if (this.imageDataUrl) {
+            const imagePath = `users/${uid}/perfil`;
+            const imageUrl = await this.firebaseSvc.uploadImage(imagePath, this.imageDataUrl);
+            this.form.controls['image'].setValue(imageUrl);
+          }
 
-      }).catch(error => {
-        console.log(error);
-        this.utilSvc.presentToast({
-          message: error.message,
-          duration: 2500,
-          color: 'primary',
-          position: 'middle',
-          icon: 'alert-circle-outline'
+          // Configurar la información del usuario en Firestore
+          await this.setUserInfo(uid);
+
+          // Restablecer el formulario y la imagen después del registro exitoso
+          this.form.reset();
+          this.imageDataUrl = null;
+
+          // Mostrar mensaje de registro exitoso
+          this.utilSvc.presentToast({
+            message: 'Registro Exitoso!!',
+            duration: 1500,
+            color: 'success',
+            position: 'middle',
+            icon: 'person-circle-outline'
+          });
+
+        }).catch(error => {
+          console.error('Error durante el registro:', error);
+
+          // Mostrar mensaje de error
+          this.utilSvc.presentToast({
+            message: error.message,
+            duration: 2500,
+            color: 'danger',
+            position: 'middle',
+            icon: 'alert-circle-outline'
+          });
+
+        }).finally(() => {
+          loading.dismiss();
         });
-      }).finally(() => {
-        loading.dismiss();
-      });
     } else {
+      // Marcar todos los campos como tocados para mostrar los errores
       this.markAllAsTouched();
+
+      // Mostrar mensaje de campos incompletos
       this.utilSvc.presentToast({
         message: 'Por favor, complete los campos correctamente.',
         duration: 2500,
@@ -80,47 +107,38 @@ export class RegisterClientPage {
   }
 
   async setUserInfo(uid: string) {
-    if (this.form.valid) {
-      const loading = await this.utilSvc.loading();
-      await loading.present();
+    const userInfo = { ...this.form.value, tel: Number(this.form.value.tel), uid };
 
-      let path = `users/${uid}`;
-      const userInfo = { ...this.form.value, tel: Number(this.form.value.tel), uid };
+    // Eliminar la contraseña para no almacenarla en Firestore
+    delete userInfo.password;
 
-      delete userInfo.password;
+    // Ruta en Firestore donde se guardará la información del usuario
+    const path = `users/${uid}`;
 
-      this.firebaseSvc.setDocument(path, userInfo).then(async res => {
-        this.utilSvc.saveInLocalStorage('user', userInfo);
-        this.utilSvc.routerLink('register-client');
+    try {
+      // Guardar la información del usuario en Firestore
+      await this.firebaseSvc.setDocument(path, userInfo);
 
-        // Restablecer el formulario y la imagen
-        this.form.reset();
-        this.imageDataUrl = null;
+      // Opcional: guardar información en el almacenamiento local o hacer otras operaciones necesarias
 
-        this.utilSvc.presentToast({
-          message: 'Registro Exitoso!!',
-          duration: 1500,
-          color: 'success',
-          position: 'middle',
-          icon: 'person-circle-outline'
-        });
+    } catch (error) {
+      console.error('Error al guardar la información del usuario:', error);
 
-      }).catch(error => {
-        console.log(error);
-        this.utilSvc.presentToast({
-          message: error.message,
-          duration: 2500,
-          color: 'primary',
-          position: 'middle',
-          icon: 'alert-circle-outline'
-        });
-      }).finally(() => {
-        loading.dismiss();
+      // Mostrar mensaje de error
+      this.utilSvc.presentToast({
+        message: error.message,
+        duration: 2500,
+        color: 'primary',
+        position: 'middle',
+        icon: 'alert-circle-outline'
       });
+
+      throw error; // Propagar el error para manejarlo en un nivel superior si es necesario
     }
   }
 
   markAllAsTouched() {
+    // Marcar todos los campos del formulario como tocados para mostrar los errores
     this.form.markAllAsTouched();
   }
 }

@@ -94,6 +94,7 @@ const routes: Routes = [
 
   // Ruta para manejar rutas no encontradas
   // { path: '**', redirectTo: '/login' },
+
   {
     path: 'crud-users',
     loadChildren: () => import('./pages/crud-users/crud-users.module').then( m => m.CrudUsersPageModule),
@@ -128,21 +129,33 @@ const routes: Routes = [
   {
     path: 'register-agents',
     loadChildren: () => import('./pages/register-agents/register-agents.module').then( m => m.RegisterAgentsPageModule),
-    canActivate: [AuthGuard],
-    data: { expectedRole: 'admin' }
+    canActivate: [AuthGuard], data: { expectedRole: 'admin' }
   },
   {
     path: 'register-admin',
     loadChildren: () => import('./pages/register-admin/register-admin.module').then( m => m.RegisterAdminPageModule),
-    canActivate: [AuthGuard],
-    data: { expectedRole: 'admin' }
+    canActivate: [AuthGuard], data: { expectedRole: 'admin' }
+
   },
   {
     path: 'register-client',
     loadChildren: () => import('./pages/register-client/register-client.module').then( m => m.RegisterClientPageModule),
+    canActivate: [AuthGuard], data: { expectedRole: 'admin' }
+
+  },
+  {
+    path: 'editar-agents/:id',
+    loadChildren: () => import('./pages/editar-agents/editar-agents.module').then( m => m.EditarAgentsPageModule),
+    canActivate: [AuthGuard],
+    data: { expectedRole: 'admin' }
+  },
+  {
+    path: 'editar-admins/:id',
+    loadChildren: () => import('./pages/editar-admins/editar-admins.module').then( m => m.EditarAdminsPageModule),
     canActivate: [AuthGuard],
     data: { expectedRole: 'admin' }
   }
+
 
 
 

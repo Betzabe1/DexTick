@@ -38,7 +38,7 @@
               <td>{{usuario.tel}}</td>
               <td>{{usuario.role}}</td>
               <td>
-                <ion-icon class="text-info mr-2" name="create-outline" title="Editar" [routerLink]="['/editar-user', usuario.id]"></ion-icon>
+                <ion-icon class="text-info mr-2" name="create-outline" title="Editar" [routerLink]="['/editar-agents', usuario.id]"></ion-icon>
                 <ion-icon (click)="confirmEliminarUsuario(usuario.id)" class="text-danger" name="trash-outline" title="Eliminar"></ion-icon>
               </td>
             </tr>
