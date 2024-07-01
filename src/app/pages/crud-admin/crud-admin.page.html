@@ -13,39 +13,43 @@
 </ion-header>
 
 <ion-content>
-<div class="container mt-5">
-  <div class="card">
-    <div class="card-body">
-      <span class="h2">Listado de Administradores</span>
-      <h5 class="mt-15" *ngIf="usuarios.length === 0">No hay datos para mostrar</h5>
-      <div class="table-responsive">
-        <table *ngIf="usuarios.length > 0" class="table table-striped mt-4">
-          <thead>
-            <tr>
-              <th>Nombre</th>
-              <th>Empresa</th>
-              <th>Correo</th>
-              <th>Teléfono</th>
-              <th>Rol</th>
-              <th>Acciones</th>
-            </tr>
-          </thead>
-          <tbody>
-            <tr *ngFor="let usuario of usuarios">
-              <td>{{usuario.name}}</td>
-              <td>{{usuario.empresa}}</td>
-              <td>{{usuario.email}}</td>
-              <td>{{usuario.tel}}</td>
-              <td>{{usuario.role}}</td>
-              <td>
-                <ion-icon class="text-info mr-2" name="create-outline" title="Editar" [routerLink]="['/editar-admins', usuario.id]"></ion-icon>
-                <ion-icon (click)="confirmEliminarUsuario(usuario.id)" class="text-danger" name="trash-outline" title="Eliminar"></ion-icon>
-              </td>
-            </tr>
-          </tbody>
-        </table>
+  <div class="container mt-5">
+    <div class="card">
+      <div class="card-body">
+        <span class="h2">Listado de Administradores</span>
+        <h5 class="mt-15 nu" *ngIf="usuarios.length === 0">No hay datos para mostrar</h5>
+        <div class="row">
+          <div *ngFor="let usuario of usuarios" class="col-lg-3 col-md-6 col-sm-6 mx-auto mt-5 text-center scale-down-center">
+            <div class="card" style="width: 18rem;">
+              <ion-avatar>
+                <img *ngIf="usuario.image" [src]="usuario.image"/>
+                <ion-icon *ngIf="!usuario.image" class="empty-icon" name="person-circle-outline"></ion-icon>
+              </ion-avatar>
+
+                <h3 class="card-title"><b>{{usuario.name}}</b></h3>
+              <ul class="list-group list-group-flush contCard">
+                <li class="list-group-item" style="max-width: 100%"><b>Teléfono:</b> {{usuario.tel}}</li>
+                <li class="list-group-item" style="max-width: 100%"><b>Empresa:</b> {{usuario.empresa}}</li>
+                <li class="list-group-item" style="max-width: 100%"><b>Correo:</b> {{usuario.email}}</li>
+                <li class="list-group-item" style="max-width: 100%"><b>Rol:</b> {{usuario.role}}</li>
+              </ul>
+              <br>
+              <div class="row justify-content-center text-center">
+                <div class="col-lg-12 col-md-8 col-sm-12">
+                  <button class="custom-button delete-button" (click)="confirmEliminarUsuario(usuario.id)">
+                    Eliminar
+                    <ion-icon name="trash-outline"></ion-icon>
+                  </button>
+                  <button class="custom-button edit-button" [routerLink]="['/editar-user', usuario.id]">
+                    Editar
+                    <ion-icon name="create-outline"></ion-icon>
+                  </button>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
       </div>
     </div>
   </div>
-</div>
 </ion-content>

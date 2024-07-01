@@ -18,7 +18,9 @@ firestore=inject(AngularFirestore);
 utilSvc=inject(UtilService);
 storage=inject(AngularFireStorage);
 
-
+constructor(private afAuth: AngularFireAuth) {
+  this.setPersistence();
+}
 
 //=========AUTENTICACION==========
 getAuth(){
@@ -79,6 +81,13 @@ signOut(){
 
 }
 
+private async setPersistence() {
+  try {
+    await this.afAuth.setPersistence('local');
+  } catch (error) {
+    console.error("Error setting persistence:", error);
+  }
+}
   private mapErrorMessage(errorCode: string): string {
     switch (errorCode) {
       case 'auth/user-not-found':

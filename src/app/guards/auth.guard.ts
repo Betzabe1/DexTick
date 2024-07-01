@@ -4,12 +4,18 @@ import { AngularFireAuth } from '@angular/fire/compat/auth';
 import { Observable, from, of } from 'rxjs';
 import { map, take, switchMap } from 'rxjs/operators';
 import { UserService } from 'src/app/services/user.service';
+import { AuthService } from 'src/app/services/auth.service';
 
 @Injectable({
   providedIn: 'root'
 })
 export class AuthGuard implements CanActivate {
-  constructor(private afAuth: AngularFireAuth, private router: Router, private userService: UserService) {}
+  constructor(
+    private afAuth: AngularFireAuth,
+    private router: Router,
+    private userService: UserService,
+    private authService: AuthService
+  ) {}
 
   canActivate(route: ActivatedRouteSnapshot, state: RouterStateSnapshot): Observable<boolean | UrlTree> {
     const expectedRole = route.data['expectedRole'];

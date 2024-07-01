@@ -9,6 +9,7 @@ import { AngularFireAuthModule } from '@angular/fire/compat/auth';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { environment } from 'src/environments/environment';
 import { UserService } from './services/user.service';
+import { AuthGuard } from './guards/auth.guard';
 
 @NgModule({
   declarations: [

@@ -34,7 +34,7 @@ export class UsuariosPage implements OnInit {
       .catch(error => {
         console.error('Error setting persistence:', error);
       });
-  
+
     this.loadUser();
   }
 

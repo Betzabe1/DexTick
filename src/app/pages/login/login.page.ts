@@ -4,6 +4,9 @@ import { Router } from '@angular/router';
 import { User } from 'src/app/models/user.model';
 import { UserService } from 'src/app/services/user.service';
 import { UtilService } from 'src/app/services/util.service';
+import firebase from 'firebase/compat/app';
+import 'firebase/compat/auth';
+import { environment } from 'src/environments/environment';
 
 @Component({
   selector: 'app-login',
@@ -11,100 +14,107 @@ import { UtilService } from 'src/app/services/util.service';
   styleUrls: ['./login.page.scss'],
 })
 export class LoginPage implements OnInit {
-
-  @Input() control!:FormControl;
-  @Input() type!:string;
-  isPassword:boolean=true;
-  hide:boolean=true;
+  @Input() control!: FormControl;
+  @Input() type!: string;
+  isPassword: boolean = true;
+  hide: boolean = true;
+  currentUser: firebase.User | null = null;
 
   form = new FormGroup({
-    email: new FormControl('',[Validators.required, Validators.email]),
+    email: new FormControl('', [Validators.required, Validators.email]),
     password: new FormControl('', [Validators.required])
-  })
-  constructor(private router:Router){}
+  });
 
-firebaseSvc=inject(UserService);
-utilSvc=inject(UtilService);
+  firebaseSvc = inject(UserService);
+  utilSvc = inject(UtilService);
 
-  ngOnInit() {
-    this.type = 'password';
+  constructor(private router: Router) {
+    if (!firebase.apps.length) {
+      firebase.initializeApp(environment.firebaseConfig);
+    }
   }
 
+  async ngOnInit() {
+    this.type = 'password';
+    firebase.auth().onAuthStateChanged((user) => {
+      this.currentUser = user;
+      if (this.currentUser) {
+        this.getUserInfo(this.currentUser.uid);
+      }
+    });
+  }
 
-  showOrHidePassword(){
+  showOrHidePassword() {
     this.hide = !this.hide;
     this.type = this.hide ? 'password' : 'text';
   }
 
-
-  async submit(){
-    if(this.form.valid){
-
-      const loading=await this.utilSvc.loading();
-      await loading.present();
-
-      this.firebaseSvc.signIn(this.form.value as User).then(res => {
-        this.getUserInfo(res.user.uid)
-
-      }).catch(error =>{
-        console.log(error);
-
+  async logInUser(): Promise<void> {
+    const email = this.form.get('email')?.value;
+    const password = this.form.get('password')?.value;
+    if (email && password) {
+      try {
+        await firebase.auth().setPersistence(firebase.auth.Auth.Persistence.LOCAL);
+        const userCredential = await firebase.auth().signInWithEmailAndPassword(email, password);
+        this.currentUser = userCredential.user;
+        await this.getUserInfo(userCredential.user?.uid || '');
+      } catch (error) {
+        console.error(error);
         this.utilSvc.presentToast({
-          message:error.message,
-          duration:2500,
-          color:'primary',
-          position:'middle',
-          icon:'alert-circle-outline'
-
-        })
-      }).finally(() => {
-        loading.dismiss();
-      })
+          message: error.message,
+          duration: 2500,
+          color: 'primary',
+          position: 'middle',
+          icon: 'alert-circle-outline'
+        });
+      }
     }
   }
 
-  async getUserInfo(uid:string){
-    if(this.form.valid){
-
-      const loading=await this.utilSvc.loading();
+  async submit() {
+    if (this.form.valid) {
+      const loading = await this.utilSvc.loading();
       await loading.present();
 
-      let path=`users/${uid}`;
+      await this.logInUser();
 
+      loading.dismiss();
+    }
+  }
 
-      this.firebaseSvc.getDocument(path).then((user:User) => {
+  async getUserInfo(uid: string) {
+    const loading = await this.utilSvc.loading();
+    await loading.present();
 
+    const path = `users/${uid}`;
+    try {
+      const user = await this.firebaseSvc.getDocument(path);
       this.utilSvc.saveInLocalStorage('user', user);
-      this.redirectBasedOnRole(user.role);       this.form.reset();
-
+      this.redirectBasedOnRole(user.role);
+      this.form.reset();
       this.utilSvc.presentToast({
         message: `Te damos la bienvenida ${user.name}`,
-        duration:2000,
-        color:'primary',
-        position:'middle',
-        icon:'person-circle-outline'
-
-      })
-
-      }).catch(error =>{
-        console.log(error);
-
-        this.utilSvc.presentToast({
-          message:error.message,
-          duration:2500,
-          color:'primary',
-          position:'middle',
-          icon:'alert-circle-outline'
-
-        })
-      }).finally(() => {
-        loading.dismiss();
-      })
+        duration: 2000,
+        color: 'primary',
+        position: 'middle',
+        icon: 'person-circle-outline'
+      });
+    } catch (error) {
+      console.error(error);
+      this.utilSvc.presentToast({
+        message: error.message,
+        duration: 2500,
+        color: 'primary',
+        position: 'middle',
+        icon: 'alert-circle-outline'
+      });
+    } finally {
+      loading.dismiss();
     }
   }
 
   redirectBasedOnRole(role: 'client' | 'agent' | 'admin') {
-    switch(role) {
+    switch (role) {
       case 'client':
         this.router.navigateByUrl('/tabs/home-user');
         break;
@@ -115,9 +125,7 @@ utilSvc=inject(UtilService);
         this.router.navigateByUrl('/tabs-admin/home-admin');
         break;
       default:
-        console.error('Error tipo de usuario ni encontrado');
-        // Manejo de error o redirección a una página de error
+        console.error('Error tipo de usuario no encontrado');
     }
   }
 }
-

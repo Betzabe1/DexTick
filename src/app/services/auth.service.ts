@@ -11,14 +11,14 @@ export class AuthService {
 
   constructor(private userService: UserService) {}
 
-  getCurrentUserRole(): Promise<string> {
-    return this.auth.currentUser.then(user => {
-      if (user) {
-        return this.userService.getDocument(`users/${user.uid}`).then(doc => doc.role);
-      }
-      return null;
-    });
-  }
+  // getCurrentUserRole(): Promise<string> {
+  //   return this.auth.currentUser.then(user => {
+  //     if (user) {
+  //       return this.userService.getDocument(`users/${user.uid}`).then(doc => doc.role);
+  //     }
+  //     return null;
+  //   });
+  // }
 
 
 
