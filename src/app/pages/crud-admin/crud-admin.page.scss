@@ -1,33 +1,30 @@
-@import url('https://fonts.googleapis.com/css2?family=Poppins:ital,wght@0,100;0,200;0,300;0,400;0,500;0,600;0,700;0,800;0,900;1,100;1,200;1,300;1,400;1,500;1,600;1,700;1,800;1,900&display=swap');
-i{
-  cursor: pointer;
-}
-ion-icon {
-  font-size: 24px;
-  font-weight: 700;
-    cursor: pointer;
+@import url('https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600&display=swap');
 
+body {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+  font-family: 'Poppins', sans-serif;
+  display: flex;
+  align-items: center;
+  justify-content: center;
 }
-.h2{
-  font-weight: 600;
-  color: #0b1181;
+
+ion-header, ion-content {
+  --ion-background-color: white;
 }
-.nu{
-  color: #26c0e6;
-}
+
 .custom-toolbar {
   --background: linear-gradient(to right, #007bff, #25cad2);
   --color: white;
-  --ion-color-primary-contrast: white;
   display: flex;
   justify-content: space-between;
   align-items: center;
 }
 
 .custom-toolbar ion-title {
-  font-family: 'Roboto', sans-serif;
+  font-family: 'Poppins', sans-serif;
   font-weight: bold;
-
   color: white;
   font-size: 1.5rem;
 }
@@ -46,64 +43,88 @@ ion-icon {
   height: 100%;
 }
 
-
-@import url('https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600&display=swap');
-body{
-margin: 0;
-padding: 0;
-box-sizing: border-box;
-font-family: 'Poppins', snas-serif;
-align-items: center;
-justify-content: center;
-display: flex;
-
-}
-
-ion-avatar{
+ion-avatar {
   width: 140px;
   height: 140px;
   margin: 0 auto;
   box-shadow: 0 0 10px rgba(62, 62, 66, 0.2);
-
-//  border: 3px solid #5054cc;
+  position: relative;
 }
 
-.empty-icon{
+ion-avatar img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover; /* Asegura que la imagen mantenga sus proporciones */
+  border-radius: 50%;
+}
+
+.empty-icon {
   font-size: 140px;
   opacity: 30%;
-
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
 }
 
-.contCard{
+.h2 {
+  font-weight: 600;
+  color: #0b1181;
+}
+
+.nu {
+  color: #26c0e6;
+}
+
+.container {
+  max-width: 1200px;
+  margin: 0 auto;
+  padding: 20px;
+}
+
+.card {
+  border: 4px solid #c6d0fd;
+  max-width: 100%;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+  text-align: center;
+  padding: 20px;
+}
+
+.user-card {
+  width: 100%;
+  max-width: 300px;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+  margin: 20px;
+  padding: 20px;
+}
+
+.user-avatar {
+  width: 100px;
+  height: 100px;
+  margin: 0 auto 10px auto;
+  position: relative;
+}
+
+.user-avatar img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover; /* Asegura que la imagen mantenga sus proporciones */
+  border-radius: 50%;
+}
+
+.user-avatar ion-icon {
+  font-size: 100px; /* Ajusta el tamaño del icono aquí si es necesario */
+  opacity: 30%;
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+}
+
+.contCard {
   font-size: 14px;
 }
 
-.cont{
-    border-radius: 25px;
-    margin-left: 5px;
-    margin-top: 10px;
-    text-align: center;
-    align-items: center;
-    justify-content: center;
-}
-.card{
-    border: 4px solid #c6d0fd;
-    max-width: 100%;
-    align-items: center;
-    justify-content: center;
-    box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2);
-    margin: auto;
-    text-align: center;
-    font-family: arial;
-    padding: 5px 5px;
-    margin-top: 20px;
-    width: 100%;
-    height: 100%;
-}
-
-.scale-down-center{
-    animation:blur-in-expand 0.4s linear both} @keyframes blur-in-expand{0%{transform:scale(0);filter:blur(12px);opacity:0}100%{transform:scale(1);filter:blur(0);opacity:1}
-}
 .custom-button {
   display: inline-flex;
   align-items: center;
@@ -124,7 +145,6 @@ ion-avatar{
   font-size: 16px;
 }
 
-/* Estilo para el botón de eliminar */
 .delete-button {
   background-color: #1443b9;
   color: #fff;
@@ -135,7 +155,6 @@ ion-avatar{
   box-shadow: 0 4px 8px rgba(65, 142, 243, 0.3);
 }
 
-/* Estilo para el botón de editar */
 .edit-button {
   background-color: #38d9db;
   color: #fff;
