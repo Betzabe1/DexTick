@@ -38,6 +38,11 @@ signUp(user: User) {
 }
 
 
+singUp(user: User) {
+  return createUserWithEmailAndPassword(getAuth(),user.email, user.password);
+}
+
+
   // Crear usuario como administrador
   async signUpA(user: User, role: string): Promise<any> {
     try {

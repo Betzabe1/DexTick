@@ -59,7 +59,13 @@ navigateToServiceOptions(tipoId: number) {
         label: 'Infraestructura',
         image: 'assets/img/infra.png',
         active: false
-      }
+      },
+      {
+        id: 4,
+        label: 'Hadware',
+        image: 'assets/img/infra.png',
+        active: false
+      },
     ];
   }
 

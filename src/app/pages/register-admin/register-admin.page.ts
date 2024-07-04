@@ -3,6 +3,8 @@ import { FormControl, FormGroup, Validators } from '@angular/forms';
 import { User } from 'src/app/models/user.model';
 import { UserService } from 'src/app/services/user.service';
 import { UtilService } from 'src/app/services/util.service';
+import firebase from 'firebase/compat/app';
+import 'firebase/compat/auth';
 
 @Component({
   selector: 'app-register-admin',
@@ -17,7 +19,7 @@ export class RegisterAdminPage {
     tel: new FormControl('', [Validators.required, Validators.pattern('^[0-9]{10}$')]),
     password: new FormControl('', [Validators.minLength(6)]),
     name: new FormControl('', [Validators.required, Validators.minLength(3)]),
-    role: new FormControl('admin'), // Role predefinido como 'admin'
+    role: new FormControl('admin'), // Aquí se establece el rol como 'agent'
     image: new FormControl('')
   });
 
@@ -45,52 +47,54 @@ export class RegisterAdminPage {
       // Obtener los valores del formulario
       const userData = this.form.value as User;
 
-      // Registrar el nuevo usuario y asignar rol
-      this.firebaseSvc.signUpA(userData, userData.role)
-        .then(async (res) => {
-          await this.firebaseSvc.updateUser(userData.name);
+      try {
+        // Registrar el nuevo usuario en Firebase sin cambiar la sesión actual
+        const tempApp = firebase.initializeApp(firebase.app().options, 'tempApp');
+        const userCredential = await tempApp.auth().createUserWithEmailAndPassword(userData.email, userData.password);
+        const uid = userCredential.user?.uid || '';
+        this.form.controls['uid'].setValue(uid);
 
-          const uid = res.user.uid;
-          this.form.controls['uid'].setValue(uid);
+        // Subir imagen si está disponible
+        if (this.imageDataUrl) {
+          const imagePath = `users/${uid}/perfil`;
+          const imageUrl = await this.firebaseSvc.uploadImage(imagePath, this.imageDataUrl);
+          this.form.controls['image'].setValue(imageUrl);
+        }
 
-          // Subir imagen si está disponible
-          if (this.imageDataUrl) {
-            const imagePath = `users/${uid}/perfil`;
-            const imageUrl = await this.firebaseSvc.uploadImage(imagePath, this.imageDataUrl);
-            this.form.controls['image'].setValue(imageUrl);
-          }
+        // Configurar la información del usuario en Firestore
+        await this.setUserInfo(uid);
 
-          // Configurar la información del usuario en Firestore
-          await this.setUserInfo(uid);
+        // Cerrar la sesión temporal y eliminar la app temporal
+        await tempApp.auth().signOut();
+        tempApp.delete();
 
-          // Restablecer el formulario y la imagen después del registro exitoso
-          this.form.reset();
-          this.imageDataUrl = null;
+        // Restablecer el formulario y la imagen después del registro exitoso
+        this.form.reset();
+        this.imageDataUrl = null;
 
-          // Mostrar mensaje de registro exitoso
-          this.utilSvc.presentToast({
-            message: 'Registro Exitoso!!',
-            duration: 1500,
-            color: 'success',
-            position: 'middle',
-            icon: 'person-circle-outline'
-          });
-
-        }).catch(error => {
-          console.error('Error durante el registro:', error);
-
-          // Mostrar mensaje de error
-          this.utilSvc.presentToast({
-            message: error.message,
-            duration: 2500,
-            color: 'danger',
-            position: 'middle',
-            icon: 'alert-circle-outline'
-          });
-
-        }).finally(() => {
-          loading.dismiss();
+        // Mostrar mensaje de registro exitoso
+        this.utilSvc.presentToast({
+          message: 'Registro Exitoso!!',
+          duration: 1500,
+          color: 'success',
+          position: 'middle',
+          icon: 'person-circle-outline'
         });
+
+      } catch (error) {
+        console.error('Error durante el registro:', error);
+
+        // Mostrar mensaje de error
+        this.utilSvc.presentToast({
+          message: error.message,
+          duration: 2500,
+          color: 'danger',
+          position: 'middle',
+          icon: 'alert-circle-outline'
+        });
+      } finally {
+        loading.dismiss();
+      }
     } else {
       // Marcar todos los campos como tocados para mostrar los errores
       this.markAllAsTouched();
@@ -118,8 +122,6 @@ export class RegisterAdminPage {
     try {
       // Guardar la información del usuario en Firestore
       await this.firebaseSvc.setDocument(path, userInfo);
-
-      // Opcional: guardar información en el almacenamiento local o hacer otras operaciones necesarias
 
     } catch (error) {
       console.error('Error al guardar la información del usuario:', error);

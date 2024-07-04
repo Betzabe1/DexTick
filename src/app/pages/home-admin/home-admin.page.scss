@@ -1,11 +1,6 @@
-
-
 .custom-title {
   text-align: left; /* Asegura que el texto esté alineado a la izquierda */
 }
-
-
-
 
 ion-content {
   --background: #ffff;
@@ -17,6 +12,7 @@ ion-content {
   --padding-end: 20px; /* Margen derecho */
   --padding-top: 10px;
 }
+
 .custom-toolbar {
   --background: linear-gradient(to right, #007bff, #25cad2);
   --color: white;
@@ -47,9 +43,7 @@ ion-content {
   height: 100%;
 }
 
-
-
-@import url('https://fonts.googleapis.com/css2?family=Poppins:ital,wght@0,100;0,200;0,300;0,400;0,500;0,600;0,700;0,800;0,900;1,100;1,200;1,300;1,400;1,500;1,600;1,700;1,800;1,900&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Poppins:ital,wght@0,100;0,200;0,300;0,400;0,500;0,600;0,700;0,800;0,900&display=swap');
 @import url('https://fonts.googleapis.com/css2?family=Noto+Sans:ital,wght@0,100..900;1,100..900&family=Poppins:ital,wght@0,100;0,200;0,300;0,400;0,500;0,600;0,700;0,800;0,900;1,100;1,200;1,300;1,400;1,500;1,600;1,700;1,800;1,900&display=swap');
 
 ion-title {
@@ -104,21 +98,17 @@ ion-title {
   margin-bottom: 12px;
 }
 
-// .img-av {
-//   width: 90%;
-//   height: 90%;
-// }
-ion-image{
+ion-image {
   width: 50%;
   height: 50%;
 }
 
 .categorias {
   display: grid;
-  grid-template-columns: repeat(3, 1fr);
-  grid-gap: 1rem;
+  grid-template-columns: repeat(4, 1fr);
+  gap: 1rem;
 }
-.list-header
+
 .list-header {
   font-weight: 700;
   color: #515151;
@@ -128,26 +118,23 @@ ion-image{
 
 .food-list {
   display: grid;
-  grid-template-columns: 1fr 1fr;
-  grid-gap: 8px;
+  grid-template-columns: repeat(2, 1fr);
+  gap: 8px;
   margin-top: 0;
   margin-bottom: 10px;
 }
 
-@media screen and (min-width: 992px) {
-  ion-content {
-    --background: #ffff;
-    --keyboard-offset: 0px;
-    --offset-bottom: 0px;
-    --offset-top: 0px;
-    --padding-bottom: 0px;
-    --padding-start: 100px; /* Margen izquierdo */
-    --padding-end: 100px; /* Margen derecho */
-    --padding-top: 20px;
-  }
-  .servImg{
-    margin-left: 50px;
-    width: 30%;
-  }
+.servImg {
+  margin-left: 50px;
+  width: 30%;
 }
 
+@media screen and (min-width: 60px) {
+  .list-header {
+    font-weight: 700;
+    color: #515151;
+    margin-bottom: 12px;
+    margin-top: 12px;
+    font-size: 18px;
+  }
+}

@@ -40,7 +40,7 @@ export class FormRegistroComponent {
       const loading = await this.utilSvc.loading();
       await loading.present();
 
-      this.firebaseSvc.signUp(this.form.value as User).then(async res => {
+      this.firebaseSvc.singUp(this.form.value as User).then(async res => {
         await this.firebaseSvc.updateUser(this.form.value.name);
 
         let uid = res.user.uid;

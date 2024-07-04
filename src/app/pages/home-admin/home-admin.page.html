@@ -34,8 +34,4 @@
   <div class="food-list">
     <app-tipo-card *ngFor="let tipo of tipos" [item]="tipo" (tipoSelected)="navigateToServiceOptions(tipo.id)"></app-tipo-card>
   </div>
-  <!-- <app-options *ngIf="selectedTipoId !== null" [tipoId]="selectedTipoId"></app-options> -->
-  <!-- <app-log-out></app-log-out> -->
-
-
 </ion-content>
