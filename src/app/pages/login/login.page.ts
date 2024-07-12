@@ -19,6 +19,7 @@ export class LoginPage implements OnInit {
   isPassword: boolean = true;
   hide: boolean = true;
   currentUser: firebase.User | null = null;
+  isLoggingIn: boolean = false;
 
   form = new FormGroup({
     email: new FormControl('', [Validators.required, Validators.email]),
@@ -53,20 +54,16 @@ export class LoginPage implements OnInit {
     const email = this.form.get('email')?.value;
     const password = this.form.get('password')?.value;
     if (email && password) {
+      this.isLoggingIn = true;
       try {
         await firebase.auth().setPersistence(firebase.auth.Auth.Persistence.LOCAL);
         const userCredential = await firebase.auth().signInWithEmailAndPassword(email, password);
         this.currentUser = userCredential.user;
         await this.getUserInfo(userCredential.user?.uid || '');
       } catch (error) {
-        console.error(error);
-        this.utilSvc.presentToast({
-          message: error.message,
-          duration: 2500,
-          color: 'primary',
-          position: 'middle',
-          icon: 'alert-circle-outline'
-        });
+        this.handleError(error);
+      } finally {
+        this.isLoggingIn = false;
       }
     }
   }
@@ -92,22 +89,17 @@ export class LoginPage implements OnInit {
       this.utilSvc.saveInLocalStorage('user', user);
       this.redirectBasedOnRole(user.role);
       this.form.reset();
-      this.utilSvc.presentToast({
-        message: `Te damos la bienvenida ${user.name}`,
-        duration: 2000,
-        color: 'primary',
-        position: 'middle',
-        icon: 'person-circle-outline'
-      });
+      if (this.isLoggingIn) {
+        this.utilSvc.presentToast({
+          message: `Te damos la bienvenida ${user.name}`,
+          duration: 2000,
+          color: 'primary',
+          position: 'middle',
+          icon: 'person-circle-outline'
+        });
+      }
     } catch (error) {
-      console.error(error);
-      this.utilSvc.presentToast({
-        message: error.message,
-        duration: 2500,
-        color: 'primary',
-        position: 'middle',
-        icon: 'alert-circle-outline'
-      });
+      this.handleError(error);
     } finally {
       loading.dismiss();
     }
@@ -127,5 +119,26 @@ export class LoginPage implements OnInit {
       default:
         console.error('Error tipo de usuario no encontrado');
     }
+  }
+
+  async logOutUser() {
+    try {
+      await firebase.auth().signOut();
+      this.utilSvc.clearLocalStorage(); // Limpiar el almacenamiento local si es necesario
+      this.router.navigateByUrl('/login');
+    } catch (error) {
+      this.handleError(error);
+    }
+  }
+
+  handleError(error: any) {
+    console.error(error);
+    this.utilSvc.presentToast({
+      message: error.message,
+      duration: 2500,
+      color: 'primary',
+      position: 'middle',
+      icon: 'alert-circle-outline'
+    });
   }
 }

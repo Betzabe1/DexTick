@@ -3,10 +3,10 @@ import { AngularFireAuth } from '@angular/fire/compat/auth';
 import { getAuth, signInWithEmailAndPassword, createUserWithEmailAndPassword, updateProfile, sendPasswordResetEmail } from 'firebase/auth';
 import { User } from '../models/user.model';
 import { AngularFirestore } from '@angular/fire/compat/firestore';
-import { getFirestore, setDoc, doc, getDoc, addDoc, collection, collectionData, query, updateDoc } from '@angular/fire/firestore';
+import { getFirestore, setDoc, doc, getDoc, addDoc, collection, collectionData, query, updateDoc, deleteDoc } from '@angular/fire/firestore';
 import { UtilService } from './util.service';
 import { AngularFireStorage } from '@angular/fire/compat/storage';
-import { getStorage, uploadString, ref, getDownloadURL } from 'firebase/storage';
+import { getStorage, uploadString, ref ,getDownloadURL, deleteObject } from 'firebase/storage';
 import { Observable } from 'rxjs';
 
 @Injectable({
@@ -114,6 +114,9 @@ updateDocument(path:string, data:any){
   }
 
 //Obtener documento
+async getDocumen(path:string){
+  return (await getDoc(doc(getFirestore(),path))).data();
+}
 
 async getDocument(docPath: string): Promise<any> {
   const docRef = this.firestore.doc(docPath).ref;
@@ -128,6 +131,11 @@ addDocument(path:string, data:any){
 }
 
 //Obtener  documento de una coleccion
+getCollectionDat(path: string, collectionQuery?: any) {
+  const ref = collection(getFirestore(), path);
+  return collectionData(query(ref,collectionQuery), {idField:'id'});
+}
+
 getCollectionData(path: string, collectionQuery?: any) {
   const q = query(collection(getFirestore(), path), collectionQuery);
   return collectionData(q);
@@ -150,7 +158,7 @@ eliminarUsuario(id:string):Promise<any>{
 }
 
 //almaxcensmienti
-//subir imagen
+//subir imagen vi
 async uploadImage(path:string, data_url:string){
   return uploadString(ref(getStorage(),path),data_url,'data_url').then(()=>{
     return getDownloadURL(ref(getStorage(),path ))
@@ -168,8 +176,12 @@ updatDocument(path: string, data: any) {
   return this.firestore.doc(path).update(data);
 }
 
+
+
+
+
   //obtener ruta de la imagen
-  getFilePath(url:string){
+ async getFilePath(url:string){
      return ref(getStorage(), url).fullPath
   }
   getCurrentUser(): Promise<any> {
@@ -187,6 +199,17 @@ updatDocument(path: string, data: any) {
       throw new Error('No user is currently logged in');
     }
   }
+
+
+  //Eliminar archivos
+  deleteFile(path:string){
+  return deleteObject(ref(getStorage(), path))
+  }
+//eliminar docuemnto
+deleteDocument(path:string){
+  return deleteDoc(doc(getFirestore(), path))
+}
+
 
 
 }

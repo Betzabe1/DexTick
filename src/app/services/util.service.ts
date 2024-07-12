@@ -1,5 +1,5 @@
 import { Injectable, inject } from '@angular/core';
-import { LoadingController, ToastController, ToastOptions} from '@ionic/angular';
+import { LoadingController, ModalController, ModalOptions, ToastController, ToastOptions} from '@ionic/angular';
 import { Router } from '@angular/router';
 import { Camera, CameraResultType, CameraSource } from '@capacitor/camera';
 
@@ -10,6 +10,7 @@ export class UtilService {
 
   loadingCtrl=inject(LoadingController);
   toastCtrl=inject(ToastController);
+  modalCtr=inject(ModalController);
   router=inject(Router);
 
 
@@ -75,6 +76,21 @@ export class UtilService {
       localStorage.removeItem(key);
     }
 
+   //limpiar local storage
+   clearLocalStorage() {
+    localStorage.clear();
+  }
 
+  //Modal
+  async presentModal(opts:ModalOptions) {
+    const modal = await this.modalCtr.create(opts);
+    await modal.present();
 
+    const {data}= await modal.onWillDismiss();
+    if(data) return data;
+  }
+
+  dismissModal(data?:any){
+    return this.modalCtr.dismiss(data);
+  }
 }

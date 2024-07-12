@@ -7,10 +7,12 @@ import { Category } from './../../models/category.model';
   styleUrls: ['./category-item.component.scss'],
 })
 export class CategoryItemComponent {
-  @Input() item!: Category;
-  @Output() categorySelected = new EventEmitter<number>(); 
+  @Input() item: Category;
+  @Output() categorySelected = new EventEmitter<string>();
 
   selectCategory() {
     this.categorySelected.emit(this.item.id);
   }
+
+  
 }

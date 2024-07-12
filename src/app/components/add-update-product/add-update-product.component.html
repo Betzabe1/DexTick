@@ -1,0 +1,48 @@
+<ion-header>
+  <ion-toolbar class="custom-toolbar">
+    <ion-buttons slot="start">
+      <ion-button (click)="dismissModal()">
+        <ion-icon name="close-circle-outline"></ion-icon>
+      </ion-button>
+    </ion-buttons>
+    <ion-title class="custom-title" slot="start">{{title}}</ion-title>
+    <ion-buttons slot="end">
+      <ion-avatar class="custom-avatar">
+        <ion-img src="/assets/img/user.png"></ion-img>
+      </ion-avatar>
+    </ion-buttons>
+  </ion-toolbar>
+</ion-header>
+<ion-content>
+  <form  class="ion-padding ion-text-center" [formGroup]="form" (ngSubmit)="submit()" (keypress.enter)="submit()">
+
+    <ion-avatar *ngIf="form.value.image">
+      <img [src]="form.value.image"/>
+      <ion-icon class="empty-icon" name="person-circle-outline"></ion-icon>
+    </ion-avatar>
+
+     <ion-icon class="image-icon" *ngIf="!form.value.image" name="image-outline"></ion-icon>
+
+    <ion-button (click)="takeImage()" mode="ios" size="small" shape="round">
+      Tomar/Seleccionar
+    </ion-button>
+
+<br>
+
+    <div class="validators" *ngIf="form.controls.name.errors && form.controls.name.touched">
+      <small *ngIf="form.controls.name.errors?.['required']">El nombre es requerido</small>
+      <small *ngIf="form.controls.name.errors?.['minlength']">El nombre debe tener al menos 3 caracteres</small>
+     </div>
+
+    <div class="input-wrapper">
+      <input  type="text" name="name" placeholder="Nombre Categoría"  required formControlName="name" >
+      <ion-icon class="input-icon" name="pricetag-outline"></ion-icon>
+    </div>
+
+    <ion-button class="btn" type="submit" name="register" [disabled]="form.invalid" >
+      <ion-icon slot="end" name="checkmark-circle-outline"></ion-icon>
+      {{product ? 'Actualizar Producto' : 'Agregar Producto'}}
+    </ion-button>
+
+  </form>
+</ion-content>

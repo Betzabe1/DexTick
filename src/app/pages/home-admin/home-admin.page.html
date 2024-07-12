@@ -10,11 +10,15 @@
 </ion-header>
 
 <ion-content [fullscreen]="true" class="inicio">
+  <ion-refresher slot="fixed" (ionRefresh)="doRefresh($event)">
+    <ion-refresher-content></ion-refresher-content>
+  </ion-refresher>
+
   <h3 class="bienvenidaH3">Gracias por unirte a Dex-Tree</h3>
   <div class="descripcion">
     <ion-row>
       <ion-col size="7">
-        <h2 class="descH2">Bienvenido!</h2>
+        <h2 class="descH2">¡Bienvenido!</h2>
         <p class="descP">Somos tu departamento de TI flexible y confiable.</p>
       </ion-col>
       <ion-col size="5" class="ion-text-end">
@@ -24,14 +28,42 @@
   </div>
   <h3 class="solicitud">Solicita tu servicio</h3>
   <app-search></app-search>
-  <div class="categorias">
-    <app-category-item *ngFor="let item of categorias"
-      [item]="item"
-      (categorySelected)="selectCategory($event)">
-    </app-category-item>
+
+  <div class="categorias-header">
+    <ion-fab-button size="small" (click)="addUpdateProduct()">
+      <ion-icon name="add"></ion-icon>
+    </ion-fab-button>
+    <h1 class="list-header">Categorías</h1>
   </div>
-  <h1 class="list-header">Servicios</h1>
+
+  <div class="categorias">
+    <div *ngFor="let p of products" (click)="selectCategory(p.id)">
+      <div class="wrapper" [ngClass]="p.active ? 'active' : ''">
+        <div class="content">
+          <div class="image-card">
+            <ion-img [src]="p.image" alt=""></ion-img>
+          </div>
+          <p class="ion-no-margin">{{ p.name }}
+            <ion-icon class="i-edit" name="create-outline" (click)="addUpdateProduct(p)"></ion-icon>
+            <ion-icon class="i-elimi" name="trash-outline" (click)="presentDeleteAlert(p)"></ion-icon>
+          </p>
+        </div>
+      </div>
+    </div>
+  </div>
+
+
+  <div class="categorias-header">
+    <ion-fab-button size="small" (click)="addUpdateProduct()">
+      <ion-icon name="add"></ion-icon>
+    </ion-fab-button>
+    <h1 class="list-header">Servicios</h1>
+  </div>
+
   <div class="food-list">
     <app-tipo-card *ngFor="let tipo of tipos" [item]="tipo" (tipoSelected)="navigateToServiceOptions(tipo.id)"></app-tipo-card>
   </div>
+
+  <!-- Botón de agregar subcategoría -->
+
 </ion-content>

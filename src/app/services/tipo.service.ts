@@ -6,78 +6,69 @@ import { Tipo } from '../models/tipo.model';
 })
 export class TipoService {
   private tipos: Tipo[] = [
+    //categoria basico
     {
       id: 1,
       title: 'Wi-fi',
       image: 'assets/img/wi-fi.png',
-      categoryId: 1
+      categoryId: 'basico'
     },
     {
       id: 2,
       title: 'Impresora',
       image: 'assets/img/impresora.png',
-      categoryId: 1
+      categoryId: 'basico'
     },
     {
       id: 3,
       title: 'Correo',
       image: 'assets/img/correo.png',
-      categoryId: 1
+      categoryId: 'basico'
     },
-    // {
-    //   id: 4,
-    //   title: 'Otros',
-    //   image: 'assets/img/otros.png',
-    //   categoryId: 1
-    // },
-    // categoria2
+
+    // categoria software
     {
       id: 5,
       title: 'Software ',
       image: 'assets/img/software.png',
-      categoryId: 2
+      categoryId:'software'
     },
     {
       id: 6,
       title: 'Aplicaciones',
       image: 'assets/img/apppWeb.png',
-      categoryId: 2
+      categoryId: 'software'
     },
     {
       id: 7,
       title: 'Páginas Web',
       image: 'assets/img/pags.png',
-      categoryId: 2
+      categoryId: 'software'
     },
-    // {
-    //   id: 8,
-    //   title: 'Otros',
-    //   image: 'assets/img/otros.png',
-    //   categoryId: 2
-    // },
 
-    // categoria3
+
+    // categoria hardware
     {
       id: 9,
       title: 'Redes',
       image: 'assets/img/redes.png',
-      categoryId: 3
+      categoryId: 'hardw'
     },
     {
       id: 10,
       title: 'Cámaras',
       image: 'assets/img/camara.png',
-      categoryId: 3
+      categoryId: 'hardw'
     },
-    // {
-    //   id: 11,
-    //   title: 'Otros',
-    //   image: 'assets/img/otros.png',
-    //   categoryId: 3
-    // },
+
   ];
 
-  getTiposByCategory(categoryId: number): Tipo[] {
+  getTiposByCategory(categoryId: string | number): Tipo[] {
     return this.tipos.filter(tipo => tipo.categoryId === categoryId);
+  }
+
+
+  addTipo(tipo: Tipo): void {
+    this.tipos.push(tipo);
   }
 }

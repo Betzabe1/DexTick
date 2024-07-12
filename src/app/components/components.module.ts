@@ -13,6 +13,7 @@ import { OtroProblemComponent } from './otro-problem/otro-problem.component';
 import { OptionsComponent } from './options/options.component';
 import { PerfilesComponent } from './perfiles/perfiles.component';
 import { EditarUsariosComponent } from './editar-usarios/editar-usarios.component';
+import { AddUpdateProductComponent } from './add-update-product/add-update-product.component';
 
 
 
@@ -27,7 +28,8 @@ import { EditarUsariosComponent } from './editar-usarios/editar-usarios.componen
     OtroProblemComponent,
     OptionsComponent,
     PerfilesComponent,
-    EditarUsariosComponent
+    EditarUsariosComponent,
+    AddUpdateProductComponent
   ],
   exports:[
     HeaderComponent,
@@ -40,7 +42,8 @@ import { EditarUsariosComponent } from './editar-usarios/editar-usarios.componen
     OtroProblemComponent,
     OptionsComponent,
     PerfilesComponent,
-    EditarUsariosComponent
+    EditarUsariosComponent,
+    AddUpdateProductComponent
 
   ],
   imports: [

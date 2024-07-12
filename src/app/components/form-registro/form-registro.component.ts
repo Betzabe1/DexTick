@@ -91,7 +91,7 @@ export class FormRegistroComponent {
 
       this.firebaseSvc.setDocument(path, userInfo).then(async res => {
         this.utilSvc.saveInLocalStorage('user', userInfo);
-        this.utilSvc.routerLink('/login');
+        this.utilSvc.routerLink('/tabs/home-user');
         this.form.reset();
 
         this.utilSvc.presentToast({

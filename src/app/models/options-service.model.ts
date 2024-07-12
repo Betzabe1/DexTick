@@ -1,7 +1,7 @@
-export interface Options{
-  id:number;
-  nombre:string;
-  img:string;
+export interface Options {
+  id: number;
+  nombre: string;
+  img: string;
   tipoServ: number;
-
 }
+

@@ -1,7 +1,7 @@
 export interface Category
 {
-  id:number;
-  label:string;
+  id:string;
+  name:string;
   image:string;
   active:boolean;
 }

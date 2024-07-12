@@ -32,8 +32,19 @@
       </div>
       <h1 class="list-header">Servicios</h1>
       <div class="food-list">
-        <app-tipo-card *ngFor="let tipo of tipos" [item]="tipo" (tipoSelected)="navigateToServiceOptions(tipo.id)"></app-tipo-card>
+        <ion-fab vertical="bottom" horizontal="end" slot="start">
+          <ion-fab-button >
+            <ion-icon  name="add"></ion-icon>
+          </ion-fab-button>
+        </ion-fab>
+        <div>
+        <app-tipo-card *ngFor="let tipo of tipos"
+          [item]="tipo"
+          (tipoSelected)="navigateToServiceOptions(tipo.id)">
+        </app-tipo-card>
       </div>
+
+    </div>
       <!-- <app-options *ngIf="selectedTipoId !== null" [tipoId]="selectedTipoId"></app-options> -->
       <!-- <app-log-out></app-log-out> -->
 
