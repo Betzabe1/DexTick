@@ -6,11 +6,11 @@ import { UtilService } from 'src/app/services/util.service';
 import { AddUpdateServiceComponent } from 'src/app/components/add-update-service/add-update-service.component';
 
 @Component({
-  selector: 'app-service-options',
-  templateUrl: './service-options.page.html',
-  styleUrls: ['./service-options.page.scss'],
+  selector: 'app-servicios-users',
+  templateUrl: './servicios-users.page.html',
+  styleUrls: ['./servicios-users.page.scss'],
 })
-export class ServiceOptionsPage implements OnInit {
+export class ServiciosUsersPage implements OnInit {
   categoryId: string = '';
   subCategoryId: string = '';
   services: any[] = [];

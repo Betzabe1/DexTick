@@ -1,7 +1,7 @@
 export interface Tipo{
-  id:number;
-  title:string;
-  image?: string;
+  id:string;
+  name:string;
+  image: string;
   categoryId: string;
-  
+
 }

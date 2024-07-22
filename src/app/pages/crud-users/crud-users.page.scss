@@ -80,25 +80,22 @@ ion-avatar{
 
 .cont{
     border-radius: 25px;
-    margin-left: 5px;
     margin-top: 10px;
     text-align: center;
     align-items: center;
     justify-content: center;
 }
-.card{
-    border: 4px solid #c6d0fd;
-    max-width: 100%;
-    align-items: center;
-    justify-content: center;
-    box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2);
-    margin: auto;
-    text-align: center;
-    font-family: arial;
-    padding: 5px 5px;
-    margin-top: 20px;
-    width: 100%;
-    height: 100%;
+.card {
+  border: 4px solid #c6d0fd;
+  box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2);
+  text-align: center;
+  font-family: Arial, sans-serif;
+  padding: 10px;
+  width: 280px; /* Ancho fijo para las tarjetas */
+  height: auto; /* Ajusta la altura según el contenido */
+  display: flex;
+  flex-direction: column;
+  align-items: center;
 }
 
 .scale-down-center{
@@ -145,3 +142,44 @@ ion-avatar{
   background-color: #9cf8fa;
   box-shadow: 0 4px 8px rgba(115, 252, 249, 0.3);
 }
+
+/* Contenedor principal que envuelve las tarjetas */
+.card-wrapper {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center; /* Centra las tarjetas horizontalmente */
+  gap: 15px; /* Espacio entre tarjetas */
+  padding: 15px;
+  width: 100%;
+}
+
+/* Tarjetas individuales */
+.card {
+  border: 4px solid #c6d0fd;
+  box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2);
+  text-align: center;
+  font-family: Arial, sans-serif;
+  padding: 10px;
+  width: 280px; /* Ancho fijo para las tarjetas */
+  height: auto; /* Ajusta la altura según el contenido */
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  margin: 10px;
+
+}
+
+/* Clase para centrar el contenido de tarjetas */
+.card-content {
+  border: 4px solid #c6d0fd;
+  box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2);
+  text-align: center;
+  font-family: Arial, sans-serif;
+  padding: 15px;
+  width: 100%; /* Ajusta el ancho según el contenedor */
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+

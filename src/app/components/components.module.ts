@@ -14,6 +14,8 @@ import { OptionsComponent } from './options/options.component';
 import { PerfilesComponent } from './perfiles/perfiles.component';
 import { EditarUsariosComponent } from './editar-usarios/editar-usarios.component';
 import { AddUpdateProductComponent } from './add-update-product/add-update-product.component';
+import { AddUpdateSubcategoryComponent } from './add-update-subcategory/add-update-subcategory.component';
+import { AddUpdateServiceComponent } from './add-update-service/add-update-service.component';
 
 
 
@@ -29,7 +31,9 @@ import { AddUpdateProductComponent } from './add-update-product/add-update-produ
     OptionsComponent,
     PerfilesComponent,
     EditarUsariosComponent,
-    AddUpdateProductComponent
+    AddUpdateProductComponent,
+    AddUpdateSubcategoryComponent,
+    AddUpdateServiceComponent
   ],
   exports:[
     HeaderComponent,
@@ -43,7 +47,10 @@ import { AddUpdateProductComponent } from './add-update-product/add-update-produ
     OptionsComponent,
     PerfilesComponent,
     EditarUsariosComponent,
-    AddUpdateProductComponent
+    AddUpdateProductComponent,
+    AddUpdateSubcategoryComponent,
+    AddUpdateServiceComponent
+
 
   ],
   imports: [

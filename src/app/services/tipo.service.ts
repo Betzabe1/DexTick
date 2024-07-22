@@ -8,59 +8,38 @@ export class TipoService {
   private tipos: Tipo[] = [
     //categoria basico
     {
-      id: 1,
-      title: 'Wi-fi',
+      id: '',
+      name: 'Wi-fi',
       image: 'assets/img/wi-fi.png',
       categoryId: 'basico'
     },
     {
-      id: 2,
-      title: 'Impresora',
+      id: '',
+      name: 'Impresora',
       image: 'assets/img/impresora.png',
       categoryId: 'basico'
     },
     {
-      id: 3,
-      title: 'Correo',
+      id: '',
+      name: 'Correo',
       image: 'assets/img/correo.png',
       categoryId: 'basico'
     },
 
     // categoria software
     {
-      id: 5,
-      title: 'Software ',
+      id: '',
+      name: 'Software ',
       image: 'assets/img/software.png',
       categoryId:'software'
     },
     {
-      id: 6,
-      title: 'Aplicaciones',
+      id: '',
+      name: 'Aplicaciones',
       image: 'assets/img/apppWeb.png',
       categoryId: 'software'
     },
-    {
-      id: 7,
-      title: 'Páginas Web',
-      image: 'assets/img/pags.png',
-      categoryId: 'software'
-    },
-
-
-    // categoria hardware
-    {
-      id: 9,
-      title: 'Redes',
-      image: 'assets/img/redes.png',
-      categoryId: 'hardw'
-    },
-    {
-      id: 10,
-      title: 'Cámaras',
-      image: 'assets/img/camara.png',
-      categoryId: 'hardw'
-    },
-
+  
   ];
 
   getTiposByCategory(categoryId: string | number): Tipo[] {

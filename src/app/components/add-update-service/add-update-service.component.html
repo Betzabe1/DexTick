@@ -13,36 +13,34 @@
     </ion-buttons>
   </ion-toolbar>
 </ion-header>
+
 <ion-content>
-  <form  class="ion-padding ion-text-center" [formGroup]="form" (ngSubmit)="submit()" (keypress.enter)="submit()">
+  <form class="ion-padding ion-text-center" [formGroup]="form" (ngSubmit)="submit()" (keypress.enter)="submit()">
 
     <ion-avatar *ngIf="form.value.image">
       <img [src]="form.value.image"/>
       <ion-icon class="empty-icon" name="person-circle-outline"></ion-icon>
     </ion-avatar>
 
-     <ion-icon class="image-icon" *ngIf="!form.value.image" name="image-outline"></ion-icon>
+    <ion-icon class="image-icon" *ngIf="!form.value.image" name="image-outline"></ion-icon>
 
     <ion-button (click)="takeImage()" mode="ios" size="small" shape="round">
       Tomar/Seleccionar
     </ion-button>
 
-<br>
-
+    <br>
     <div class="validators" *ngIf="form.controls.name.errors && form.controls.name.touched">
       <small *ngIf="form.controls.name.errors?.['required']">El nombre es requerido</small>
       <small *ngIf="form.controls.name.errors?.['minlength']">El nombre debe tener al menos 3 caracteres</small>
      </div>
-
     <div class="input-wrapper">
-      <input  type="text" name="name" placeholder="Nombre Categoría"  required formControlName="name" >
+      <input type="text" name="name" placeholder="Nombre del Servicio" required formControlName="name">
       <ion-icon class="input-icon" name="pricetag-outline"></ion-icon>
     </div>
 
-    <ion-button class="btn" type="submit" name="register" [disabled]="form.invalid" >
+    <ion-button class="btn" type="submit" [disabled]="form.invalid">
       <ion-icon slot="end" name="checkmark-circle-outline"></ion-icon>
-      {{categoria ? 'Actualizar Categoria' : 'Agregar Categoria'}}
+      {{service ? 'Actualizar Servicio' : 'Agregar Servicio'}}
     </ion-button>
-
   </form>
 </ion-content>

@@ -1,26 +1,26 @@
 import { Component, EventEmitter, inject, Input, OnInit, Output } from '@angular/core';
 import { FormControl, FormGroup, Validators } from '@angular/forms';
-import { UserService } from 'src/app/services/user.service';
 import { UtilService } from 'src/app/services/util.service';
+import { UserService } from 'src/app/services/user.service';
 import { User } from 'src/app/models/user.model';
-import { Category } from 'src/app/models/category.model';
-
+import { SubCategory } from 'src/app/models/subcategory.model';
 @Component({
-  selector: 'app-add-update-product',
-  templateUrl: './add-update-product.component.html',
-  styleUrls: ['./add-update-product.component.scss'],
+  selector: 'app-add-update-subcategory',
+  templateUrl: './add-update-subcategory.component.html',
+  styleUrls: ['./add-update-subcategory.component.scss'],
 })
-export class AddUpdateProductComponent implements OnInit {
-  @Input() isModal: boolean;
-  @Input() categoria: Category;
-  @Output() categoryAdded = new EventEmitter<any>();
+export class AddUpdateSubcategoryComponent implements OnInit {
+  @Input() categoryId: string;
+  @Input() subcategoria: SubCategory;
+  @Output() subcategoryAdded = new EventEmitter<any>();
 
-  title: string = 'Agregar Categoria';
+  title: string = 'Agregar Subcategoría';
 
   form = new FormGroup({
     id: new FormControl(''),
+    name: new FormControl('', [Validators.required, Validators.minLength(4)]),
     image: new FormControl('', [Validators.required]),
-    name: new FormControl('', [Validators.required, Validators.minLength(4)])
+
   });
 
   utilSvc = inject(UtilService);
@@ -30,9 +30,9 @@ export class AddUpdateProductComponent implements OnInit {
 
   ngOnInit() {
     this.user = this.utilSvc.getFromLocalStorage('user');
-    if (this.categoria) {
-      this.title = 'Actualizar Categoria'; // Establecer el título al iniciar si es una actualización
-      this.form.setValue(this.categoria);
+    if (this.subcategoria) {
+      this.form.setValue(this.subcategoria);
+      this.title = 'Actualizar Subcategoría';
     }
   }
 
@@ -43,32 +43,36 @@ export class AddUpdateProductComponent implements OnInit {
 
   submit() {
     if (this.form.valid) {
-      if (this.categoria) {
-        this.updateCategory();
+      if (this.subcategoria) {
+        this.updateSubcategory();
       } else {
-        this.createCategory();
+        this.createSubcategory();
       }
     }
   }
 
-  async createCategory() {
-    let path = `categorias`;
+  async createSubcategory() {
+    const path = `categorias/${this.categoryId}/subcategorias`;
     const loading = await this.utilSvc.loading();
     await loading.present();
+
 
     let dataUrl = this.form.value.image;
     let imagePath = `${Date.now()}`;
     let imageUrl = await this.firebaseSvc.uploadImage(imagePath, dataUrl);
     this.form.controls.image.setValue(imageUrl);
 
+
     delete this.form.value.id;
+
+
 
     this.firebaseSvc.addDocument(path, this.form.value).then(async res => {
       this.utilSvc.dismissModal({ success: true });
-      this.categoryAdded.emit(this.form.value);
+      this.subcategoryAdded.emit(this.form.value);
 
       this.utilSvc.presentToast({
-        message: 'Categoria agregada exitosamente.',
+        message: 'Subcategoría agregada exitosamente.',
         duration: 1500,
         color: 'success',
         position: 'middle',
@@ -89,27 +93,27 @@ export class AddUpdateProductComponent implements OnInit {
     });
   }
 
-  async updateCategory() {
-    let path = `categorias/${this.categoria.id}`;
-
+  async updateSubcategory() {
+    const path = `categorias/${this.categoryId}/subcategorias/${this.subcategoria.id}`;
     const loading = await this.utilSvc.loading();
     await loading.present();
 
-    if (this.form.value.image !== this.categoria.image) {
+    if (this.form.value.image !== this.subcategoria.image) {
       let dataUrl = this.form.value.image;
-      let imagePath = await this.firebaseSvc.getFilePath(this.categoria.image);
+      let imagePath = await this.firebaseSvc.getFilePath(this.subcategoria.image);
       let imageUrl = await this.firebaseSvc.uploadImage(imagePath, dataUrl);
       this.form.controls.image.setValue(imageUrl);
     }
+
 
     delete this.form.value.id;
 
     this.firebaseSvc.updateDocument(path, this.form.value).then(async res => {
       this.utilSvc.dismissModal({ success: true });
-      this.categoryAdded.emit(this.form.value);
+      this.subcategoryAdded.emit(this.form.value);
 
       this.utilSvc.presentToast({
-        message: 'Categoria actualizada exitosamente.',
+        message: 'Subcategoría actualizada exitosamente.',
         duration: 1500,
         color: 'success',
         position: 'middle',
@@ -133,4 +137,6 @@ export class AddUpdateProductComponent implements OnInit {
   dismissModal() {
     this.utilSvc.dismissModal();
   }
+
+
 }

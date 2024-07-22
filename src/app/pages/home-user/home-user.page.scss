@@ -150,6 +150,7 @@ ion-image{
     width: 30%;
   }
 }
+
 @media screen and (min-width: 60px) {
   .list-header {
     font-weight: 700;
@@ -157,6 +158,204 @@ ion-image{
     margin-bottom: 12px;
     margin-top: 12px;
     font-size: 18px;
+  }
+}
+.wrapper {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  text-align: center;
+}
+
+.content {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+.image-card {
+  background-color: #c6d0fd;
+  width: 40%;
+  height:40%;
+
+  padding: 1rem;
+  border-radius: 20%;
+  margin-bottom: 0.5rem;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+ion-img {
+  width: 100%;
+  height: 100%;
+  opacity: 0.8;
+
+}
+
+p.ion-no-margin {
+  color: #615858;
+  margin: 0;
+  font-weight: 500;
+
+}
+
+.wrapper.active .image-card {
+  background-color: #4364c7;
+}
+
+.wrapper.active p {
+  color: #1d1d1d;
+  font-weight: 700;
+}
+@media screen and (min-width: 992px) {
+  .image-card {
+    background-color: #c6d0fd;
+    width: 30%;
+    height:30%;
+
+    padding: 1rem;
+    border-radius: 20%;
+    margin-bottom: 0.5rem;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+  }
+}
+
+@media (max-width: 600px) {
+  .wrapper {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    text-align: center;
+  }
+
+  .content {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+  }
+
+  .image-card {
+    background-color: #c6d0fd;
+    width: 70px;
+    height:70px;
+
+    padding: 1rem;
+    border-radius: 20%;
+    margin-bottom: 8px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+  }
+
+  ion-img {
+    width: 100%;
+    height: 100%;
+    opacity: 0.8;
+
+  }
+
+  p.ion-no-margin {
+    color: #615858;
+    margin: 0;
+    font-weight: 500;
+    font-size: 13px;
+
+}
+}
+.i-edit{
+  margin-top: 5px;
+  font-weight: 600;
+  color: rgb(46, 134, 243);
+  cursor: pointer;
+  font-size: 15px;
+
+}
+.i-elimi{
+  margin-top: 5px;
+  font-weight: 600;
+  color: rgb(188, 26, 14);
+  cursor: pointer;
+  font-size: 15px;
+
+}
+.i-add{
+  margin-top: 5px;
+  font-weight: 600;
+  color: rgb(4, 4, 246);
+  cursor: pointer;
+  font-size: 15px;
+}
+
+.categorias-header {
+  display: flex;
+  align-items: center;
+}
+
+.categorias-header h1 {
+  margin: 0;
+  font-weight: 700;
+  color: #515151;
+}
+
+.categorias-header ion-fab-button {
+  margin-left: 10px;
+  --background: #007bff;
+}
+//subcateorias
+.food-list {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+  gap: 8px; /* Espacio entre las tarjetas */
+  margin-top: 0;
+  margin-bottom: 10px;
+}
+
+.card {
+  width: 50%; /* Ajusta el ancho para que quepan dos tarjetas por fila */
+  max-width: 280px; /* Reduce el ancho máximo */
+  height: auto;
+  background: linear-gradient(135deg, #98ffff 0%, #f3f3f3 100%);
+  padding: 1rem; /* Reduce el padding para tarjetas más pequeñas */
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  position: relative;
+  border-radius: 1rem; /* Reduce el border-radius */
+  margin-bottom: 1rem; /* Reduce el margen inferior */
+}
+
+.card-content {
+  text-align: center;
+}
+
+.title {
+  font-weight: 700;
+  font-size: 14px;
+  margin-bottom: 8px; /* Reduce el margen inferior */
+  color: #1d1d1d;
+}
+
+@media screen and (min-width: 992px) {
+  .cards {
+    justify-content: center; /* Centra los cards horizontalmente */
+    gap: 1rem; /* Espacio entre los cards en pantallas grandes */
+  }
+  .card {
+    width: calc(50% - 1rem); /* Ajustar el ancho para mantener el espacio entre tarjetas */
+    max-width: 250px; /* Reduce el ancho máximo */
+    height: auto;
+    margin: 0.5rem; /* Reduce el espacio alrededor de cada card */
+  }
+}
+
+@media (max-width: 600px) {
+  .card {
+    max-width: 140px; /* Reduce el ancho máximo */
+    width: 50%; /* Ocupa todo el ancho en pantallas pequeñas */
   }
 }
 

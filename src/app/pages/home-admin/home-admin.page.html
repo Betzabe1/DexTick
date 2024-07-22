@@ -30,40 +30,43 @@
   <app-search></app-search>
 
   <div class="categorias-header">
+    <h1 class="list-header">Categorías</h1>
     <ion-fab-button size="small" (click)="addUpdateProduct()">
       <ion-icon name="add"></ion-icon>
     </ion-fab-button>
-    <h1 class="list-header">Categorías</h1>
   </div>
 
   <div class="categorias">
-    <div *ngFor="let p of products" (click)="selectCategory(p.id)">
+    <div *ngFor="let p of categorias" (click)="selectCategory(p)">
       <div class="wrapper" [ngClass]="p.active ? 'active' : ''">
         <div class="content">
           <div class="image-card">
             <ion-img [src]="p.image" alt=""></ion-img>
           </div>
           <p class="ion-no-margin">{{ p.name }}
-            <ion-icon class="i-edit" name="create-outline" (click)="addUpdateProduct(p)"></ion-icon>
-            <ion-icon class="i-elimi" name="trash-outline" (click)="presentDeleteAlert(p)"></ion-icon>
+            <ion-icon class="i-edit" title="Editar categoría" name="create-outline" (click)="addUpdateProduct(p, $event)"></ion-icon>
+            <ion-icon class="i-elimi" title="Eliminar categoría" name="trash-outline" (click)="presentDeleteAlert(p, $event)"></ion-icon>
+            <ion-icon class="i-add" title="Agregar subcategoría" name="add-circle-outline" (click)="addUpdateSubcategory(p.id, null, $event)"></ion-icon>
           </p>
         </div>
       </div>
     </div>
   </div>
 
+  <br>
 
-  <div class="categorias-header">
-    <ion-fab-button size="small" (click)="addUpdateProduct()">
-      <ion-icon name="add"></ion-icon>
-    </ion-fab-button>
-    <h1 class="list-header">Servicios</h1>
+  <h1 class="list-header">Servicios</h1>
+  <div class="food-list" *ngIf="selectedCategory">
+    <div class="card" *ngFor="let subcategoria of selectedCategory.subcategorias"  (click)="navigateToServiceOptions(selectedCategory.id, subcategoria.id)">
+      <ion-img [src]="subcategoria.image"></ion-img>
+      <div class="card-content">
+        <h3 class="title">{{ subcategoria.name }}</h3>
+        <ion-icon class="i-edit" title="Editar subcategoría" name="create-outline" (click)="addUpdateSubcategory(selectedCategory.id, subcategoria, $event)"></ion-icon>
+        <ion-icon class="i-elimi" title="Eliminar subcategoría" name="trash-outline" (click)="presentDeleteSubcategoryAlert(selectedCategory.id, subcategoria, $event)"></ion-icon>
+        <ion-icon class="i-add" title="Agregar servicio" name="add-circle-outline" (click)="addUpdateService(selectedCategory.id, subcategoria.id, null, $event)"></ion-icon>
+      </div>
+
+    </div>
   </div>
-
-  <div class="food-list">
-    <app-tipo-card *ngFor="let tipo of tipos" [item]="tipo" (tipoSelected)="navigateToServiceOptions(tipo.id)"></app-tipo-card>
-  </div>
-
-  <!-- Botón de agregar subcategoría -->
 
 </ion-content>

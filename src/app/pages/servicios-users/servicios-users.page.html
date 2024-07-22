@@ -24,15 +24,6 @@
         <ion-label>{{ service.name }}</ion-label>
         <ion-checkbox slot="end"></ion-checkbox>
       </ion-item>
-
-      <ion-item-options side="end">
-        <ion-item-option color="primary" (click)="editService(service)">
-          <ion-icon name="create-outline"></ion-icon>
-        </ion-item-option>
-        <ion-item-option color="danger" (click)="deleteService(service)">
-          <ion-icon name="trash-outline"></ion-icon>
-        </ion-item-option>
-      </ion-item-options>
     </ion-item-sliding>
   </ion-list>
 

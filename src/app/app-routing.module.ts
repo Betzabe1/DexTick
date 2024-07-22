@@ -43,8 +43,8 @@ const routes: Routes = [
   },
 
   {
-    path: 'service-options/:tipoId',
-    loadChildren: () => import('./pages/service-options/service-options.module').then( m => m.ServiceOptionsPageModule)
+    path: 'service-options/:categoryId/:subCategoryId',
+        loadChildren: () => import('./pages/service-options/service-options.module').then( m => m.ServiceOptionsPageModule)
   },
   {
     path: 'home-agent',
@@ -154,7 +154,11 @@ const routes: Routes = [
     loadChildren: () => import('./pages/editar-admins/editar-admins.module').then( m => m.EditarAdminsPageModule),
     canActivate: [AuthGuard],
     data: { expectedRole: 'admin' }
+  },  {
+    path: 'servicios-users',
+    loadChildren: () => import('./pages/servicios-users/servicios-users.module').then( m => m.ServiciosUsersPageModule)
   }
+
 
 
 

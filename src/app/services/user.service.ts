@@ -212,4 +212,12 @@ deleteDocument(path:string){
 
 
 
+async getDocuments(path: string) {
+  const snapshot = await this.firestore.collection(path).get().toPromise();
+  return snapshot.docs.map(doc => doc.data());
+}
+
+
+
+
 }

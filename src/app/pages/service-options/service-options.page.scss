@@ -33,7 +33,7 @@
 ion-content{
   --background:white;
   // --background: linear-gradient(135deg, #f5f7fa 0%, #82f6ea 100%);
-    --keyboard-offset: 0px;
+  --keyboard-offset: 0px;
   --offset-bottom: 0px;
   --offset-top: 0px;
   --padding-bottom: 0px;
@@ -44,4 +44,7 @@ ion-content{
   align-items: center;
   justify-content: center;
   display: flex;
+}
+ion-icon{
+  font-size: 16px;
 }

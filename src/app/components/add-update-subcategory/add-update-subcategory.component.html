@@ -13,8 +13,9 @@
     </ion-buttons>
   </ion-toolbar>
 </ion-header>
+
 <ion-content>
-  <form  class="ion-padding ion-text-center" [formGroup]="form" (ngSubmit)="submit()" (keypress.enter)="submit()">
+  <form class="ion-padding ion-text-center" [formGroup]="form" (ngSubmit)="submit()" (keypress.enter)="submit()">
 
     <ion-avatar *ngIf="form.value.image">
       <img [src]="form.value.image"/>
@@ -28,21 +29,17 @@
     </ion-button>
 
 <br>
-
-    <div class="validators" *ngIf="form.controls.name.errors && form.controls.name.touched">
-      <small *ngIf="form.controls.name.errors?.['required']">El nombre es requerido</small>
-      <small *ngIf="form.controls.name.errors?.['minlength']">El nombre debe tener al menos 3 caracteres</small>
-     </div>
-
+<div class="validators" *ngIf="form.controls.name.errors && form.controls.name.touched">
+  <small *ngIf="form.controls.name.errors?.['required']">El nombre es requerido</small>
+  <small *ngIf="form.controls.name.errors?.['minlength']">El nombre debe tener al menos 3 caracteres</small>
+ </div>
     <div class="input-wrapper">
-      <input  type="text" name="name" placeholder="Nombre Categoría"  required formControlName="name" >
+      <input type="text" name="name" placeholder="Nombre Subcategoría" required formControlName="name">
       <ion-icon class="input-icon" name="pricetag-outline"></ion-icon>
     </div>
-
-    <ion-button class="btn" type="submit" name="register" [disabled]="form.invalid" >
+    <ion-button class="btn" type="submit" [disabled]="form.invalid">
       <ion-icon slot="end" name="checkmark-circle-outline"></ion-icon>
-      {{categoria ? 'Actualizar Categoria' : 'Agregar Categoria'}}
+      {{subcategoria ? 'Actualizar Subcategoría' : 'Agregar Subcategoría'}}
     </ion-button>
-
   </form>
 </ion-content>

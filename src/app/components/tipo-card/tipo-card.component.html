@@ -1,8 +1,11 @@
 <div class="cards" (click)="onSelect()">
-<div class="card">
-  <ion-img [src]="item.image"></ion-img>
-  <div class="card-content">
-    <h3 class="title">{{item.title}}</h3>
+  <div class="card">
+    <ion-img [src]="item.image"></ion-img>
+    <div class="card-content">
+      <h3 class="title">{{ item.name }}</h3>
+      <ion-icon class="i-edit" title="Editar subcategoría"  name="create-outline"></ion-icon>
+      <ion-icon class="i-elimi" title="Eliminar subcategoría" name="trash-outline"></ion-icon>
+      <ion-icon class="i-add" title="Agregar subcategoría"  name="add-circle-outline"></ion-icon>
+    </div>
   </div>
-</div>
 </div>
