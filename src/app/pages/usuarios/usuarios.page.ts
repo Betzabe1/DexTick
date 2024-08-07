@@ -30,7 +30,7 @@ export class UsuariosPage implements OnInit {
   constructor(private afAuth: AngularFireAuth, private utilSvc: UtilService,  router:Router) {}
 
   ngOnInit() {
-    this.afAuth.setPersistence('local')  // Esto asegura que la sesión persista incluso después de cerrar y abrir el navegador.
+    this.afAuth.setPersistence('local')  
       .catch(error => {
         console.error('Error setting persistence:', error);
       });

@@ -8,7 +8,7 @@ import { Service } from 'src/app/models/service.model';
   styleUrls: ['./options.component.scss'],
 })
 export class OptionsComponent implements OnInit, OnChanges {
-  @Input() subCategoryId: string = ''; // Declarado como @Input
+  @Input() subCategoryId: string = ''; 
   services: Service[] = [];
 
   constructor(private optionsService: OptionsServiceService) {}

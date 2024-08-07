@@ -14,22 +14,89 @@
 
 <ion-content>
   <h3 class="prob">¿Qué problema tienes?</h3>
-
   <ion-list *ngIf="services.length > 0; else noServices">
     <ion-item-sliding *ngFor="let service of services">
-      <ion-item class="option-item">
+      <ion-item class="option-item" (click)="selectService(service)">
         <ion-thumbnail slot="start">
           <ion-img [src]="service.image"></ion-img>
         </ion-thumbnail>
         <ion-label>{{ service.name }}</ion-label>
-        <ion-checkbox slot="end"></ion-checkbox>
+        <ion-checkbox slot="end" [checked]="selectedService === service" [disabled]="false"></ion-checkbox>
       </ion-item>
     </ion-item-sliding>
   </ion-list>
+
+  <br>
+  <h3 class="prob">Selecciona cómo quieres que se realice el servicio</h3>
+  <br>
+  <div class="solu">
+    <div class="row">
+      <ion-item-sliding>
+        <ion-item class="option-item">
+          <ion-thumbnail slot="start">
+            <ion-img src="/assets/img/remot.png"></ion-img>
+          </ion-thumbnail>
+          <ion-label>Remoto</ion-label>
+          <ion-checkbox slot="end" [checked]="isRemoteSelected" (ionChange)="toggleRemoteSelection($event)"></ion-checkbox>
+        </ion-item>
+      </ion-item-sliding>
+
+      <ion-item-sliding>
+        <ion-item class="option-item">
+          <ion-thumbnail slot="start">
+            <ion-img src="/assets/img/presen.png"></ion-img>
+          </ion-thumbnail>
+          <ion-label>Presencial</ion-label>
+          <ion-button slot="end" [disabled]="isRemoteSelected" (click)="toggleDateTime()">
+            <ion-icon name="calendar-outline"></ion-icon>
+          </ion-button>
+
+          <ion-modal [isOpen]="isDateTimeOpen" (willDismiss)="onDateTimeDismiss($event)">
+            <ng-template>
+              <ion-header>
+                <ion-toolbar class="custom-toolbar">
+                  <ion-title class="custom-title ">Seleccionar fecha</ion-title>
+                  <ion-buttons slot="end">
+                    <ion-button (click)="isDateTimeOpen = false">X</ion-button>
+                  </ion-buttons>
+                </ion-toolbar>
+              </ion-header>
+              <ion-content>
+                <ion-datetime [value]="selectedDate" (ionChange)="onDateTimeChange($event)"></ion-datetime>
+              </ion-content>
+            </ng-template>
+          </ion-modal>
+        </ion-item>
+      </ion-item-sliding>
+    </div>
+  </div>
 
   <ng-template #noServices>
     <p>No se encontraron servicios para esta subcategoría.</p>
   </ng-template>
 
-  <app-otro-problem></app-otro-problem>
+  <div class="report-problem">
+    <h2 class="text-start">Explícanos más sobre el problema</h2>
+    <textarea placeholder="Describa el problema aquí..." [(ngModel)]="problemDescription"></textarea>
+
+    <div *ngIf="imagePreviews.length > 0" class="image-preview-container">
+      <div *ngFor="let imagePreview of imagePreviews" class="image-preview-wrapper col-4">
+        <img [src]="imagePreview" alt="Vista previa de la imagen" class="image-preview">
+      </div>
+    </div>
+
+
+    <ion-button class="imga" (click)="takeImage()">
+      Cargar imágenes
+    </ion-button>
+    <input type="file" id="image-upload" (change)="onFileSelected($event)" multiple hidden>
+  </div>
+  <br>
+
+  <br>
+
+  <div class="final">
+    <button class="gradient-button" [disabled]="!isServiceSelected || !isResolutionModeSelected" (click)="presentConfirmAlert()">Enviar</button>
+  </div>
+  <br>
 </ion-content>

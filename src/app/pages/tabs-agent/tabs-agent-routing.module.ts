@@ -19,7 +19,7 @@ const routes: Routes = [
       },
       {
         path: 'perfil-agent',
-        loadChildren: () => import('../perfil-agent/perfil-agent.module').then( m => m.PerfilAgentPageModule)
+        loadChildren: () => import('../perfil-agent/perfil-agent.module').then( m => m.PerfilAgentPageModule),
       },
       {
         path: '',

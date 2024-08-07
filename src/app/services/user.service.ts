@@ -8,6 +8,7 @@ import { UtilService } from './util.service';
 import { AngularFireStorage } from '@angular/fire/compat/storage';
 import { getStorage, uploadString, ref ,getDownloadURL, deleteObject } from 'firebase/storage';
 import { Observable } from 'rxjs';
+import { Service } from '../models/service.model';
 
 @Injectable({
   providedIn: 'root'
@@ -172,6 +173,7 @@ async uploadinImage(path: string, dataUrl: string): Promise<string> {
   return await ref.getDownloadURL().toPromise();
 }
 
+
 updatDocument(path: string, data: any) {
   return this.firestore.doc(path).update(data);
 }
@@ -217,7 +219,35 @@ async getDocuments(path: string) {
   return snapshot.docs.map(doc => doc.data());
 }
 
+getFromLocalStorage(key: string): Service | null {
+  const data = localStorage.getItem(key);
+  return data ? JSON.parse(data) : null;
+}
 
+// UserService
+
+async uploadFile(file: File, path: string): Promise<string> {
+  const fileRef = this.storage.ref(path);
+  await fileRef.put(file);
+  return await fileRef.getDownloadURL().toPromise();
+}
+
+getAllUsers() {
+  return this.firestore.collection('users').valueChanges();
+}
+
+ // Obtener el rol del usuario
+ getUserRole(userId: string): Promise<'client' | 'agent' | 'admin' | null> {
+  return this.firestore.collection<User>('users').doc(userId).get().toPromise()
+    .then(doc => {
+      if (doc.exists) {
+        const userData = doc.data();
+        return userData ? userData.role : null;
+      } else {
+        return null;
+      }
+    });
+}
 
 
 }

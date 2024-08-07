@@ -1,0 +1,275 @@
+
+
+
+.custom-toolbar {
+  --background: linear-gradient(to right, #007bff, #25cad2);
+  --color: white;
+  --ion-color-primary-contrast: white;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.custom-toolbar ion-title {
+  font-family: 'Roboto', sans-serif;
+  font-weight: bold;
+  color: white;
+  font-size: 18px;
+}
+
+.custom-avatar {
+  border: 2px solid white;
+  padding: 2px;
+  border-radius: 50%;
+  width: 40px;
+  height: 40px;
+}
+
+.custom-avatar ion-img {
+  border-radius: 50%;
+  width: 100%;
+  height: 100%;
+}
+ion-content{
+  --background:white;
+  // --background: linear-gradient(135deg, #f5f7fa 0%, #82f6ea 100%);
+  --keyboard-offset: 0px;
+  --offset-bottom: 0px;
+  --offset-top: 0px;
+  --padding-bottom: 0px;
+  --padding-start: 30px; /* Margen izquierdo */
+  --padding-end: 30px; /* Margen derecho */
+  --padding-top: 10px;
+  font-family:  "Poppins", sans-serif;
+  align-items: center;
+  justify-content: center;
+  display: flex;
+}
+ion-icon{
+  font-size: 16px;
+}
+
+.gradient-button {
+  border-radius: 20px;
+  width: 210px;
+  padding: 15px;
+  background:linear-gradient(
+    90deg,
+    rgb(90, 202, 227)30%,
+    (#385cc7)80%);
+  box-shadow: 0 0 20px rgba(174, 209, 252, 0.6);
+  color: #fff;
+  font-size: 16px;
+  cursor: pointer;
+  font-weight: 600;
+  text-align: center;
+  transition: all 0.3s ease; /* Añadir una transición suave */
+
+  /* Estilos adicionales para centrar el botón */
+  margin: auto; /* Centra horizontalmente */
+}
+.butn{
+  align-items: center;
+  justify-content:center;
+  display: flex;
+}
+.gradient-button:hover {
+  width: 220px; /* Aumentar el ancho del botón en el hover */
+  padding: 20px;
+  align-items:center ;
+  color: #fff;
+  font-size: 14px;
+  cursor: pointer;
+  background:linear-gradient(
+    90deg,
+    rgba(30, 64, 188),
+    (#42c4e8)80%);
+  box-shadow: 0 0 20px rgba(90, 202, 227);
+}
+.prob{
+  font-size: 16px;
+}
+.solu{
+  text-align: center;
+  justify-content: center;
+  align-items: center;
+width:100%;
+}
+.txtl{
+  font-size: 14px;
+}
+
+.row{
+  align-items: center;
+width:100%;
+}
+.report-problem {
+  background-color: #fcfbfe;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  max-width: 100%;
+  margin: auto;
+  padding: 20px;
+  box-shadow: 0 10px 10px rgba(17, 79, 238, 0.1);
+}
+.final{
+  align-items: center;
+  justify-content: center;
+  display: flex;
+  text-align: center;
+}
+ion-label{
+  font-size: 14px;
+}
+
+.report-problem {
+  background-color: #fcfbfe;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  max-width: 100%;
+  margin: auto;
+  padding: 20px;
+  box-shadow: 0 10px 10px rgba(17, 79, 238, 0.1);
+}
+.final{
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+}
+
+h2 {
+  font-size: 16px;
+  margin-bottom: 18px;
+  color: #333;
+}
+
+textarea {
+  background-color: white;
+  width: 100%;
+  height: 150px;
+  padding: 10px;
+  border: 1px solid #7762ed !important;
+  border-radius: 4px;
+  margin-bottom: 20px;
+  font-size: 14px;
+
+  &:focus, &:active {
+    border: 1px solid #7762ed !important;
+    outline: none;
+  }
+}
+
+.image-upload-label {
+  padding: 10px 10px;
+  background-color: #00ccff;
+  color: white;
+  width: 180px;
+  text-align: center;
+  border-radius: 4px;
+  cursor: pointer;
+  margin-bottom: 10px;
+}
+
+#image-upload {
+  display: none;
+}
+
+.image-preview {
+  align-items: center;
+  justify-content: center;
+  display: flex ;
+  max-width: 100%;
+  margin-top: 20px;
+  border: 1px solid #ddd;
+  border-radius: 4px;
+}
+
+@media screen and (min-width: 992px) {
+  .image-preview {
+    align-items: center;
+    justify-content: center;
+    display: flex ;
+    max-width: 40%;
+    margin-top: 20px;
+    border: 1px solid #ddd;
+    border-radius: 4px;
+  }
+}
+
+.gradient-button {
+  border-radius: 20px;
+  width: 250px; /* Aumentar el ancho del botón */
+  padding: 15px;
+  background:linear-gradient(
+    90deg,
+    rgb(90, 202, 227)30%,
+    (#385cc7)80%);
+  box-shadow: 0 0 20px rgba(174, 209, 252, 0.6);
+  color: #fff;
+  font-size: 16px;
+  cursor: pointer;
+  font-weight: 600;
+  text-align: center;
+  transition: all 0.3s ease; /* Añadir una transición suave */
+  margin: auto; /* Centra horizontalmente */
+}
+
+.gradient-button:hover {
+  width: 270px; /* Aumentar el ancho del botón en el hover */
+  padding: 20px;
+
+  color: #fff;
+  font-size: 14px;
+  cursor: pointer;
+  background:linear-gradient(
+    90deg,
+    rgba(30, 64, 188),
+    (#42c4e8)80%);
+  box-shadow: 0 0 20px rgba(90, 202, 227);
+}
+.datetime-content {
+  --min-width: 100%;
+  --min-height: 100%;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+
+  ion-datetime {
+    max-width: 100%;
+    max-height: 100%;
+  }
+}
+.imga{
+  --background: none;
+  --background-activated: none;
+  --background-focused: none;
+  --background-hover: none;
+  --border-color: transparent; /* Eliminar color de borde */
+  --border-width: 0px; /* Eliminar ancho de borde */
+  --box-shadow: none; /* Eliminar sombra de borde */
+  background-color: #00CCFF;
+  border-radius: 5px;
+}
+.image-icon{
+  font-size: 100px;
+  opacity: 30%;
+}
+
+.image-preview-container {
+  width:80%;
+  display: flex; /* Usar flexbox para controlar el diseño */
+  flex-wrap: wrap; /* Permitir que las imágenes se envuelvan a la siguiente línea si es necesario */
+}
+
+
+
+.image-preview {
+  width: 100%; /* Asegura que la imagen ocupe todo el ancho del contenedor */
+  height: auto; /* Mantiene la proporción de la imagen */
+  border-radius: 8px; /* Bordes redondeados, si lo deseas */
+  object-fit: cover; /* Ajusta la imagen para cubrir el contenedor sin distorsionarse */
+}

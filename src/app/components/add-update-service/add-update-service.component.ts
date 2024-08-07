@@ -21,8 +21,9 @@ export class AddUpdateServiceComponent implements OnInit {
 
   form = new FormGroup({
     id: new FormControl(''),
-    name: new FormControl('', [Validators.required, Validators.minLength(4)]),
+    name: new FormControl('', [Validators.required, Validators.minLength(3)]),
     image: new FormControl('', [Validators.required]),
+    precio:new FormControl(0,[Validators.required, Validators.min(0)])
   });
 
   utilSvc = inject(UtilService);

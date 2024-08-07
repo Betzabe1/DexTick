@@ -50,7 +50,7 @@
 
   <h1 class="list-header">Servicios</h1>
   <div class="food-list" *ngIf="selectedCategory">
-    <div class="card" *ngFor="let subcategoria of selectedCategory.subcategorias"  (click)="navigateToServiceOptions(selectedCategory.id, subcategoria.id)">
+    <div class="card" *ngFor="let subcategoria of selectedCategory.subcategorias" (click)="navigateToServiceOptions(selectedCategory.id, subcategoria.id)">
       <ion-img [src]="subcategoria.image"></ion-img>
       <div class="card-content">
         <h3 class="title">{{ subcategoria.name }}</h3>

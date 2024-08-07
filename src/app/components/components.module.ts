@@ -16,6 +16,7 @@ import { EditarUsariosComponent } from './editar-usarios/editar-usarios.componen
 import { AddUpdateProductComponent } from './add-update-product/add-update-product.component';
 import { AddUpdateSubcategoryComponent } from './add-update-subcategory/add-update-subcategory.component';
 import { AddUpdateServiceComponent } from './add-update-service/add-update-service.component';
+import { ImageModalComponent } from './image-modal/image-modal.component';
 
 
 
@@ -33,7 +34,8 @@ import { AddUpdateServiceComponent } from './add-update-service/add-update-servi
     EditarUsariosComponent,
     AddUpdateProductComponent,
     AddUpdateSubcategoryComponent,
-    AddUpdateServiceComponent
+    AddUpdateServiceComponent,
+    ImageModalComponent
   ],
   exports:[
     HeaderComponent,
@@ -49,7 +51,8 @@ import { AddUpdateServiceComponent } from './add-update-service/add-update-servi
     EditarUsariosComponent,
     AddUpdateProductComponent,
     AddUpdateSubcategoryComponent,
-    AddUpdateServiceComponent
+    AddUpdateServiceComponent,
+    ImageModalComponent
 
 
   ],

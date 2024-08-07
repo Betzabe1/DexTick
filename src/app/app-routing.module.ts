@@ -1,6 +1,7 @@
 import { NgModule } from '@angular/core';
 import { PreloadAllModules, RouterModule, Routes } from '@angular/router';
 import { AuthGuard } from './guards/auth.guard'; // Importa el AuthGuard
+import { NoAuthGuard } from './guards/no-auth.guard';
 
 const routes: Routes = [
   {
@@ -12,6 +13,7 @@ const routes: Routes = [
   {
     path: 'login',
     loadChildren: () => import('./pages/login/login.module').then(m => m.LoginPageModule),
+
   },
   {
     path: 'register',
@@ -36,7 +38,7 @@ const routes: Routes = [
     data: { expectedRole: 'client' }
   },
   {
-    path: 'tickets-user',
+    path: 'tickets-user:id',
     loadChildren: () => import('./pages/tickets-user/tickets-user.module').then( m => m.TicketsUserPageModule),
     canActivate: [AuthGuard],
     data: { expectedRole: 'client' }
@@ -154,9 +156,10 @@ const routes: Routes = [
     loadChildren: () => import('./pages/editar-admins/editar-admins.module').then( m => m.EditarAdminsPageModule),
     canActivate: [AuthGuard],
     data: { expectedRole: 'admin' }
-  },  {
-    path: 'servicios-users',
-    loadChildren: () => import('./pages/servicios-users/servicios-users.module').then( m => m.ServiciosUsersPageModule)
+  },
+  {
+    path: 'servicios-users/:categoryId/:subCategoryId',
+        loadChildren: () => import('./pages/servicios-users/servicios-users.module').then( m => m.ServiciosUsersPageModule)
   }
 
 

@@ -13,10 +13,9 @@ const routes: Routes = [
         loadChildren: () => import('../home-admin/home-admin.module').then(m => m.HomeAdminPageModule)
       },
       {
-        path: 'tickets-user',
-        loadChildren: () => import('../tickets-user/tickets-user.module').then(m => m.TicketsUserPageModule)
+        path: 'tickets-agent',
+        loadChildren: () => import('../tickets-agent/tickets-agent.module').then(m => m.TicketsAgentPageModule)
       },
-
       {
         path: 'perfil-admin',
         loadChildren: () => import('../perfil-admin/perfil-admin.module').then( m => m.PerfilAdminPageModule)

@@ -40,7 +40,7 @@ export class PerfilesComponent implements OnInit {
         tel: user.tel,
         name: user.name,
         role: user.role,
-        image: user.image // Cargar la imagen actual del usuario en el formulario
+        image: user.image 
       });
     }
   }

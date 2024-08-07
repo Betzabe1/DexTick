@@ -14,7 +14,6 @@
 
 <ion-content>
   <h3 class="prob">¿Qué problema tienes?</h3>
-
   <ion-list *ngIf="services.length > 0; else noServices">
     <ion-item-sliding *ngFor="let service of services">
       <ion-item class="option-item">
@@ -35,10 +34,73 @@
       </ion-item-options>
     </ion-item-sliding>
   </ion-list>
+<br>
+<h3 class="prob">Selecciona cómo quieres que se realice el servicio</h3>
+<br>
+<div class="solu">
+<div class="row">
+    <ion-item-sliding >
+      <ion-item class="option-item">
+        <ion-thumbnail slot="start">
+          <ion-img src="/assets/img/remot.png" ></ion-img>
+        </ion-thumbnail>
+        <ion-label>Remoto</ion-label>
+        <ion-checkbox slot="end"></ion-checkbox>
+       </ion-item>
+      </ion-item-sliding>
+
+    <ion-item-sliding>
+      <ion-item class="option-item">
+        <ion-thumbnail slot="start">
+          <ion-img src="/assets/img/presen.png"></ion-img>
+        </ion-thumbnail>
+        <ion-label>Presencial</ion-label>
+
+          <!-- Botón para abrir el ion-datetime -->
+    <ion-button slot="end" (click)="toggleDateTime()">
+      <ion-icon name="calendar-outline"></ion-icon>
+    </ion-button>
+
+        <!-- ion-datetime oculto que se muestra al seleccionar -->
+        <ion-modal [isOpen]="isDateTimeOpen" (willDismiss)="onDateTimeDismiss($event)">
+          <ng-template>
+            <ion-datetime
+              [value]="selectedDate"
+              (ionChange)="onDateTimeChange($event)"
+              [presentation]="'date'">
+            </ion-datetime>
+          </ng-template>
+        </ion-modal>
+      </ion-item>
+      </ion-item-sliding>
+  </div>
+</div>
+<br>
+
 
   <ng-template #noServices>
     <p>No se encontraron servicios para esta subcategoría.</p>
   </ng-template>
 
-  <app-otro-problem></app-otro-problem>
+  <div class="report-problem">
+    <h2 class="text-start">Explícanos más sobre el problema</h2>
+    <textarea placeholder="Describa el problema aquí..." [(ngModel)]="problemDescription"></textarea>
+
+    <label for="image-upload" class="image-upload-label">Cargar imagen</label>
+    <input type="file" id="image-upload" (change)="onFileSelected($event)" accept="image/*">
+
+    <div *ngIf="imagePreview" class="image-preview-container">
+      <img [src]="imagePreview" alt="Vista previa de la imagen" class="image-preview">
+    </div>
+  </div>
+  <br>
+
+  <br>
+
+
+  <div class="final">
+    <button class="gradient-button" (click)="add()">Enviar</button>
+  </div>
+  <br>
+
 </ion-content>

@@ -10,3 +10,62 @@
   </ion-toolbar>
 </ion-header>
 
+<ion-content>
+  <ion-refresher slot="fixed" (ionRefresh)="doRefresh($event)">
+    <ion-refresher-content></ion-refresher-content>
+  </ion-refresher>
+  <div class="mt-2 barra" mode="">
+  <ion-segment value="custom " (ionChange)="changeSegment($event)" value="enviados">
+    <ion-segment-button value="enviados">
+      <ion-label class="lab">Nuevos</ion-label>
+    </ion-segment-button>
+    <ion-segment-button value="proceso">
+      <ion-label class="lab">Proceso</ion-label>
+    </ion-segment-button>
+    <ion-segment-button value="finalizados">
+      <ion-label class="lab">Finalizado</ion-label>
+    </ion-segment-button>
+  </ion-segment>
+</div>
+
+<div class="container">
+  <div class="row mt-3 ">
+    <div class="col-md-12 mb-4 cardI" *ngFor="let ticket of tickets">
+      <div class="card" >
+        <div class="card-body">
+          <div class="card-header">
+            <p class="card-date-time" slot="end">
+              {{ ticket.fecha | date:'dd/MM/yyyy' }} {{ ticket.fecha | date:'HH:mm' }}
+            </p>
+            <h5 class="card-title">
+              Estado: {{ ticket.estado }}
+            </h5>
+          </div>
+          <ul class="list-group list-group-flush">
+            <li class="list-group-item ">Cliente: {{ user.name }}</li>
+            <li class="list-group-item">Email Cliente: {{ user.email }}</li>
+            <li class="list-group-item">Tel. Cliente: {{ user.tel }}</li>
+            <li class="list-group-item">Servicio: {{ ticket.servicio }}</li>
+            <li class="list-group-item">Descripción: {{ ticket.desc }}</li>
+            <li class="list-group-item">Fecha Presencial: {{ ticket.fechaP | date }}</li>
+            <li class="list-group-item">Costo estimado: ${{ ticket.Total }}</li>
+            <li class="list-group-item">Evidencias:
+            <div class="image-gallery">
+              <img *ngFor="let image of ticket.imagenes"
+                   [src]="image"
+                   (click)="openImage(image)"
+                   class="img-thumbnail">
+            </div>
+          </li>
+          </ul>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+
+
+
+</ion-content>
+

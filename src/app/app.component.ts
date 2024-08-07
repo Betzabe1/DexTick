@@ -6,6 +6,7 @@ import { AlertController } from '@ionic/angular';
 import { User } from 'src/app/models/user.model';
 import { UserService } from 'src/app/services/user.service';
 import { UtilService } from 'src/app/services/util.service';
+// import { NotificationService } from './services/notification.service';
 
 @Component({
   selector: 'app-root',
@@ -23,6 +24,8 @@ export class AppComponent implements OnInit {
     role: new FormControl('client'),
   });
 
+
+
   firebaseSvc = inject(UserService);
   utilSvc = inject(UtilService);
   alertController=inject(AlertController);
@@ -38,8 +41,11 @@ export class AppComponent implements OnInit {
       });
   }
 
-  constructor(private router:Router, private afAuth: AngularFireAuth) {}
+  constructor(private router:Router, private afAuth: AngularFireAuth,
+    // private notificationService:NotificationService
+  ) {}
   redirectToPage() {
     this.router.navigate(['tabs-admin/usuarios']);
   }
+
 }

@@ -2,7 +2,7 @@
 
 .custom-title {
   font-size: 13px;
-  text-align: left; /* Asegura que el texto esté alineado a la izquierda */
+  text-align: left;
 }
 
 
@@ -125,7 +125,7 @@ input::placeholder{
 input:focus,
 input:not(:placeholder-shown),
 input:active {
-  background-color: #fff; /* Mantiene el fondo blanco */
+  background-color: #fff;
 }
 .btn {
   background: linear-gradient(
@@ -142,7 +142,7 @@ input:active {
   --background-activated: none;
   --background-focused: none;
   --background-hover: none;
-  --border-color: transparent; /* Eliminar color de borde */
+  --border-color: transparent;
   --border-width: 0px; /* Eliminar ancho de borde */
   --box-shadow: none; /* Eliminar sombra de borde */
 }

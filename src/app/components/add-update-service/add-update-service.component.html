@@ -6,11 +6,7 @@
       </ion-button>
     </ion-buttons>
     <ion-title class="custom-title" slot="start">{{title}}</ion-title>
-    <ion-buttons slot="end">
-      <ion-avatar class="custom-avatar">
-        <ion-img src="/assets/img/user.png"></ion-img>
-      </ion-avatar>
-    </ion-buttons>
+
   </ion-toolbar>
 </ion-header>
 
@@ -36,6 +32,15 @@
     <div class="input-wrapper">
       <input type="text" name="name" placeholder="Nombre del Servicio" required formControlName="name">
       <ion-icon class="input-icon" name="pricetag-outline"></ion-icon>
+    </div>
+
+
+    <div class="validators" *ngIf="form.controls.precio.errors && form.controls.precio.touched">
+      <small *ngIf="form.controls.precio.errors?.['required']">El precio es requerido</small>
+     </div>
+    <div class="input-wrapper">
+      <input type="text" name="precio" placeholder="Costo del Servicio" required formControlName="precio">
+      <ion-icon class="input-icon" name="card"></ion-icon>
     </div>
 
     <ion-button class="btn" type="submit" [disabled]="form.invalid">

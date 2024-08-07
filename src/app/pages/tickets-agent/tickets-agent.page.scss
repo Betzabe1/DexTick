@@ -1,5 +1,9 @@
 @import url('https://fonts.googleapis.com/css2?family=Poppins:ital,wght@0,100;0,200;0,300;0,400;0,500;0,600;0,700;0,800;0,900;1,100;1,200;1,300;1,400;1,500;1,600;1,700;1,800;1,900&display=swap');
+body{
+  background-color: white;
+  font-family: 'Roboto', sans-serif;
 
+}
 .custom-toolbar {
   --background: linear-gradient(to right, #007bff, #25cad2);
   --color: white;
@@ -30,6 +34,110 @@
   height: 100%;
 }
 
+.lab{
+  font-size: 14px;
+  font-weight: 500;
 
+}
+ion-segment-button::part(indicator-background) {
+  background: #c6d0fd;
+}
+i
+/* Material Design styles */
+ion-segment-button.md::part(native) {
+  color: #385CC7;
+}
 
+.segment-button-checked.md::part(native) {
+  color: #8594da;
+}
 
+ion-segment-button.md::part(indicator-background) {
+  height: 4px;
+}
+
+/* iOS styles */
+ion-segment-button.ios::part(native) {
+  color: #8594da;
+}
+
+.segment-button-checked.ios::part(native) {
+  color: #385CC7;
+}
+
+ion-segment-button.ios::part(indicator-background) {
+  border-radius: 20px;
+}
+
+.thumbnail {
+  max-width: 150px;
+  max-height: 100px;
+  object-fit: cover;
+  cursor: pointer;
+}
+
+//crads
+.card {
+  width: 60%;
+  border-radius: 4px;
+  background: linear-gradient(to bottom right, #83f1fb, #849aff);
+  box-shadow: 0 4px 8px 0 rgba(52, 68, 243, 0.2);
+  font-family: Arial, sans-serif;
+  color: white;
+  overflow: hidden;
+}
+
+.card-date-time {
+  font-size: 12px;
+  color: #747779;
+  text-align: right;
+}
+.card-title{
+  font-size: 20px;
+  font-weight:600;
+}
+.card-header {
+  background-color: rgba(255, 255, 255, 0.491);
+  padding: 0.5rem;
+  color: #154ec4;
+}
+
+.card-body {
+  background-color: rgba(255, 255, 255, 0.322);
+  border-radius: 5px;
+  box-shadow: 0 4px 8px 0 rgba(14, 21, 105, 0.2);
+  padding: 1rem;
+  backdrop-filter: blur(30px);
+}
+
+.list-group-item {
+  background-color: rgba(255, 255, 255, 0.418); /* Fondo translúcido para el encabezado */
+  color:#292454;
+
+}
+
+.image-gallery {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.5rem; /* Espacio entre imágenes */
+}
+
+.image-gallery img {
+  width: 100%; /* Ajusta el tamaño de las imágenes */
+  max-width: 150px; /* Tamaño máximo para imágenes */
+  cursor: pointer;
+  border-radius: 4px;
+}
+
+.cardI{
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+@media (max-width: 576px) {
+  .card {
+    width: 100%; /* Full width on extra small devices */
+  }
+
+}

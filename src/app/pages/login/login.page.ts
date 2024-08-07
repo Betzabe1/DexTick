@@ -88,8 +88,12 @@ export class LoginPage implements OnInit {
       const user = await this.firebaseSvc.getDocument(path);
       this.utilSvc.saveInLocalStorage('user', user);
       this.redirectBasedOnRole(user.role);
+
+
       this.form.reset();
       if (this.isLoggingIn) {
+        console.log(`Correo electrónico del usuario: ${user.email}`);
+        console.log(`Correo electrónico del usuario: ${user.tel}`);
         this.utilSvc.presentToast({
           message: `Te damos la bienvenida ${user.name}`,
           duration: 2000,

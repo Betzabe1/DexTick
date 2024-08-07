@@ -20,9 +20,9 @@ export class CrudAdminPage implements OnInit {
   user(): User {
     return this.utilSvc.getFormLocalStorage('user');
   }
- 
+
   ngOnInit() {
-    this.getUsers(); // Llamar a getUsers en ngOnInit
+    this.getUsers(); 
   }
 
   getUsers() {

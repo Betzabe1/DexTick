@@ -11,19 +11,44 @@ import { AddUpdateServiceComponent } from 'src/app/components/add-update-service
   styleUrls: ['./service-options.page.scss'],
 })
 export class ServiceOptionsPage implements OnInit {
+
+  selectedDate: string | undefined;
+  isDateTimeOpen: boolean = false;
+
+  fecha: Date=new Date();
+
   categoryId: string = '';
   subCategoryId: string = '';
   services: any[] = [];
+  problemDescription: string = '';
+  selectedImage: File | null = null;
+  imagePreview: string | ArrayBuffer | null = null;
+
 
   utilSvc = inject(UtilService);
   firebaseSvc = inject(UserService);
-
+  alertController=inject(AlertController)
   constructor(
     private route: ActivatedRoute,
     private router: Router,
     private modalCtrl: ModalController,
     private alertCtrl: AlertController
   ) { }
+
+
+  toggleDateTime() {
+    this.isDateTimeOpen = true;
+  }
+
+  onDateTimeChange(event: any) {
+    this.selectedDate = event.detail.value;
+    console.log('Selected date:', this.selectedDate);
+    this.isDateTimeOpen = false; // Close the modal after selecting a date
+  }
+
+  onDateTimeDismiss(event: any) {
+    this.isDateTimeOpen = false;
+  }
 
   ngOnInit() {
     this.route.paramMap.subscribe(params => {
@@ -104,4 +129,97 @@ export class ServiceOptionsPage implements OnInit {
   user(): any {
     return this.utilSvc.getFormLocalStorage('user');
   }
+
+
+
+  async showAlert() {
+    const alert = await this.alertController.create({
+      header: 'Selecciona el tipo de servicio',
+      buttons: [
+        {
+          text: 'Remoto',
+          handler: () => {
+            this.showSuccessAlert('Servicio remoto seleccionado');
+          }
+        },
+        {
+          text: 'Presencial',
+          handler: () => {
+            this.showCalendar();
+          }
+        },
+        {
+          text: 'Cancelar',
+          role: 'cancel'
+        }
+      ]
+    });
+
+    await alert.present();
+  }
+
+  async showCalendar() {
+    const alert = await this.alertController.create({
+      header: 'Seleccione una fecha',
+      inputs: [
+        {
+          name: 'date',
+          type: 'date',
+          placeholder: 'Seleccione una fecha'
+        }
+      ],
+      buttons: [
+        {
+          text: 'Cancelar',
+          role: 'cancel'
+        },
+        {
+          text: 'Aceptar',
+          handler: (data) => {
+            this.showSuccessAlert(`Fecha seleccionada: ${data.date}`);
+          }
+        }
+      ]
+    });
+
+    await alert.present();
+  }
+
+  async showSuccessAlert(message: string) {
+    const alert = await this.alertController.create({
+      header: 'Éxito',
+      message: message,
+      buttons: ['OK']
+    });
+
+    await alert.present();
+  }
+
+
+
+  toggleAccordion() {
+    const content = document.querySelector('.accordion-content');
+    if (content) {
+      content.classList.toggle('expanded');
+    }
+  }
+
+  onFileSelected(event: Event) {
+    const input = event.target as HTMLInputElement;
+    if (input.files && input.files[0]) {
+      this.selectedImage = input.files[0];
+
+      const reader = new FileReader();
+      reader.onload = () => {
+        this.imagePreview = reader.result;
+      };
+      reader.readAsDataURL(this.selectedImage);
+    }
+  }
+
+//enviar ticket
+  async add(){
+
+  }
 }
+
