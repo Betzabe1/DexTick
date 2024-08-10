@@ -4,7 +4,7 @@
 
 export const environment = {
   production: false,
-  
+
   firebaseConfig :{
     apiKey: "AIzaSyDAdtju67g0A7OdZdcEBScPnppZR9CDbY8",
     authDomain: "dextick-77000.firebaseapp.com",

@@ -38,16 +38,16 @@
 <h3 class="prob">Selecciona cómo quieres que se realice el servicio</h3>
 <br>
 <div class="solu">
-<div class="row">
-    <ion-item-sliding >
+  <div class="row">
+    <ion-item-sliding>
       <ion-item class="option-item">
         <ion-thumbnail slot="start">
-          <ion-img src="/assets/img/remot.png" ></ion-img>
+          <ion-img src="/assets/img/remot.png"></ion-img>
         </ion-thumbnail>
         <ion-label>Remoto</ion-label>
-        <ion-checkbox slot="end"></ion-checkbox>
-       </ion-item>
-      </ion-item-sliding>
+        <ion-checkbox slot="end" [checked]="isRemoteSelected" (ionChange)="toggleRemoteSelection($event)"></ion-checkbox>
+      </ion-item>
+    </ion-item-sliding>
 
     <ion-item-sliding>
       <ion-item class="option-item">
@@ -55,52 +55,57 @@
           <ion-img src="/assets/img/presen.png"></ion-img>
         </ion-thumbnail>
         <ion-label>Presencial</ion-label>
+        <ion-button slot="end" [disabled]="isRemoteSelected" (click)="toggleDateTime()">
+          <ion-icon name="calendar-outline"></ion-icon>
+        </ion-button>
 
-          <!-- Botón para abrir el ion-datetime -->
-    <ion-button slot="end" (click)="toggleDateTime()">
-      <ion-icon name="calendar-outline"></ion-icon>
-    </ion-button>
-
-        <!-- ion-datetime oculto que se muestra al seleccionar -->
         <ion-modal [isOpen]="isDateTimeOpen" (willDismiss)="onDateTimeDismiss($event)">
           <ng-template>
-            <ion-datetime
-              [value]="selectedDate"
-              (ionChange)="onDateTimeChange($event)"
-              [presentation]="'date'">
-            </ion-datetime>
+            <ion-header>
+              <ion-toolbar class="custom-toolbar">
+                <ion-title class="custom-title ">Seleccionar fecha</ion-title>
+                <ion-buttons slot="end">
+                  <ion-button (click)="isDateTimeOpen = false">X</ion-button>
+                </ion-buttons>
+              </ion-toolbar>
+            </ion-header>
+            <ion-content>
+              <ion-datetime [value]="selectedDate" (ionChange)="onDateTimeChange($event)"></ion-datetime>
+            </ion-content>
           </ng-template>
         </ion-modal>
       </ion-item>
-      </ion-item-sliding>
+    </ion-item-sliding>
   </div>
 </div>
-<br>
 
 
-  <ng-template #noServices>
-    <p>No se encontraron servicios para esta subcategoría.</p>
-  </ng-template>
+<ng-template #noServices>
+  <p>No se encontraron servicios para esta subcategoría.</p>
+</ng-template>
 
-  <div class="report-problem">
-    <h2 class="text-start">Explícanos más sobre el problema</h2>
-    <textarea placeholder="Describa el problema aquí..." [(ngModel)]="problemDescription"></textarea>
+<div class="report-problem">
+  <h2 class="text-start">Explícanos más sobre el problema</h2>
+  <textarea placeholder="Describa el problema aquí..." [(ngModel)]="problemDescription"></textarea>
 
-    <label for="image-upload" class="image-upload-label">Cargar imagen</label>
-    <input type="file" id="image-upload" (change)="onFileSelected($event)" accept="image/*">
-
-    <div *ngIf="imagePreview" class="image-preview-container">
+  <div *ngIf="imagePreviews.length > 0" class="image-preview-container">
+    <div *ngFor="let imagePreview of imagePreviews" class="image-preview-wrapper col-4">
       <img [src]="imagePreview" alt="Vista previa de la imagen" class="image-preview">
     </div>
   </div>
-  <br>
-
-  <br>
 
 
-  <div class="final">
-    <button class="gradient-button" (click)="add()">Enviar</button>
-  </div>
-  <br>
+  <ion-button class="imga" (click)="takeImage()">
+    Cargar imágenes
+  </ion-button>
+  <input type="file" id="image-upload" (change)="onFileSelected($event)" multiple hidden>
+</div>
+<br>
 
+<br>
+
+<div class="final">
+  <button class="gradient-button" [disabled]="!isServiceSelected || !isResolutionModeSelected" (click)="presentConfirmAlert()">Enviar</button>
+</div>
+<br>
 </ion-content>

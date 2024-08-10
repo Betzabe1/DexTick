@@ -123,9 +123,10 @@ ion-segment-button.ios::part(indicator-background) {
 }
 
 .image-gallery img {
-  width: 100%; /* Ajusta el tamaño de las imágenes */
-  max-width: 150px; /* Tamaño máximo para imágenes */
-  cursor: pointer;
+  width: 100%; /* Ocupa todo el ancho del contenedor */
+  max-width: 100%; /* Limita el tamaño máximo a 100% del ancho del contenedor */
+  height: auto; /* Mantiene la relación de aspecto */
+  object-fit: cover; /* Ajusta la imagen para llenar el espacio sin distorsionar */
   border-radius: 4px;
 }
 
@@ -138,6 +139,14 @@ ion-segment-button.ios::part(indicator-background) {
 @media (max-width: 576px) {
   .card {
     width: 100%; /* Full width on extra small devices */
+  }
+  .image-gallery {
+    justify-content: center; /* Centra las imágenes en pantallas pequeñas */
+  }
+
+  .image-gallery img {
+    width: 100%; /* Ocupa todo el ancho del contenedor en pantallas pequeñas */
+    max-width: 100%; /* Limita el tamaño máximo a 100% del ancho del contenedor */
   }
 
 }

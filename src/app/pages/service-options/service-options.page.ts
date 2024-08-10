@@ -1,9 +1,12 @@
-import { Component, inject, OnInit } from '@angular/core';
 import { ModalController, AlertController } from '@ionic/angular';
 import { ActivatedRoute, Router } from '@angular/router';
 import { UserService } from 'src/app/services/user.service';
 import { UtilService } from 'src/app/services/util.service';
 import { AddUpdateServiceComponent } from 'src/app/components/add-update-service/add-update-service.component';
+import { User } from 'src/app/models/user.model';
+import { TicketsService } from 'src/app/services/tickets.service';
+import { Component, OnInit } from '@angular/core';
+import { Ticket } from '../../models/ticket.model';
 
 @Component({
   selector: 'app-service-options',
@@ -12,45 +15,37 @@ import { AddUpdateServiceComponent } from 'src/app/components/add-update-service
 })
 export class ServiceOptionsPage implements OnInit {
 
-  selectedDate: string | undefined;
-  isDateTimeOpen: boolean = false;
+  fecha: Date = new Date();
+  selectedService: any = null;
+  imagePreviews: string[] = [];
+  selectedFiles: File[] = [];
 
-  fecha: Date=new Date();
+  isServiceSelected: boolean = false;
+  isResolutionModeSelected: boolean = false;
+
+  isDateTimeOpen = false;
+  selectedDate: string | null = null;
+  isRemoteSelected = false;
+  problemDescription: string = '';
 
   categoryId: string = '';
   subCategoryId: string = '';
-  services: any[] = [];
-  problemDescription: string = '';
-  selectedImage: File | null = null;
-  imagePreview: string | ArrayBuffer | null = null;
+  services = [];
 
+  user: User = {} as User;
 
-  utilSvc = inject(UtilService);
-  firebaseSvc = inject(UserService);
-  alertController=inject(AlertController)
   constructor(
+    public ticketServi: TicketsService,
     private route: ActivatedRoute,
     private router: Router,
-    private modalCtrl: ModalController,
-    private alertCtrl: AlertController
+    private utilSvc: UtilService,
+    private alertCtrl: AlertController,
+    private firebaseSvc: UserService,
+    private modalCtrl: ModalController
   ) { }
 
-
-  toggleDateTime() {
-    this.isDateTimeOpen = true;
-  }
-
-  onDateTimeChange(event: any) {
-    this.selectedDate = event.detail.value;
-    console.log('Selected date:', this.selectedDate);
-    this.isDateTimeOpen = false; // Close the modal after selecting a date
-  }
-
-  onDateTimeDismiss(event: any) {
-    this.isDateTimeOpen = false;
-  }
-
   ngOnInit() {
+    this.user = this.utilSvc.getFormLocalStorage('user');
     this.route.paramMap.subscribe(params => {
       this.categoryId = params.get('categoryId') ?? '';
       this.subCategoryId = params.get('subCategoryId') ?? '';
@@ -111,13 +106,16 @@ export class ServiceOptionsPage implements OnInit {
             const loading = await this.utilSvc.loading();
             await loading.present();
 
-            let imagePath = await this.firebaseSvc.getFilePath(service.image);
-            await this.firebaseSvc.deleteFile(imagePath);
-
-            this.firebaseSvc.deleteDocument(path).then(() => {
-              loading.dismiss();
+            try {
+              let imagePath = await this.firebaseSvc.getFilePath(service.image);
+              await this.firebaseSvc.deleteFile(imagePath);
+              await this.firebaseSvc.deleteDocument(path);
               this.loadServices();
-            });
+            } catch (error) {
+              console.error('Error deleting service:', error);
+            } finally {
+              loading.dismiss();
+            }
           }
         }
       ]
@@ -126,100 +124,201 @@ export class ServiceOptionsPage implements OnInit {
     await alert.present();
   }
 
-  user(): any {
-    return this.utilSvc.getFormLocalStorage('user');
-  }
-
-
-
-  async showAlert() {
-    const alert = await this.alertController.create({
-      header: 'Selecciona el tipo de servicio',
-      buttons: [
-        {
-          text: 'Remoto',
-          handler: () => {
-            this.showSuccessAlert('Servicio remoto seleccionado');
-          }
-        },
-        {
-          text: 'Presencial',
-          handler: () => {
-            this.showCalendar();
-          }
-        },
-        {
-          text: 'Cancelar',
-          role: 'cancel'
-        }
-      ]
-    });
-
-    await alert.present();
-  }
-
-  async showCalendar() {
-    const alert = await this.alertController.create({
-      header: 'Seleccione una fecha',
-      inputs: [
-        {
-          name: 'date',
-          type: 'date',
-          placeholder: 'Seleccione una fecha'
-        }
-      ],
-      buttons: [
-        {
-          text: 'Cancelar',
-          role: 'cancel'
-        },
-        {
-          text: 'Aceptar',
-          handler: (data) => {
-            this.showSuccessAlert(`Fecha seleccionada: ${data.date}`);
-          }
-        }
-      ]
-    });
-
-    await alert.present();
-  }
-
-  async showSuccessAlert(message: string) {
-    const alert = await this.alertController.create({
-      header: 'Éxito',
-      message: message,
-      buttons: ['OK']
-    });
-
-    await alert.present();
-  }
-
-
-
-  toggleAccordion() {
-    const content = document.querySelector('.accordion-content');
-    if (content) {
-      content.classList.toggle('expanded');
+  selectService(service: any) {
+    if (this.selectedService === service) {
+      this.selectedService = null;
+      this.isServiceSelected = false;
+    } else {
+      this.selectedService = service;
+      this.isServiceSelected = true;
     }
+  }
+
+  toggleRemoteSelection(event: any) {
+    this.isRemoteSelected = event.detail.checked;
+    this.isResolutionModeSelected = true; // Selección de resolución se ha hecho
+    console.log('Servicio remoto:', this.isRemoteSelected);
+
+    if (this.isRemoteSelected) {
+      this.isDateTimeOpen = false;
+    }
+  }
+
+  async toggleDateTime() {
+    if (!this.isRemoteSelected) {
+      this.isDateTimeOpen = !this.isDateTimeOpen;
+      if (this.isDateTimeOpen) {
+        this.isResolutionModeSelected = true;
+      }
+    }
+  }
+
+  async dismissModal() {
+    const modal = await this.modalCtrl.getTop();
+    if (modal) {
+      await modal.dismiss();
+    }
+  }
+
+  onDateTimeChange(event: any) {
+    const selectedDate = new Date(event.detail.value);
+    this.selectedDate = selectedDate.toISOString();
+    const formattedDate = this.selectedDate.split('T')[0];
+    console.log('Presencial:', formattedDate);
+  }
+
+  onDateTimeDismiss(event: any) {
+    this.isDateTimeOpen = false;
   }
 
   onFileSelected(event: Event) {
     const input = event.target as HTMLInputElement;
-    if (input.files && input.files[0]) {
-      this.selectedImage = input.files[0];
+    if (!input.files) return;
 
+    const files: FileList = input.files;
+    this.imagePreviews = [];
+    this.selectedFiles = [];
+
+    for (let i = 0; i < files.length; i++) {
+      const file = files[i];
+      this.selectedFiles.push(file);
       const reader = new FileReader();
+
       reader.onload = () => {
-        this.imagePreview = reader.result;
+        if (reader.result) {
+          this.imagePreviews.push(reader.result as string);
+        }
       };
-      reader.readAsDataURL(this.selectedImage);
+
+      reader.readAsDataURL(file);
     }
   }
 
-//enviar ticket
-  async add(){
+  async openDateTimeModal() {
+    const modal = await this.modalCtrl.create({
+      component: Date,
+      cssClass: 'my-custom-class'
+    });
+    return await modal.present();
+  }
 
+  async takeImage() {
+    try {
+      const dataUrl = (await this.utilSvc.takePicture('Imagen de evidencia')).dataUrl;
+      if (dataUrl) {
+        // Guardar la imagen en el array de previsualización
+        this.imagePreviews.push(dataUrl);
+        // Subir la imagen y obtener la URL
+        const imagePath = `${Date.now()}`;
+        const imageUrl = await this.firebaseSvc.uploadImage(imagePath, dataUrl);
+        // Aquí puedes almacenar imageUrl en tu modelo de ticket
+        console.log('Imagen subida exitosamente:', imageUrl);
+      } else {
+        this.utilSvc.presentToast({
+          message: 'No se pudo capturar la imagen.',
+          duration: 2500,
+          color: 'warning',
+          position: 'middle',
+          icon: 'warning'
+        });
+      }
+    } catch (error) {
+      console.error('Error al tomar la imagen:', error);
+      this.utilSvc.presentToast({
+        message: 'Error al tomar la imagen.',
+        duration: 2500,
+        color: 'danger',
+        position: 'middle',
+        icon: 'alert'
+      });
+    }
+  }
+
+  async presentConfirmAlert() {
+    const alert = await this.alertCtrl.create({
+      header: 'Confirmar',
+      message: '¿Estás seguro de que quieres enviar el ticket?',
+      buttons: [
+        {
+          text: 'Cancelar',
+          role: 'cancel',
+          handler: () => {
+            console.log('Usuario canceló el envío del ticket.');
+          }
+        },
+        {
+          text: 'Confirmar',
+          handler: () => {
+            this.ticket(); // Llama al método para enviar el ticket
+          }
+        }
+      ]
+    });
+
+    await alert.present();
+  }
+
+  async ticket() {
+    const fechaActual = new Date();
+    let fechaP: Date | null = null;
+
+    if (!this.isRemoteSelected && this.selectedDate) {
+      const selectedDate = new Date(this.selectedDate);
+      fechaP = new Date(selectedDate.getFullYear(), selectedDate.getMonth(), selectedDate.getDate());
+    }
+
+    // Subir todas las imágenes seleccionadas y obtener las URLs
+    const imageUrls = await Promise.all(this.imagePreviews.map(async (dataUrl) => {
+      const imagePath = `${Date.now()}-${Math.random()}`;
+      return await this.firebaseSvc.uploadImage(imagePath, dataUrl);
+    }));
+
+    const newTicket: Ticket = {
+      id: '',
+      emailClient: this.user.email,
+      telClient: this.user.tel,
+      nameClient: this.user.name,
+      servicio: this.selectedService?.name || '',
+      desc: this.problemDescription,
+      solicitud: this.isRemoteSelected ? 'remoto' : 'presencial',
+      fechaP: fechaP,
+      estado: 'enviado',
+      imagenes: imageUrls, // Almacenar URLs en un array
+      fecha: fechaActual,
+      Total: this.selectedService?.precio || '0'
+    };
+
+    console.log('Ticket:', newTicket);
+
+    const path = `users/${this.user.uid}/tickets`;
+
+    const loading = await this.utilSvc.loading();
+    await loading.present();
+
+    try {
+      // Usa el servicio para guardar el ticket en la subcolección
+      await this.ticketServi.createPedidoInSubcollection(this.user.uid, newTicket);
+      this.utilSvc.presentToast({
+        message: 'Ticket enviado exitosamente.',
+        duration: 2500,
+        color: 'success',
+        position: 'middle',
+        icon: 'checkmark-circle'
+      });
+
+      this.dismissModal();
+      this.router.navigate(['/']);
+    } catch (error) {
+      console.error('Error al enviar el ticket:', error);
+      this.utilSvc.presentToast({
+        message: 'Error al enviar el ticket.',
+        duration: 2500,
+        color: 'danger',
+        position: 'middle',
+        icon: 'alert'
+      });
+    } finally {
+      loading.dismiss();
+    }
   }
 }
-
