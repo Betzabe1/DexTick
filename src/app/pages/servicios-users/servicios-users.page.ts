@@ -46,6 +46,10 @@ export class ServiciosUsersPage implements OnInit {
 
   ngOnInit() {
     this.user = this.utilSvc.getFormLocalStorage('user');
+    if (!this.user || !this.user.uid) {
+      console.error('User not found or UID not available');
+      return;
+    }
     this.route.paramMap.subscribe(params => {
       this.categoryId = params.get('categoryId') ?? '';
       this.subCategoryId = params.get('subCategoryId') ?? '';
@@ -229,6 +233,8 @@ export class ServiciosUsersPage implements OnInit {
 
     const newTicket: Ticket = {
       id: '',
+      emailA:'',
+      userId: this.user.uid,
       emailClient: this.user.email,
       telClient: this.user.tel,
       nameClient: this.user.name,
@@ -239,7 +245,10 @@ export class ServiciosUsersPage implements OnInit {
       estado: 'enviado',
       imagenes: imageUrls, // Almacenar URLs en un array
       fecha: fechaActual,
-      Total: this.selectedService?.precio || '0'
+      fechaPr:null,
+      fechaF:null,
+      subtotal:this.selectService?.prototype || 0,
+      Total: null
     };
 
     console.log('Ticket:', newTicket);

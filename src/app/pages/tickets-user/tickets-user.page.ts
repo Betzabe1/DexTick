@@ -65,7 +65,7 @@ export class TicketsUserPage implements OnInit, OnDestroy {
       .subscribe(res => {
         this.ticketsNuevos = this.processTickets(res, 'enviado');
         this.ticketsNuevos.sort((a, b) => b.fecha.getTime() - a.fecha.getTime()); // Ordenar por fecha descendente
-        this.tickets = this.ticketsNuevos; // Asegúrate de actualizar la vista
+        this.tickets = this.ticketsNuevos;
         console.log('Filtered new tickets:', this.ticketsNuevos);
       }, error => {
         console.error('Error fetching new tickets:', error);
@@ -79,7 +79,7 @@ export class TicketsUserPage implements OnInit, OnDestroy {
       .subscribe(res => {
         this.ticketsProceso = this.processTickets(res, 'proceso');
         this.ticketsProceso.sort((a, b) => b.fecha.getTime() - a.fecha.getTime()); // Ordenar por fecha descendente
-        this.tickets = this.ticketsProceso; // Asegúrate de actualizar la vista
+        this.tickets = this.ticketsProceso;
         console.log('Filtered process tickets:', this.ticketsProceso);
       }, error => {
         console.error('Error fetching process tickets:', error);
@@ -93,7 +93,7 @@ export class TicketsUserPage implements OnInit, OnDestroy {
       .subscribe(res => {
         this.ticketsFinalizados = this.processTickets(res, 'finalizado');
         this.ticketsFinalizados.sort((a, b) => b.fecha.getTime() - a.fecha.getTime()); // Ordenar por fecha descendente
-        this.tickets = this.ticketsFinalizados; // Asegúrate de actualizar la vista
+        this.tickets = this.ticketsFinalizados;
         console.log('Filtered finalized tickets:', this.ticketsFinalizados);
       }, error => {
         console.error('Error fetching finalized tickets:', error);

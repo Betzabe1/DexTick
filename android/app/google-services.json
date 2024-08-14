@@ -1,0 +1,30 @@
+{
+  "project_info": {
+    "project_number": "908983189594",
+    "firebase_url": "https://dextick-77000-default-rtdb.firebaseio.com",
+    "project_id": "dextick-77000",
+    "storage_bucket": "dextick-77000.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:908983189594:android:98e077aa4e8d8f0fb45863",
+        "android_client_info": {
+          "package_name": "dextree.dextick.com"
+        }
+      },
+      "oauth_client": [],
+      "api_key": [
+        {
+          "current_key": "AIzaSyDHFoO3gL4D_gLYhKI2Su1AQNtO6gkS0IQ"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": []
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

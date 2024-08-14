@@ -1,14 +1,11 @@
 import { Injectable } from '@angular/core';
 import { Platform } from '@ionic/angular';
-import { UserService } from './user.service';
-import { UtilService } from './util.service';
-import { HttpClient } from '@angular/common/http';
 import { Router } from '@angular/router';
-import { Auth, onAuthStateChanged, User } from '@angular/fire/auth';
-// Importar desde los módulos específicos de Capacitor
+import { AngularFireAuth } from '@angular/fire/compat/auth';
 import { PushNotifications, PushNotificationActionPerformed, PushNotificationToken, PushNotification } from '@capacitor/push-notifications';
 import { LocalNotifications, LocalNotificationActionPerformed } from '@capacitor/local-notifications';
-import { Firestore, doc, updateDoc } from '@angular/fire/firestore';
+import { UserService } from './user.service';
+import { UtilService } from './util.service';
 
 @Injectable({
   providedIn: 'root'
@@ -16,34 +13,29 @@ import { Firestore, doc, updateDoc } from '@angular/fire/firestore';
 export class NotificationService {
 
   constructor(
-    private auth: Auth,
     private platform: Platform,
     private firebaseauthService: UserService,
-    private firestoreService: UtilService, // UtilService que tiene updateDoc
-    private http: HttpClient,
-    private router: Router
+    private firestoreService: UtilService,
+    private router: Router,
+    private afAuth: AngularFireAuth
   ) {
+    this.initialize();
     this.stateUser();
   }
 
-
   stateUser() {
-    // Observa el estado de autenticación
-    onAuthStateChanged(this.auth, (user: User | null) => {
-      if (user) {
-        console.log('Usuario autenticado:', user);
-        this.inicializar(); // Llama a inicializar si el usuario está autenticado
-      } else {
-        console.log('No hay usuario autenticado');
+    this.firebaseauthService.stateAuth().subscribe(res => {
+      if (res) {
+        this.initialize();
       }
     });
   }
 
-
-  inicializar() {
-    if (this.platform.is('capacitor')) {
+  initialize() {
+    if (!this.platform.is('capacitor')) {
       PushNotifications.requestPermissions().then(result => {
-        console.log('PushNotifications.requestPermissions()');
+        console.log('Push notificatiospermisos negados');
+
         if (result.receive === 'granted') {
           PushNotifications.register();
           this.addListeners();
@@ -51,81 +43,84 @@ export class NotificationService {
           console.error('Push notifications permission not granted');
         }
       }).catch(error => {
-        console.error('Error requesting push notifications permission:', error);
+        console.error('Error requesting push notifications permissions', error);
       });
-    } else {
-      console.log('Push notifications not supported on this platform');
     }
   }
 
+
   addListeners() {
-    // Escuchar notificaciones push recibidas
     PushNotifications.addListener('registration',
       (token: PushNotificationToken) => {
-        console.log('The token is:', token);
+        console.log('Push registration token:', token);
         this.guardarToken(token.value);
       }
     );
 
-    // Escuchar errores en la registración
     PushNotifications.addListener('registrationError',
       (error: any) => {
-        console.error('Error on registration', error);
+        console.error('Error on push registration', error);
       }
     );
 
-    // Primer plano
     PushNotifications.addListener('pushNotificationReceived',
       (notification: PushNotification) => {
-        console.log('Push received (foreground):', notification);
+        console.log('Push notification received (foreground):', notification);
         LocalNotifications.schedule({
           notifications: [
             {
-              title: 'Local Notification',
-              body: notification.body,
-              id: 1,
+              title: notification.title || 'Notification Local',
+              body: notification.body || 'You have a new notification',
+              id: new Date().getTime(), // Usa un ID único para la notificación
             }
           ]
+        }).then(() => {
+          console.log('Local notification scheduled');
+        }).catch(error => {
+          console.error('Error scheduling local notification', error);
         });
       }
     );
 
-    // Escuchar acciones realizadas en notificaciones push
     PushNotifications.addListener('pushNotificationActionPerformed',
       (notification: PushNotificationActionPerformed) => {
-        console.log('Push action performed in background', notification);
-        this.router.navigate(['/tickets']);
+        console.log('Push notification action performed in background:', notification);
+        this.router.navigate(['/home-admin']);
       }
     );
 
-    // Escuchar acciones realizadas en notificaciones locales
     LocalNotifications.addListener('localNotificationActionPerformed',
       (notification: LocalNotificationActionPerformed) => {
-        console.log('Local notification action performed', notification);
-        this.router.navigate(['/perfil']);
+        console.log('Local notification action performed:', notification);
+        this.router.navigate(['/home-admin']);
       }
     );
+
   }
+
 
   async guardarToken(token: string) {
-    // try {
-    //   const user = await this.firebaseauthService.getCurrentUser();
-    //   if (user) {
-    //     const userId = user.uid; // Obtiene el ID del usuario
-    //     console.log('Guardar Token en Firebase ->', userId);
-    //     const path = users/${userId};
-    //     const userUpdate = { token: token };
-    //     await this.firestoreService.updateDoc(path, userUpdate); // Actualiza el documento del usuario
-    //     console.log('Token guardado en Firebase');
-    //   } else {
-    //     console.error('No user found');
-    //   }
-    // } catch (error) {
-    //   console.error('Error al guardar el token en Firebase:', error);
-    // }
-  }
+    try {
+      const user = await this.afAuth.currentUser;
+      if (user) {
+        const userId = user.uid;
+        console.log('Guardar Token en Firebase ->', userId);
 
+        // Define la ruta para el documento del usuario en Firestore
+        const path = `users/${userId}`;
 
-  newNotification() {
+        // Crea el objeto de actualización con el nuevo token
+        const userUpdate = { token };
+
+        // Llama al método para actualizar el documento en Firestore
+        await this.firestoreService.updateDoc(path, userUpdate);
+
+        console.log('Token guardado en Firebase');
+      } else {
+        console.error('No user found');
+      }
+    } catch (error) {
+      console.error('Error al guardar el token en Firebase:', error);
+    }
   }
 }

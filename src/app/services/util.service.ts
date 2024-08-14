@@ -2,6 +2,7 @@ import { Injectable, inject } from '@angular/core';
 import { LoadingController, ModalController, ModalOptions, ToastController, ToastOptions} from '@ionic/angular';
 import { Router } from '@angular/router';
 import { Camera, CameraResultType, CameraSource } from '@capacitor/camera';
+import { AngularFirestore } from '@angular/fire/compat/firestore';
 
 @Injectable({
   providedIn: 'root'
@@ -12,6 +13,7 @@ export class UtilService {
   toastCtrl=inject(ToastController);
   modalCtr=inject(ModalController);
   router=inject(Router);
+  firestore=inject(AngularFirestore)
 
 
  async takePicture(promptLabelHeader:string){
@@ -25,6 +27,8 @@ export class UtilService {
       promptLabelPicture:'Toma una foto '
     });
   };
+
+
 
   async takesPicture(title: string): Promise<{ dataUrl: string }> {
     const image = await Camera.getPhoto({
@@ -93,4 +97,23 @@ export class UtilService {
   dismissModal(data?:any){
     return this.modalCtr.dismiss(data);
   }
+
+  // Método para actualizar un documento en Firestore
+  // updateDoc(data: any, path: string, uid: string): Promise<void> {
+  //   // Construye la ruta completa al documento
+  //   const docRef = this.firestore.doc(`${path}/${uid}`);
+
+  //   // Actualiza el documento con los datos proporcionados
+  //   return docRef.update(data)
+  //     .then(() => {
+  //       console.log('Documento actualizado correctamente');
+  //     })
+  //     .catch((error) => {
+  //       console.error('Error al actualizar el documento:', error);
+  //     });
+  // }
+   updateDoc(path: string, data: any) {
+     return this.firestore.doc(path).update(data);
+   }
+
 }

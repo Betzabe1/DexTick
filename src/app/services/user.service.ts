@@ -2,12 +2,12 @@ import { Injectable, inject } from '@angular/core';
 import { AngularFireAuth } from '@angular/fire/compat/auth';
 import { getAuth, signInWithEmailAndPassword, createUserWithEmailAndPassword, updateProfile, sendPasswordResetEmail } from 'firebase/auth';
 import { User } from '../models/user.model';
-import { AngularFirestore } from '@angular/fire/compat/firestore';
 import { getFirestore, setDoc, doc, getDoc, addDoc, collection, collectionData, query, updateDoc, deleteDoc } from '@angular/fire/firestore';
 import { UtilService } from './util.service';
 import { AngularFireStorage } from '@angular/fire/compat/storage';
 import { getStorage, uploadString, ref ,getDownloadURL, deleteObject } from 'firebase/storage';
 import { Observable } from 'rxjs';
+import { AngularFirestore } from '@angular/fire/compat/firestore';
 import { Service } from '../models/service.model';
 
 @Injectable({
@@ -15,11 +15,10 @@ import { Service } from '../models/service.model';
 })
 export class UserService {
 auth=inject(AngularFireAuth);
-firestore=inject(AngularFirestore);
 utilSvc=inject(UtilService);
 storage=inject(AngularFireStorage);
 
-constructor(private afAuth: AngularFireAuth) {
+constructor(private afAuth: AngularFireAuth, private firestore: AngularFirestore) {
   this.setPersistence();
 }
 
@@ -37,7 +36,6 @@ return signInWithEmailAndPassword(getAuth(), user.email, user.password)
 signUp(user: User) {
   return this.auth.createUserWithEmailAndPassword(user.email, user.password);
 }
-
 
 singUp(user: User) {
   return createUserWithEmailAndPassword(getAuth(),user.email, user.password);
@@ -142,7 +140,7 @@ getCollectionData(path: string, collectionQuery?: any) {
   return collectionData(q);
 }
 //obtener usuarios
-getUsers():Observable<any>{
+getUsers(): Observable<any[]> {
   return this.firestore.collection('users').snapshotChanges();
 }
 
@@ -174,7 +172,7 @@ async uploadinImage(path: string, dataUrl: string): Promise<string> {
 }
 
 
-updatDocument(path: string, data: any) {
+updateDocumen(path: string, data: any) {
   return this.firestore.doc(path).update(data);
 }
 
@@ -248,6 +246,23 @@ getAllUsers() {
       }
     });
 }
+  // Método para obtener el UID del usuario actualmente autenticado
+
+  // Método para obtener el UID del usuario autenticado
+  async getUid(): Promise<string | null> {
+    try {
+      const user = await this.afAuth.currentUser;
+      return user ? user.uid : null;
+    } catch (error) {
+      console.error('Error al obtener UID:', error);
+      return null;
+    }
+  }
+
+
+  stateAuth(): Observable<any> {
+    return this.afAuth.authState;
+  }
 
 
 }

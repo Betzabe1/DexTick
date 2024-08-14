@@ -1,5 +1,7 @@
 export interface Ticket{
   id:string;
+  userId: string;
+  emailA?:string;
   emailClient:string;
   telClient:string;
   nameClient:string;
@@ -10,7 +12,11 @@ export interface Ticket{
   imagenes:string[];
   fecha:Date;
   fechaP:Date;
-  Total:string;
+  fechaPr?:Date;
+  fechaF?:Date;
+  subtotal:number;
+  Total?:number;
+
 }
 
 export type EstadoPedido="enviado"|"visto"|"proceso"|"finalizado";

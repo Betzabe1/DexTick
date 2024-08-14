@@ -14,7 +14,11 @@ export class TicketsService {
   async createPedidoInSubcollection(userId: string, ticket: Ticket): Promise<string> {
     try {
       const ticketsCollection = this.firestore.collection(`users/${userId}/tickets`);
-      const ticketDocRef = await ticketsCollection.add({ ...ticket, id: '' });
+      const ticketDocRef = await ticketsCollection.add({
+        ...ticket,
+        userId: userId, // Asegúrate de incluir el userId aquí
+        id: '' // Puedes eliminar esta línea si ya manejas el ID de manera automática
+      });
       const ticketId = ticketDocRef.id;
       await ticketDocRef.update({ id: ticketId });
       return ticketId;
@@ -23,6 +27,12 @@ export class TicketsService {
       throw error;
     }
   }
+  // tickets.service.ts
+updateTicketStatus(ticketId: string, newStatus: string): Promise<void> {
+  const path = `tickets/${ticketId}`;
+  return this.firestore.doc(path).update({ estado: newStatus });
+}
+
 
   // Obtener todos los tickets de todas las subcolecciones ordenados por fecha descendente
   getAllTickets(): Observable<Ticket[]> {

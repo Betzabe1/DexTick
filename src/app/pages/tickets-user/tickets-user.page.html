@@ -42,14 +42,19 @@
             </h5>
           </div>
           <ul class="list-group list-group-flush">
-            <li class="list-group-item ">Cliente: {{ user.name }}</li>
-            <li class="list-group-item">Email Cliente: {{ user.email }}</li>
-            <li class="list-group-item">Tel. Cliente: {{ user.tel }}</li>
-            <li class="list-group-item">Servicio: {{ ticket.servicio }}</li>
-            <li class="list-group-item">Descripción: {{ ticket.desc }}</li>
-            <li class="list-group-item">Fecha Presencial: {{ ticket.fechaP | date }}</li>
-            <li class="list-group-item">Costo estimado: ${{ ticket.Total }}</li>
-            <li class="list-group-item">Evidencias:
+            <li class="list-group-item">Cliente: {{ ticket.nameClient }}</li>
+              <li class="list-group-item">Email Cliente: {{ ticket.emailClient }}</li>
+              <li class="list-group-item">Tel. Cliente: {{ ticket.telClient }}</li>
+              <li class="list-group-item">Servicio: {{ ticket.servicio }}</li>
+              <li class="list-group-item">Descripción: {{ ticket.desc }}</li>
+              <li class="list-group-item">Fecha Presencial: {{ ticket.fechaP | date }}</li>
+              <li class="list-group-item">Costo estimado: ${{ ticket.subtotal}}</li>
+              <li class="list-group-item">Email Agente: {{ ticket.emailA }}</li>
+              <li class="list-group-item">Fecha y hora de inicio: {{ ticket.fechaPr}}</li>
+              <li class="list-group-item">Fecha y hora de finalizacion: {{ ticket.fechaF }}</li>
+              <li class="list-group-item">Costo total: ${{ ticket.Total }}</li>
+
+              <li class="list-group-item">Evidencias:
             <div class="image-gallery">
               <img *ngFor="let image of ticket.imagenes"
                    [src]="image"

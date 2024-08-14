@@ -12,6 +12,12 @@ import { UserService } from './services/user.service';
 import { AuthGuard } from './guards/auth.guard';
 import { ServiceWorkerModule } from '@angular/service-worker';
 import { AngularFirestoreModule } from '@angular/fire/compat/firestore';
+import { NotificationService } from './services/notification.service';
+import { HttpClientModule } from '@angular/common/http';
+
+if (!isDevMode()) {
+  enableProdMode();
+}
 
 @NgModule({
   declarations: [
@@ -22,9 +28,10 @@ import { AngularFirestoreModule } from '@angular/fire/compat/firestore';
     IonicModule.forRoot(),
     AppRoutingModule,
     AngularFireModule.initializeApp(environment.firebaseConfig),
+    AngularFirestoreModule,
     AngularFireAuthModule,
-    AngularFirestoreModule.enablePersistence(),
     FormsModule,
+    HttpClientModule,
     ReactiveFormsModule,
     ServiceWorkerModule.register('ngsw-worker.js', {
       enabled: !isDevMode(),
@@ -33,7 +40,10 @@ import { AngularFirestoreModule } from '@angular/fire/compat/firestore';
   ],
   providers: [
     { provide: RouteReuseStrategy, useClass: IonicRouteStrategy },
+    UserService,
+    NotificationService,
+    AuthGuard,
   ],
   bootstrap: [AppComponent]
 })
-export class AppModule {}
+export class AppModule { }

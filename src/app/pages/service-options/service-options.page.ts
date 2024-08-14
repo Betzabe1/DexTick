@@ -46,6 +46,10 @@ export class ServiceOptionsPage implements OnInit {
 
   ngOnInit() {
     this.user = this.utilSvc.getFormLocalStorage('user');
+    if (!this.user || !this.user.uid) {
+      console.error('User not found or UID not available');
+      return;
+    }
     this.route.paramMap.subscribe(params => {
       this.categoryId = params.get('categoryId') ?? '';
       this.subCategoryId = params.get('subCategoryId') ?? '';
@@ -274,18 +278,23 @@ export class ServiceOptionsPage implements OnInit {
     }));
 
     const newTicket: Ticket = {
-      id: '',
-      emailClient: this.user.email,
-      telClient: this.user.tel,
-      nameClient: this.user.name,
-      servicio: this.selectedService?.name || '',
-      desc: this.problemDescription,
-      solicitud: this.isRemoteSelected ? 'remoto' : 'presencial',
-      fechaP: fechaP,
-      estado: 'enviado',
-      imagenes: imageUrls, // Almacenar URLs en un array
-      fecha: fechaActual,
-      Total: this.selectedService?.precio || '0'
+        id: '',
+        emailA:'',
+        userId: this.user.uid,
+        emailClient: this.user.email,
+        telClient: this.user.tel,
+        nameClient: this.user.name,
+        servicio: this.selectedService?.name || '',
+        desc: this.problemDescription,
+        solicitud: this.isRemoteSelected ? 'remoto' : 'presencial',
+        fechaP: fechaP,
+        estado: 'enviado',
+        imagenes: imageUrls, // Almacenar URLs en un array
+        fecha: fechaActual,
+        fechaPr:null,
+        fechaF:null,
+        subtotal:this.selectService?.prototype || 0,
+        Total: null
     };
 
     console.log('Ticket:', newTicket);
