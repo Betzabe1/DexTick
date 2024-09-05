@@ -23,14 +23,13 @@ export class ServiciosUsersPage implements OnInit {
   isResolutionModeSelected: boolean = false;
 
   isDateTimeOpen = false;
-  selectedDate: string | null = null;
+  selectedDate: string; // Formato ISO con fecha y hora
   isRemoteSelected = false;
   problemDescription: string = '';
 
   categoryId: string = '';
   subCategoryId: string = '';
   services = [];
-
 
   user: User = {} as User;
 
@@ -40,7 +39,7 @@ export class ServiciosUsersPage implements OnInit {
     private router: Router,
     private utilSvc: UtilService,
     private alertCtrl: AlertController,
-    private firebaseSvc:UserService,
+    private firebaseSvc: UserService,
     private modalCtrl: ModalController
   ) { }
 
@@ -76,8 +75,6 @@ export class ServiciosUsersPage implements OnInit {
     });
   }
 
-
-
   selectService(service: any) {
     if (this.selectedService === service) {
       this.selectedService = null;
@@ -86,20 +83,17 @@ export class ServiciosUsersPage implements OnInit {
       this.selectedService = service;
       this.isServiceSelected = true;
     }
-
   }
-
 
   toggleRemoteSelection(event: any) {
     this.isRemoteSelected = event.detail.checked;
-    this.isResolutionModeSelected = true; // Selección de resolución se ha hecho
+    this.isResolutionModeSelected = true;
     console.log('Servicio remoto:', this.isRemoteSelected);
 
     if (this.isRemoteSelected) {
       this.isDateTimeOpen = false;
     }
   }
-
 
   async toggleDateTime() {
     if (!this.isRemoteSelected) {
@@ -117,11 +111,10 @@ export class ServiciosUsersPage implements OnInit {
     }
   }
 
+  // Seleccionar fecha
   onDateTimeChange(event: any) {
-    const selectedDate = new Date(event.detail.value);
-    this.selectedDate = selectedDate.toISOString();
-    const formattedDate = this.selectedDate.split('T')[0];
-    console.log('Presencial:', formattedDate);
+    this.selectedDate = event.detail.value;
+    console.log('Selected Date:', this.selectedDate);
   }
 
   onDateTimeDismiss(event: any) {
@@ -151,7 +144,6 @@ export class ServiciosUsersPage implements OnInit {
     }
   }
 
-
   async openDateTimeModal() {
     const modal = await this.modalCtrl.create({
       component: Date,
@@ -159,16 +151,14 @@ export class ServiciosUsersPage implements OnInit {
     });
     return await modal.present();
   }
+
   async takeImage() {
     try {
       const dataUrl = (await this.utilSvc.takePicture('Imagen de evidencia')).dataUrl;
       if (dataUrl) {
-        // Guardar la imagen en el array de previsualización
         this.imagePreviews.push(dataUrl);
-        // Subir la imagen y obtener la URL
         const imagePath = `${Date.now()}`;
         const imageUrl = await this.firebaseSvc.uploadImage(imagePath, dataUrl);
-        // Aquí puedes almacenar imageUrl en tu modelo de ticket
         console.log('Imagen subida exitosamente:', imageUrl);
       } else {
         this.utilSvc.presentToast({
@@ -215,17 +205,15 @@ export class ServiciosUsersPage implements OnInit {
     await alert.present();
   }
 
-
   async ticket() {
     const fechaActual = new Date();
     let fechaP: Date | null = null;
 
     if (!this.isRemoteSelected && this.selectedDate) {
-      const selectedDate = new Date(this.selectedDate);
-      fechaP = new Date(selectedDate.getFullYear(), selectedDate.getMonth(), selectedDate.getDate());
+      fechaP = new Date(this.selectedDate); // Mantén la fecha y la hora completas
+      console.log('FechaP con hora que se guarda en Firebase:', fechaP?.toISOString());
     }
 
-    // Subir todas las imágenes seleccionadas y obtener las URLs
     const imageUrls = await Promise.all(this.imagePreviews.map(async (dataUrl) => {
       const imagePath = `${Date.now()}-${Math.random()}`;
       return await this.firebaseSvc.uploadImage(imagePath, dataUrl);
@@ -243,15 +231,16 @@ export class ServiciosUsersPage implements OnInit {
       solicitud: this.isRemoteSelected ? 'remoto' : 'presencial',
       fechaP: fechaP,
       estado: 'enviado',
-      imagenes: imageUrls, // Almacenar URLs en un array
+      imagenes: imageUrls,
       fecha: fechaActual,
-      fechaPr:null,
-      fechaF:null,
-      subtotal:this.selectService?.prototype || 0,
-      Total: null
+      fechaPr: null,
+      fechaF: null,
+      subtotal: this.selectedService?.precio,
+      Total: null,
+      empresa: this.user.empresa
     };
 
-    console.log('Ticket:', newTicket);
+    console.log('Creating ticket with empresa:', newTicket.empresa);
 
     const path = `users/${this.user.uid}/tickets`;
 
@@ -259,7 +248,6 @@ export class ServiciosUsersPage implements OnInit {
     await loading.present();
 
     try {
-      // Usa el servicio para guardar el ticket en la subcolección
       await this.ticketServi.createPedidoInSubcollection(this.user.uid, newTicket);
       this.utilSvc.presentToast({
         message: 'Ticket realizado exitosamente.',
@@ -269,10 +257,7 @@ export class ServiciosUsersPage implements OnInit {
         icon: 'checkmark-circle-outline'
       });
       this.dismissModal();
-
-      // Limpiar todos los campos después de enviar el ticket
       this.resetFields();
-
     } catch (error) {
       console.error('Error al realizar el ticket:', error);
       this.utilSvc.presentToast({
@@ -289,13 +274,11 @@ export class ServiciosUsersPage implements OnInit {
 
   resetFields() {
     this.selectedService = null;
+    this.isServiceSelected = false;
     this.imagePreviews = [];
     this.selectedFiles = [];
     this.isDateTimeOpen = false;
-    this.selectedDate = null;
     this.isRemoteSelected = false;
     this.problemDescription = '';
   }
-
-
 }

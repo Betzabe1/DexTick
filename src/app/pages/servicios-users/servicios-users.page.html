@@ -62,8 +62,17 @@
                 </ion-toolbar>
               </ion-header>
               <ion-content>
-                <ion-datetime [value]="selectedDate" (ionChange)="onDateTimeChange($event)"></ion-datetime>
+        <!-- Configuración del ion-datetime -->
+        <ion-datetime
+        display-format="DD MMMM YYYY HH:mm"
+        [value]="selectedDate"
+        (ionChange)="onDateTimeChange($event)">
+      </ion-datetime>
+
+
+
               </ion-content>
+              <button class="gradient-button mt-5 mb-2 " (click)="isDateTimeOpen = false" >Aceptar</button>
             </ng-template>
           </ion-modal>
         </ion-item>
@@ -80,7 +89,7 @@
     <textarea placeholder="Describa el problema aquí..." [(ngModel)]="problemDescription"></textarea>
 
     <div *ngIf="imagePreviews.length > 0" class="image-preview-container">
-      <div *ngFor="let imagePreview of imagePreviews" class="image-preview-wrapper col-4">
+      <div *ngFor="let imagePreview of imagePreviews" class="image-preview-wrapper col-12">
         <img [src]="imagePreview" alt="Vista previa de la imagen" class="image-preview">
       </div>
     </div>

@@ -67,4 +67,21 @@ getTickets(userId: string): Observable<Ticket[]> {
   async getUid(): Promise<string> {
     return 'user-uid';
   }
+  async getDocument<T>(path: string): Promise<T> {
+    const docRef = this.firestore.doc<T>(path).ref;
+    const doc = await docRef.get();
+    if (doc.exists) {
+      return doc.data() as T;
+    } else {
+      throw new Error('¡El documento no existe!');
+    }
+  }
+
+  async updateDocument(path: string, data: any) {
+    return await this.firestore.doc(path).update(data);
+  }
+
+
+
+
 }

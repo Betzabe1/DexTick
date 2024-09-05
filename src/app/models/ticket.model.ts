@@ -16,7 +16,10 @@ export interface Ticket{
   fechaF?:Date;
   subtotal:number;
   Total?:number;
-
+  Comentrios?:string[];
+  mostrarComentarios?: boolean;
+  comentariosEnviado?: boolean;
+  empresa?: string;
 }
 
 export type EstadoPedido="enviado"|"visto"|"proceso"|"finalizado";

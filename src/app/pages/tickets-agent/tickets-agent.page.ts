@@ -139,7 +139,7 @@ export class TicketsAgentPage implements OnInit, OnDestroy {
     }
 
     if (nuevoEstado === 'finalizado') {
-      updateDoc.fechaF = this.formatDate(new Date()); 
+      updateDoc.fechaF = this.formatDate(new Date());
     }
 
     try {
@@ -151,6 +151,8 @@ export class TicketsAgentPage implements OnInit, OnDestroy {
       console.error('Error al actualizar el estado del ticket:', error);
     }
   }
+
+
 
 
 }

@@ -48,29 +48,54 @@
               <li class="list-group-item">Servicio: {{ ticket.servicio }}</li>
               <li class="list-group-item">Descripción: {{ ticket.desc }}</li>
               <li class="list-group-item">Fecha Presencial: {{ ticket.fechaP | date }}</li>
-              <li class="list-group-item">Costo estimado: ${{ ticket.subtotal}}</li>
               <li class="list-group-item">Email Agente: {{ ticket.emailA }}</li>
               <li class="list-group-item">Fecha y hora de inicio: {{ ticket.fechaPr}}</li>
               <li class="list-group-item">Fecha y hora de finalizacion: {{ ticket.fechaF }}</li>
-              <li class="list-group-item">Costo total: ${{ ticket.Total }}</li>
+              <li class="list-group-item">
+                Comentarios:
+                <ul>
+                  <li *ngFor="let comentario of ticket.Comentrios">
+                    {{ comentario }}
+                  </li>
+                </ul>
+              </li>
+
 
               <li class="list-group-item">Evidencias:
-            <div class="image-gallery">
-              <img *ngFor="let image of ticket.imagenes"
-                   [src]="image"
-                   (click)="openImage(image)"
-                   class="img-thumbnail">
+                <div class="image-gallery">
+                  <img *ngFor="let image of ticket.imagenes"
+                       [src]="image"
+                       (click)="openImage(image)"
+                       class="img-thumbnail">
+                </div>
+              </li>
+            </ul>
+            <!-- Botón para abrir el modal solo si el estado es 'finalizado' -->
+            <div *ngIf="ticket.estado === 'finalizado'">
+              <ion-button (click)="openCommentModal(ticket)">Agregar comentario</ion-button>
             </div>
-          </li>
-          </ul>
+          </div>
         </div>
       </div>
     </div>
   </div>
-</div>
 
-
-
-
+  <!-- Modal para agregar comentario -->
+  <ion-modal [isOpen]="isCommentModalOpen" (willDismiss)="onCommentModalDismiss($event)">
+    <ng-template>
+      <ion-header>
+        <ion-toolbar class="custom-toolbar">
+          <ion-title  class="custom-title ">Agregar Comentario</ion-title>
+          <ion-buttons slot="end">
+            <ion-button  class="custom-title " (click)="closeCommentModal()">X</ion-button>
+          </ion-buttons>
+        </ion-toolbar>
+      </ion-header>
+      <ion-content>
+        <br>
+        <ion-textarea class="textArea" [(ngModel)]="comment" placeholder="Escribe tu comentario aquí..."></ion-textarea>
+        <ion-button class="btn" expand="full" (click)="submitComment()">Enviar comentario</ion-button>
+      </ion-content>
+    </ng-template>
+  </ion-modal>
 </ion-content>
-

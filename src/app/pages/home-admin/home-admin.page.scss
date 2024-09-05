@@ -1,7 +1,7 @@
 
 
 .custom-title {
-  text-align: left; 
+  text-align: left; /* Asegura que el texto esté alineado a la izquierda */
 }
 
 
@@ -104,10 +104,7 @@ ion-title {
   margin-bottom: 12px;
 }
 
-// .img-av {
-//   width: 90%;
-//   height: 90%;
-// }
+
 ion-image{
   width: 50%;
   height: 50%;
@@ -264,6 +261,8 @@ p.ion-no-margin {
     font-size: 13px;
 
 }
+
+
 }
 .i-edit{
   margin-top: 5px;
@@ -346,7 +345,7 @@ p.ion-no-margin {
   }
   .card {
     width: calc(50% - 1rem); /* Ajustar el ancho para mantener el espacio entre tarjetas */
-    max-width: 280px; /* Reduce el ancho máximo */
+    max-width: 250px; /* Reduce el ancho máximo */
     height: auto;
     margin: 0.5rem; /* Reduce el espacio alrededor de cada card */
   }
@@ -357,5 +356,43 @@ p.ion-no-margin {
     max-width: 140px; /* Reduce el ancho máximo */
     width: 50%; /* Ocupa todo el ancho en pantallas pequeñas */
   }
+  .bienvenidaH3 {
+    font-family: "Poppins", sans-serif;
+    font-size: 16px;
+    font-weight: 600;
+    color: #9d9ca5;
+  }
+
+.descH2 {
+  font-family: "Poppins", sans-serif;
+  font-size: 17px;
+  font-weight: 700;
+  color: #05a8b7;
+}
+
+.descP {
+  font-family: "Poppins", sans-serif;
+  font-size: 14px;
+  font-weight: 300;
+}
+
+.solicitud {
+  font-family: 'Lucida Sans', 'Lucida Sans Regular', 'Lucida Grande', 'Lucida Sans Unicode', Geneva, Verdana, sans-serif;
+  font-size: 17px;
+  font-weight: 500;
+  color: #463a9a;
+}
+
+.categoria {
+  font-family: "Noto Sans", sans-serif;
+  font-optical-sizing: auto;
+  font-weight: 700;
+  color: #25cad2;
+  font-size: 17px;
+}
+.list-header{
+  font-size: 17px;
+}
+
 }
 

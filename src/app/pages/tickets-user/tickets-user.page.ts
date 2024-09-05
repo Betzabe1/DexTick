@@ -7,6 +7,8 @@ import { TicketsService } from 'src/app/services/tickets.service';
 import { Timestamp } from '@angular/fire/firestore';
 import { ModalController } from '@ionic/angular';
 import { ImageModalComponent } from 'src/app/components/image-modal/image-modal.component';
+import { UserService } from 'src/app/services/user.service';
+import { AlertController } from '@ionic/angular';
 
 @Component({
   selector: 'app-tickets-user',
@@ -15,19 +17,110 @@ import { ImageModalComponent } from 'src/app/components/image-modal/image-modal.
 })
 export class TicketsUserPage implements OnInit, OnDestroy {
   user: User = {} as User;
+  isCommentModalOpen = false;
+  selectedTicket: any;
+  comment = '';
   ticketsNuevos: Ticket[] = [];
   ticketsProceso: Ticket[] = [];
   ticketsFinalizados: Ticket[] = [];
   tickets: Ticket[] = [];
+  Comentrios:'';
   private nuevoSubscriber: Subscription | undefined;
   private procesoSubscriber: Subscription | undefined;
   private finalizadoSubscriber: Subscription | undefined;
 
+
   constructor(
+    private alertController: AlertController,
     private firestorageService: TicketsService,
     private utilSvc: UtilService,
+    private firestoreService: UserService,
     private modalCtrl: ModalController
   ) {}
+
+  openCommentModal(ticket: Ticket) {
+    this.selectedTicket = ticket;
+    this.isCommentModalOpen = true;
+  }
+
+  closeCommentModal() {
+    this.isCommentModalOpen = false;
+    this.selectedTicket = null;
+    this.comment = '';
+  }
+
+  async submitComment() {
+    if (this.selectedTicket && this.comment.trim()) {
+        const ticketId = this.selectedTicket.id;
+        const userId = this.selectedTicket.userId;
+
+        if (!userId || !ticketId) {
+            console.error('userId o ticketId no están definidos');
+            return;
+        }
+
+        const alert = await this.alertController.create({
+            header: 'Confirmación',
+            message: '¿Estás seguro de que deseas enviar este comentario?',
+            buttons: [
+                {
+                    text: 'Cancelar',
+                    role: 'cancel',
+                    handler: () => {
+                        console.log('Comentario no enviado');
+                    }
+                },
+                {
+                    text: 'Confirmar',
+                    handler: async () => {
+                        const path = `users/${userId}/tickets/${ticketId}`;
+
+                        try {
+                            // Obtener los comentarios existentes
+                            const ticketDoc = await this.firestorageService.getDocument<Ticket>(path);
+                            let comentariosExistentes = ticketDoc.Comentrios;
+
+                            // Depuración: Mostrar los comentarios existentes
+                            console.log('Comentarios existentes:', comentariosExistentes);
+
+                            // Verificar si comentariosExistentes es un array, si no, convertirlo en uno
+                            if (!Array.isArray(comentariosExistentes)) {
+                                comentariosExistentes = [];
+                            }
+
+                            // Agregar el nuevo comentario a la lista
+                            comentariosExistentes.push(this.comment);
+
+                            // Actualizar el documento con la nueva lista de comentarios
+                            await this.firestorageService.updateDocument(path, {
+                                Comentrios: comentariosExistentes
+                            });
+
+                            console.log('Comentario guardado con éxito');
+                            this.closeCommentModal();
+                        } catch (error) {
+                            console.error('Error al guardar el comentario del ticket:', error);
+                        }
+                    }
+                }
+            ]
+        });
+
+        await alert.present();
+    } else {
+        console.error('Comentario no definido o está vacío');
+    }
+}
+
+
+
+
+  onCommentModalDismiss(event: any) {
+    this.selectedTicket = null;
+    this.comment = '';
+  }
+
+
 
   ngOnInit() {
     this.user = this.utilSvc.getFormLocalStorage('user');
@@ -109,6 +202,9 @@ export class TicketsUserPage implements OnInit, OnDestroy {
         }
         if (ticket.fechaP instanceof Timestamp) {
           ticket.fechaP = ticket.fechaP.toDate();
+        }
+        if (!ticket.Comentrios) {
+          ticket.Comentrios = [];
         }
         return ticket;
       });

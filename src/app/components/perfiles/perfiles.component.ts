@@ -40,7 +40,7 @@ export class PerfilesComponent implements OnInit {
         tel: user.tel,
         name: user.name,
         role: user.role,
-        image: user.image 
+        image: user.image
       });
     }
   }
@@ -114,7 +114,6 @@ export class PerfilesComponent implements OnInit {
 
       const userInfo = {
         ...this.form.value,
-        // No se debe modificar el campo 'image' aquí para no sobrescribirlo incorrectamente
       };
       const path = `users/${userInfo.uid}`;
 

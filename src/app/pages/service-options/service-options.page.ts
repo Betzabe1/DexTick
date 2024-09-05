@@ -289,12 +289,14 @@ export class ServiceOptionsPage implements OnInit {
         solicitud: this.isRemoteSelected ? 'remoto' : 'presencial',
         fechaP: fechaP,
         estado: 'enviado',
-        imagenes: imageUrls, // Almacenar URLs en un array
+        imagenes: imageUrls,
         fecha: fechaActual,
         fechaPr:null,
         fechaF:null,
-        subtotal:this.selectService?.prototype || 0,
-        Total: null
+        subtotal: this.selectedService?.precio ,
+        Total: null,
+        empresa: this.user.empresa
+
     };
 
     console.log('Ticket:', newTicket);

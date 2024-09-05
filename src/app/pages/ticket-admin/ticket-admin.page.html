@@ -1,0 +1,90 @@
+<ion-header>
+  <ion-toolbar class="custom-toolbar">
+    <ion-title>Mis tickets</ion-title>
+
+    <ion-buttons slot="end">
+      <ion-avatar class="custom-avatar">
+        <ion-img src="/assets/img/user.png"></ion-img>
+      </ion-avatar>
+    </ion-buttons>
+  </ion-toolbar>
+</ion-header>
+
+<ion-content>
+
+  <div class="mt-2 barra" mode="">
+    <ion-segment value="enviados" (ionChange)="changeSegment($event)">
+      <ion-segment-button value="enviados">
+        <ion-label class="lab">Nuevos</ion-label>
+      </ion-segment-button>
+      <ion-segment-button value="proceso">
+        <ion-label class="lab">Proceso</ion-label>
+      </ion-segment-button>
+      <ion-segment-button value="finalizados">
+        <ion-label class="lab">Finalizado</ion-label>
+      </ion-segment-button>
+    </ion-segment>
+  </div>
+
+  <div class="container">
+    <div class="row mt-3">
+      <div class="col-md-12 mb-4 cardI" *ngFor="let ticket of tickets">
+        <div class="card">
+          <div class="card-body">
+            <div class="card-header">
+              <p class="card-date-time" slot="end">
+                {{ ticket.fecha | date:'dd/MM/yyyy' }} {{ ticket.fecha | date:'HH:mm' }}
+              </p>
+              <ion-select  (ionChange)="cambiarEstado(ticket, $event.detail.value)"[value]="ticket.estado" label="Estado" placeholder="Selecciona uno" okText="Ok" cancelText="cancelar" interface="popover" label-placement="floating">
+                <ion-select-option *ngFor="let estado of Estados" [value]="estado">{{estado}}</ion-select-option>
+              </ion-select>
+
+            </div>
+            <ul class="list-group list-group-flush">
+              <li class="list-group-item">Empresa: {{ticket.empresa }}</li>
+              <li class="list-group-item">Cliente: {{ ticket.nameClient }}</li>
+              <li class="list-group-item">Email Cliente: {{ ticket.emailClient }}</li>
+              <li class="list-group-item">Tel. Cliente: {{ ticket.telClient }}</li>
+              <li class="list-group-item">Solicitud: {{ ticket.solicitud }}</li>
+              <li class="list-group-item">Servicio: {{ ticket.servicio }}</li>
+              <li class="list-group-item">Descripción: {{ ticket.desc }}</li>
+              <li class="list-group-item">
+                Fecha Presencial:
+                <ng-container *ngIf="ticket.fechaP; else noFechaP">
+                  {{ ticket.fechaP | date:'dd/MM/yyyy' }} {{ ticket.fechaP | date:'HH:mm' }}
+                </ng-container>
+                <ng-template #noFechaP>N/A</ng-template>
+              </li>
+
+              <li class="list-group-item">Email Agente: {{ ticket.emailA }}</li>
+              <li class="list-group-item">Fecha y hora de inicio: {{ ticket.fechaPr}}</li>
+              <li class="list-group-item">Fecha y hora de finalizacion: {{ ticket.fechaF }}</li>
+              <li class="list-group-item">Costo estimado: ${{ticket.subtotal}}</li>
+              <li class="list-group-item">Costo total: ${{ ticket.Total | number: '1.2-2'}}</li>
+              <li class="list-group-item">Evidencias:
+                <div class="image-gallery">
+                  <img *ngFor="let image of ticket.imagenes"
+                       [src]="image"
+                       (click)="openImage(image)"
+                       class="img-thumbnail">
+                </div>
+              </li>
+               <li class="list-group-item">Comentarios: {{ ticket.Comentrios }} </li>
+
+
+              <!-- <li class="list-group-item">
+                Comentarios:
+                <ul>
+                  <li *ngFor="let comentario of ticket.Comentrios">
+                    {{ comentario }}
+                  </li>
+                </ul>
+              </li> -->
+
+            </ul>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</ion-content>

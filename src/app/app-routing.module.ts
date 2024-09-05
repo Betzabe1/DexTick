@@ -160,7 +160,11 @@ const routes: Routes = [
   {
     path: 'servicios-users/:categoryId/:subCategoryId',
         loadChildren: () => import('./pages/servicios-users/servicios-users.module').then( m => m.ServiciosUsersPageModule)
+  },  {
+    path: 'ticket-admin',
+    loadChildren: () => import('./pages/ticket-admin/ticket-admin.module').then( m => m.TicketAdminPageModule)
   }
+
 
 
 

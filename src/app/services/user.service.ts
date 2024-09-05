@@ -264,5 +264,10 @@ getAllUsers() {
     return this.afAuth.authState;
   }
 
+  getCurrentUserRole(){
+  
+  }
+
+
 
 }

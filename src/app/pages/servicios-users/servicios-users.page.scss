@@ -167,7 +167,7 @@ textarea {
   padding: 10px 10px;
   background-color: #00ccff;
   color: white;
-  width: 180px;
+  width: 100%;
   text-align: center;
   border-radius: 4px;
   cursor: pointer;
@@ -178,15 +178,28 @@ textarea {
   display: none;
 }
 
-.image-preview {
-  align-items: center;
-  justify-content: center;
-  display: flex ;
-  max-width: 100%;
-  margin-top: 20px;
-  border: 1px solid #ddd;
-  border-radius: 4px;
+.image-preview-container {
+  display: flex;
+  flex-direction: column; /* Organiza los elementos en una sola columna */
+  align-items: center; /* Centra los elementos horizontalmente */
+  width: 100%;
 }
+
+.image-preview-wrapper {
+  width:70%; /* Ocupa todo el ancho del contenedor */
+  display: flex;
+  justify-content: center; /* Centra la imagen horizontalmente */
+  margin-bottom: 10px; /* Espacio entre las imágenes */
+}
+
+.image-preview {
+  max-width: 70%; /* Asegura que la imagen no exceda el ancho del contenedor */
+  height: auto; /* Mantiene la proporción de la imagen */
+  border-radius: 8px; /* Bordes redondeados, si lo deseas */
+  object-fit: cover; /* Ajusta la imagen para cubrir el contenedor sin distorsionarse */
+}
+
+
 
 @media screen and (min-width: 992px) {
   .image-preview {
@@ -258,18 +271,38 @@ textarea {
   font-size: 100px;
   opacity: 30%;
 }
-
 .image-preview-container {
-  width:80%;
-  display: flex; /* Usar flexbox para controlar el diseño */
-  flex-wrap: wrap; /* Permitir que las imágenes se envuelvan a la siguiente línea si es necesario */
+  display: flex;
+  flex-direction: column; /* Organiza los elementos en una sola columna */
+  align-items: center; /* Centra los elementos horizontalmente */
+  width: 100%;
 }
 
-
+.image-preview-wrapper {
+  width: 80%; /* Ocupa todo el ancho del contenedor */
+  display: flex;
+  justify-content: center; /* Centra la imagen horizontalmente */
+  margin-bottom: 10px; /* Espacio entre las imágenes */
+}
 
 .image-preview {
-  width: 100%; /* Asegura que la imagen ocupe todo el ancho del contenedor */
+  max-width: 80%; /* Asegura que la imagen no exceda el ancho del contenedor */
   height: auto; /* Mantiene la proporción de la imagen */
   border-radius: 8px; /* Bordes redondeados, si lo deseas */
   object-fit: cover; /* Ajusta la imagen para cubrir el contenedor sin distorsionarse */
+}
+
+@media screen and (min-width: 600px) {
+  .image-preview-container {
+    padding: 0; /* Elimina el margen interno en pantallas más grandes si no es necesario */
+  }
+
+  .image-preview-wrapper {
+    max-width: 100%; /* Asegura que la imagen no exceda el ancho del contenedor */
+    margin-bottom: 8px; /* Ajusta el espacio entre imágenes en pantallas más grandes */
+  }
+
+  .image-preview {
+    width: 100%; /* Asegura que la imagen no exceda el ancho del contenedor */
+  }
 }

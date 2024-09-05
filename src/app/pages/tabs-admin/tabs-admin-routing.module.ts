@@ -2,6 +2,7 @@ import { NgModule } from '@angular/core';
 import { Routes, RouterModule } from '@angular/router';
 
 import { TabsAdminPage } from './tabs-admin.page';
+import { TicketAdminPageModule } from '../ticket-admin/ticket-admin.module';
 
 const routes: Routes = [
   {
@@ -13,8 +14,8 @@ const routes: Routes = [
         loadChildren: () => import('../home-admin/home-admin.module').then(m => m.HomeAdminPageModule)
       },
       {
-        path: 'tickets-agent',
-        loadChildren: () => import('../tickets-agent/tickets-agent.module').then(m => m.TicketsAgentPageModule)
+        path: 'ticket-admin',
+        loadChildren: () => import('../ticket-admin/ticket-admin.module').then(m => m.TicketAdminPageModule)
       },
       {
         path: 'perfil-admin',

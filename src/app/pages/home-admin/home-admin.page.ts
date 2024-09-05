@@ -9,13 +9,23 @@ import { Router } from '@angular/router';
 import { TipoService } from 'src/app/services/tipo.service';
 import { User } from 'src/app/models/user.model';
 import { AddUpdateServiceComponent } from 'src/app/components/add-update-service/add-update-service.component';
-
+import { FormControl, FormGroup, Validators } from '@angular/forms';
 @Component({
   selector: 'app-home-admin',
   templateUrl: './home-admin.page.html',
   styleUrls: ['./home-admin.page.scss'],
 })
 export class HomeAdminPage implements OnInit {
+  form = new FormGroup({
+    uid: new FormControl(''),
+    email: new FormControl({ value: '', disabled: true }, [Validators.required, Validators.email]),
+    empresa: new FormControl(''),
+    tel: new FormControl('', [Validators.required, Validators.pattern('^[0-9]{10}$')]),
+    password: new FormControl('', [Validators.minLength(6)]),
+    name: new FormControl('', [Validators.required, Validators.minLength(3)]),
+    role: new FormControl('client'),
+    image: new FormControl('') // Agregar el campo image al formulario
+  });
   categorias: any[] = [];
   selectedCategory: any = null;
   loading: boolean = false;
@@ -35,9 +45,24 @@ export class HomeAdminPage implements OnInit {
   ) {}
 
   ngOnInit() {
+    this.loadUserData();
     this.loadCategories();
   }
 
+  async loadUserData() {
+    const user = this.user();
+    if (user) {
+      this.form.patchValue({
+        uid: user.uid,
+        email: user.email,
+        empresa: user.empresa,
+        tel: user.tel,
+        name: user.name,
+        role: user.role,
+        image: user.image
+      });
+    }
+  }
   async loadCategories() {
     this.categorias = []; // Reiniciar categorías
     let path = `categorias`;

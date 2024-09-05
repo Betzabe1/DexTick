@@ -37,14 +37,6 @@ ion-back-button::part(icon) {
   height: 100%;
 }
 
-
-
-
-
-
-
-
-
 ion-avatar{
   width: 160px;
   height: 160px;
@@ -140,7 +132,7 @@ input::placeholder{
 input:focus,
 input:not(:placeholder-shown),
 input:active {
-  background-color: #fff; 
+  background-color: #fff;
 }
 .btn{
   width: 60%;
