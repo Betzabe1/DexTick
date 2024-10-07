@@ -14,26 +14,41 @@ export class AddUpdateProductComponent implements OnInit {
   @Input() isModal: boolean;
   @Input() categoria: Category;
   @Output() categoryAdded = new EventEmitter<any>();
-
+  empresas: string[]=[];
   title: string = 'Agregar Categoria';
 
   form = new FormGroup({
     id: new FormControl(''),
     image: new FormControl('', [Validators.required]),
-    name: new FormControl('', [Validators.required, Validators.minLength(4)])
+    name: new FormControl('', [Validators.required, Validators.minLength(4)]),
+    empresas: new FormControl([], [Validators.required])
   });
 
   utilSvc = inject(UtilService);
   firebaseSvc = inject(UserService);
 
+  constructor(private userService: UserService) { }
   user = {} as User;
 
-  ngOnInit() {
+  ngOnInit():void {
     this.user = this.utilSvc.getFromLocalStorage('user');
     if (this.categoria) {
-      this.title = 'Actualizar Categoria'; // Establecer el título al iniciar si es una actualización
-      this.form.setValue(this.categoria);
+      this.title = 'Actualizar Categoria';
+      this.form.setValue({
+        id: this.categoria.id || '',
+        image: this.categoria.image || '',
+        name: this.categoria.name || '',
+        empresas: this.categoria.empresas || []
+      });
     }
+
+    this.userService.getEmpresa().subscribe(users =>{
+      this.empresas=Array.from(new Set(
+        users
+        .filter(user=> !!user.empresa)
+        .map(user=> user.empresa)
+      ))
+    })
   }
 
   async takeImage() {
@@ -62,6 +77,11 @@ export class AddUpdateProductComponent implements OnInit {
     this.form.controls.image.setValue(imageUrl);
 
     delete this.form.value.id;
+
+    const newCategory={
+      ...this.form.value,
+      empresas:this.form.value.empresas
+    }
 
     this.firebaseSvc.addDocument(path, this.form.value).then(async res => {
       this.utilSvc.dismissModal({ success: true });
@@ -103,6 +123,11 @@ export class AddUpdateProductComponent implements OnInit {
     }
 
     delete this.form.value.id;
+
+    const updatedCategory = {
+      ...this.form.value,
+      empresas: this.form.value.empresas
+    };
 
     this.firebaseSvc.updateDocument(path, this.form.value).then(async res => {
       this.utilSvc.dismissModal({ success: true });

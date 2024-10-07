@@ -51,7 +51,7 @@
               <li class="list-group-item">
                 Fecha Presencial:
                 <ng-container *ngIf="ticket.fechaP; else noFechaP">
-                  {{ ticket.fechaP | date }}
+                  {{ ticket.fechaP | date:'dd/MM/yyyy' }} {{ ticket.fechaP | date:'HH:mm' }}
                 </ng-container>
                 <ng-template #noFechaP>N/A</ng-template>
               </li>
@@ -66,14 +66,16 @@
                        class="img-thumbnail">
                 </div>
               </li>
-              <li class="list-group-item">
+              <li class="list-group-item">Comentarios: {{ ticket.Comentrios }} </li>
+
+              <!-- <li class="list-group-item">
                 Comentarios:
                 <ul>
                   <li *ngFor="let comentario of ticket.Comentrios">
                     {{ comentario }}
                   </li>
                 </ul>
-              </li>
+              </li> -->
             </ul>
           </div>
         </div>

@@ -24,6 +24,7 @@ export class NotificationService {
   )
   {
     this.stateUser();
+    this. initialize();
   }
 
   stateUser() {

@@ -251,7 +251,7 @@ export class HomeAgentPage implements OnInit {
 
   navigateToServiceOptions(categoryId: string, subCategoryId: string) {
     console.log('Navigating to service options with categoryId:', categoryId, 'and subCategoryId:', subCategoryId);
-    this.router.navigate(['/servicios-users', categoryId, subCategoryId]);
+    this.router.navigate(['/service-options', categoryId, subCategoryId]);
   }
 
   async doRefresh(event: any) {
@@ -277,5 +277,4 @@ export class HomeAgentPage implements OnInit {
     await modal.present();
   }
 }
-
 

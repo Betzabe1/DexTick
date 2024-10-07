@@ -24,7 +24,10 @@
     </div>
 
 
-
+    <div class="validators" *ngIf="form.controls.empresa.errors && form.controls.empresa.touched">
+      <small *ngIf="form.controls.empresa.errors?.['required']">La empresa es requerida</small>
+      <small *ngIf="form.controls.empresa.errors?.['minlength']">El nombre debe tener al menos 3 caracteres</small>
+     </div>
     <div class="input-wrapper">
       <input type="text" name="empresa" placeholder="Nombre de la empresa"   formControlName="empresa">
       <ion-icon class="input-icon" name="briefcase-outline"></ion-icon>

@@ -265,9 +265,10 @@ getAllUsers() {
   }
 
   getCurrentUserRole(){
-  
+
   }
 
-
-
+getEmpresa():Observable<User[]>{
+ return this.firestore.collection<User>('users').valueChanges();
+}
 }

@@ -13,7 +13,7 @@ export class FormRegistroComponent {
   form = new FormGroup({
     uid: new FormControl(''),
     email: new FormControl('', [Validators.required, Validators.email]),
-    empresa: new FormControl(''),
+    empresa: new FormControl('', [Validators.required, Validators.minLength(3)]),
     tel: new FormControl('', [Validators.required, Validators.pattern('^[0-9]{10}$')]),
     password: new FormControl('', [Validators.minLength(6)]),
     name: new FormControl('', [Validators.required, Validators.minLength(3)]),

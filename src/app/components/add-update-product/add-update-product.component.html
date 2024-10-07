@@ -18,10 +18,10 @@
 
      <ion-icon class="image-icon" *ngIf="!form.value.image" name="image-outline"></ion-icon>
 
-    <ion-button (click)="takeImage()" mode="ios" size="small" shape="round">
+
+     <ion-button (click)="takeImage()" mode="ios" size="small" shape="round">
       Tomar/Seleccionar
     </ion-button>
-
 <br>
 
     <div class="validators" *ngIf="form.controls.name.errors && form.controls.name.touched">
@@ -33,6 +33,17 @@
       <input  type="text" name="name" placeholder="Nombre Categoría"  required formControlName="name" >
       <ion-icon class="input-icon" name="pricetag-outline"></ion-icon>
     </div>
+
+    <div class="input-wrapper">
+      <ion-list>
+        <ion-item>
+          <ion-select label="Seleccionar empresa" label-placement="floating" multiple="true" formControlName="empresas">
+            <ion-select-option *ngFor="let empresa of empresas" [value]="empresa">{{empresa}}</ion-select-option>
+          </ion-select>
+        </ion-item>
+      </ion-list>
+    </div>
+
 
     <ion-button class="btn" type="submit" name="register" [disabled]="form.invalid" >
       <ion-icon slot="end" name="checkmark-circle-outline"></ion-icon>

@@ -10,6 +10,7 @@ import { TipoService } from 'src/app/services/tipo.service';
 import { User } from 'src/app/models/user.model';
 import { AddUpdateServiceComponent } from 'src/app/components/add-update-service/add-update-service.component';
 import { FormControl, FormGroup, Validators } from '@angular/forms';
+import { Category } from '../../models/category.model';
 
 @Component({
   selector: 'app-home-user',
@@ -20,12 +21,12 @@ export class HomeUserPage implements OnInit {
   form = new FormGroup({
     uid: new FormControl(''),
     email: new FormControl({ value: '', disabled: true }, [Validators.required, Validators.email]),
-    empresa: new FormControl(''),
+    empresa: new FormControl('', [Validators.required, Validators.minLength(3)]),
     tel: new FormControl('', [Validators.required, Validators.pattern('^[0-9]{10}$')]),
     password: new FormControl('', [Validators.minLength(6)]),
     name: new FormControl('', [Validators.required, Validators.minLength(3)]),
     role: new FormControl('client'),
-    image: new FormControl('') 
+    image: new FormControl('')
   });
   categorias: any[] = [];
   selectedCategory: any = null;
@@ -66,28 +67,48 @@ export class HomeUserPage implements OnInit {
   }
 
   async loadCategories() {
-    this.categorias = []; // Reiniciar categorías
+    this.categorias = [];
     let path = `categorias`;
+
+    const user = this.user();
+    const empresaUsuario = user.empresa;
+
     let sub = this.firebaseSvc.getCollectionDat(path).subscribe({
       next: (res: any) => {
-        this.categorias = res;
-        if (this.categorias.length > 0) {
-          this.selectCategory(this.categorias[0]); // Seleccionar la primera categoría automáticamente
-        }
-        // Cargar subcategorías para cada categoría
-        this.categorias.forEach(category => {
-          category.subcategorias = []; // Inicializar array de subcategorías
-          this.loadSubcategories(category.id).then(subcategories => {
-            category.subcategorias = subcategories;
-            if (category === this.selectedCategory) {
-              this.selectedCategory.subcategorias = subcategories;
-            }
+        console.log('Datos de Firestore antes del filtrado:', res); // Verifica los datos originales
+
+        if (res && Array.isArray(res)) {
+          // Filtrar categorías por la empresa del usuario, verificando que el array de empresas incluya la empresa del usuario
+          this.categorias = res.filter((category: any) => {
+            console.log('Empresas de la categoría:', category.empresas, 'Empresa del usuario:', empresaUsuario);
+            return category.empresas && category.empresas.includes(empresaUsuario);
           });
-        });
+
+          console.log('Categorías filtradas:', this.categorias); // Verifica el filtrado
+
+          if (this.categorias.length > 0) {
+            this.selectCategory(this.categorias[0]);
+          }
+
+          // Cargar subcategorías para cada categoría filtrada
+          this.categorias.forEach(category => {
+            category.subcategorias = [];
+            this.loadSubcategories(category.id).then(subcategories => {
+              category.subcategorias = subcategories || [];
+              if (category === this.selectedCategory) {
+                this.selectedCategory.subcategorias = subcategories || [];
+              }
+            });
+          });
+        }
         sub.unsubscribe();
+      },
+      error: (err) => {
+        console.error('Error cargando categorías:', err);
       }
     });
   }
+
 
   async loadSubcategories(categoryId: string): Promise<any[]> {
     let path = `categorias/${categoryId}/subcategorias`;
